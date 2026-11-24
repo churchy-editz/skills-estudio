@@ -110,7 +110,7 @@ Detalle, límites y ejemplos en `references/variedad.md`.
 - **Enunciados:** no más de 2 preguntas pueden empezar con las mismas 3 palabras. Alternar entre pregunta directa, afirmación incompleta, situación ("Un técnico observa que…"), comparación ("¿Qué diferencia a X de Y?"), causa-efecto y orden. Las negativas son como máximo el 10 %, con "NO" en mayúsculas.
 - **Opciones:** variar cómo se construyen de una pregunta a otra (cifras, términos, frases, consecuencias). Usar técnicas de distractor distintas: concepto vecino, inversión causa-efecto, dato parcialmente cierto, generalización excesiva, error de cálculo típico, etc.
 - **Longitud:** la correcta no es la más larga en más del 30 % de las preguntas, y las opciones de una misma pregunta tienen longitud parecida.
-- **Posición:** repartir las correctas entre A y D, sin que ninguna letra pase del 35 % ni haya rachas de 3. En V/F, entre el 40 y el 60 % verdaderas.
+- **Posición:** repartir las correctas entre A y D, sin que ninguna letra pase del 35 % ni haya rachas de 3. Reparto irregular, no uniforme: ninguna letra >35%, pero tampoco todas iguales. En V/F, entre el 40 y el 60 % verdaderas.
 - **Pistas:** sin concordancias que delaten (género, número, "un/una" al final del enunciado). Sin "siempre", "nunca", "todos" o "ninguno" solo en los distractores. Sin una palabra del enunciado que solo se repita en la correcta.
 - **Explicaciones:** cada una empieza distinto. Nada de "Esto es así porque…" en todas.
 - **Entre tests:** si el usuario pide otro test del mismo material, no repetir enunciados ni el plan cognitivo. Cambiar el ángulo: más casos donde antes hubo datos, otras secciones como protagonistas, otros distractores.

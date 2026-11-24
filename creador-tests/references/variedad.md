@@ -12,6 +12,7 @@ Un test en el que todas las preguntas tienen la misma forma se responde por reco
 | Opción más larga / más corta en una pregunta | ≤ 2 | `longitud_opciones` |
 | Correcta en una misma letra | ≤ 35 % (o ⌈n/4⌉ si hay pocas) | `posicion` |
 | Racha de correctas en la misma letra | máx. 2 seguidas | `posicion` |
+| Todas las letras con la misma frecuencia (≥ 8 preguntas de opciones) | prohibido | `posicion` |
 | Verdaderas en V/F | 40-60 % | `vf_equilibrio` |
 | Un mismo nivel cognitivo | ≤ 40 % | `nivel_cognitivo` |
 | Una misma técnica de distractor | ≤ 40 % de los distractores | `tecnica_distractor` |

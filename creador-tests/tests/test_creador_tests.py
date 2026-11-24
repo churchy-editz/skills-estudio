@@ -73,6 +73,30 @@ class TestValidar(unittest.TestCase):
         errores, avisos, nota, _ = validar.analizar(leer(EJEMPLO))
         self.assertEqual((errores, avisos, nota), ([], {}, 10.0))
 
+    def _posicion_con(self, correctas: list[int]) -> list[str]:
+        datos = copy.deepcopy(leer(CORRECTO))
+        base = next(p for p in datos["preguntas"] if p["tipo"] in ("multiple", "caso"))
+        datos["preguntas"] = []
+        for i, c in enumerate(correctas):
+            p = copy.deepcopy(base)
+            p["id"] = f"u{i:02d}"
+            opciones = p["opciones"][:]
+            buena = opciones.pop(p["correcta"])
+            opciones.insert(c, buena)
+            p["opciones"], p["correcta"] = opciones, c
+            datos["preguntas"].append(p)
+        return validar.avisos_patron(datos).get("posicion", [])
+
+    def test_aviso_reparto_uniforme(self):
+        uniforme = self._posicion_con([0, 1, 2, 3, 1, 0, 3, 2])
+        self.assertTrue(any("uniforme" in a for a in uniforme), uniforme)
+
+    def test_reparto_irregular_sin_aviso_uniforme(self):
+        irregular = self._posicion_con([0, 1, 2, 3, 1, 0, 3, 1])
+        self.assertFalse(any("uniforme" in a for a in irregular), irregular)
+        pocas = self._posicion_con([0, 1, 2, 3])
+        self.assertFalse(any("uniforme" in a for a in pocas), pocas)
+
     def _errores_con(self, cambio) -> list[str]:
         datos = copy.deepcopy(leer(CORRECTO))
         cambio(datos["preguntas"])

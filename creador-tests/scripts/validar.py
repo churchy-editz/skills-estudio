@@ -54,6 +54,7 @@ MAX_CORRECTA_LARGA = 0.30
 MAX_RATIO_LONGITUD = 2.0
 LONGITUD_MINIMA = 8           # las opciones muy cortas cuentan como 8 caracteres
 MAX_LETRA = 0.35
+MIN_UNIFORME = 8         # con >= 8 preguntas de opciones, todas las letras igual = aviso
 MAX_RACHA = 2
 VF_MIN, VF_MAX = 0.40, 0.60
 MAX_NIVEL = 0.40
@@ -267,6 +268,11 @@ def avisos_patron(datos) -> dict[str, list[str]]:
                     f"La letra {LETRAS[indice]} es la correcta en {veces} de {n} preguntas "
                     f"(máx. {maximo}, {MAX_LETRA:.0%}): {ids(grupo)}"
                 )
+        if n >= MIN_UNIFORME and len(cuenta) == len(LETRAS) and len(set(cuenta.values())) == 1:
+            av["posicion"].append(
+                f"Reparto perfectamente uniforme: cada letra es la correcta en {n // len(LETRAS)} "
+                f"de {n} preguntas. En papel se explota contando; hazlo irregular"
+            )
         racha = [con_opc[0]]
         for p in con_opc[1:] + [None]:
             if p is not None and p["correcta"] == racha[-1]["correcta"]:
