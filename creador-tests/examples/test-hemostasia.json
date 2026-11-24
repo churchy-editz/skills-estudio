@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "titulo": "Hemostasia: cómo para de sangrar una herida",
+    "asignatura": "Biología",
+    "nivel": "bachillerato",
+    "penalizacion": "ninguna",
+    "dificultad": "progresiva",
+    "fuente": "fuente-hemostasia.md (texto sintético)",
+    "secciones": [
+      "Objetivo y fases",
+      "Hemostasia primaria",
+      "Coagulación",
+      "Calcio y vitamina K",
+      "Retracción y fibrinólisis",
+      "Frenos y hemofilia"
+    ]
+  },
+  "preguntas": [
+    {
+      "id": "p01",
+      "tipo": "vf",
+      "nivel_cognitivo": "recordar",
+      "tecnica_distractor": "generalizacion",
+      "enunciado": "La vasoconstricción basta por sí sola para cerrar la herida.",
+      "correcta": false,
+      "explicacion": "Falso. El espasmo vascular reduce la sangre que se pierde, pero no cierra la herida: solo da tiempo a que actúen las plaquetas.",
+      "dificultad": 1,
+      "seccion": "Objetivo y fases"
+    },
+    {
+      "id": "p02",
+      "tipo": "multiple",
+      "nivel_cognitivo": "recordar",
+      "tecnica_distractor": ["concepto_vecino", null, "funcion_opuesta", "dato_parcial"],
+      "enunciado": "Las plaquetas se adhieren al colágeno expuesto con ayuda de una proteína del plasma. ¿Cuál es?",
+      "opciones": ["El fibrinógeno", "El factor de von Willebrand", "La antitrombina", "El factor tisular"],
+      "correcta": 1,
+      "explicacion": "Hace de puente el factor de von Willebrand. El fibrinógeno también es una proteína del plasma, pero entra en juego después, en la coagulación.",
+      "dificultad": 1,
+      "seccion": "Hemostasia primaria"
+    },
+    {
+      "id": "p03",
+      "tipo": "huecos",
+      "nivel_cognitivo": "recordar",
+      "tecnica_distractor": null,
+      "enunciado": "Los filamentos de fibrina se unen entre sí, y la red gana resistencia, gracias al factor ___.",
+      "correcta": ["XIII", "13", "trece"],
+      "explicacion": "El XIII une los filamentos y hace la red más resistente. Cuidado con el XII, que es el que inicia la vía intrínseca.",
+      "dificultad": 1,
+      "seccion": "Coagulación"
+    },
+    {
+      "id": "p04",
+      "tipo": "vf",
+      "nivel_cognitivo": "recordar",
+      "tecnica_distractor": null,
+      "enunciado": "Cuando ya no hace falta, el coágulo se disuelve porque la plasmina degrada la fibrina.",
+      "correcta": true,
+      "explicacion": "Verdadero. La plasmina sale del plasminógeno atrapado en el propio coágulo, gracias al activador tisular del plasminógeno.",
+      "dificultad": 1,
+      "seccion": "Retracción y fibrinólisis"
+    },
+    {
+      "id": "p05",
+      "tipo": "multiple",
+      "nivel_cognitivo": "comprender",
+      "tecnica_distractor": ["concepto_vecino", "dato_parcial", "orden_alterado", null],
+      "enunciado": "¿Por qué las plaquetas no se pegan a la pared de un vaso sano?",
+      "opciones": [
+        "Porque circulan inactivas, igual que los factores de coagulación",
+        "Porque, al no tener núcleo, no pueden emitir prolongaciones",
+        "Porque el ADP que las atrae se libera durante la coagulación",
+        "Porque el endotelio que recubre su interior es liso"
+      ],
+      "correcta": 3,
+      "explicacion": "Un endotelio liso no da dónde agarrarse; el problema empieza cuando la rotura deja el colágeno a la vista. Que no tengan núcleo es cierto, pero no explica por qué no se pegan.",
+      "dificultad": 2,
+      "seccion": "Hemostasia primaria"
+    },
+    {
+      "id": "p06",
+      "tipo": "multiple",
+      "nivel_cognitivo": "distinguir",
+      "tecnica_distractor": [null, "intercambio", "dato_parcial", "concepto_vecino"],
+      "enunciado": "¿Qué diferencia a la vía extrínseca de la intrínseca?",
+      "opciones": [
+        "La extrínseca arranca con el factor tisular unido al VII; la intrínseca, con el XII",
+        "La extrínseca arranca con el XII; la intrínseca, con el factor tisular unido al VII",
+        "La extrínseca termina en la trombina; la intrínseca, en el factor X",
+        "La extrínseca depende de la vitamina K; la intrínseca no la necesita"
+      ],
+      "correcta": 0,
+      "explicacion": "Cambia el punto de partida: el factor tisular con el VII en la extrínseca, y el XII al tocar superficies cargadas negativamente en la intrínseca. Después las dos confluyen en el factor X, así que no acaban en sitios distintos.",
+      "dificultad": 2,
+      "seccion": "Coagulación"
+    },
+    {
+      "id": "p07",
+      "tipo": "vf",
+      "nivel_cognitivo": "detectar_error",
+      "tecnica_distractor": "inversion_causa_efecto",
+      "enunciado": "En la vía común, la trombina convierte la fibrina, que es insoluble, en fibrinógeno soluble.",
+      "correcta": false,
+      "explicacion": "Es al revés: el fibrinógeno, soluble, pasa a fibrina, que no lo es. Por eso la fibrina puede formar la red del coágulo.",
+      "dificultad": 2,
+      "seccion": "Coagulación"
+    },
+    {
+      "id": "p08",
+      "tipo": "huecos",
+      "nivel_cognitivo": "comprender",
+      "tecnica_distractor": null,
+      "enunciado": "Las plaquetas que se pegan liberan ADP y tromboxano A2, que atraen a más plaquetas. Es un caso de retroalimentación ___.",
+      "correcta": ["positiva"],
+      "explicacion": "Cada plaqueta que llega libera señales que atraen a otras, así que la respuesta se amplifica a sí misma en vez de frenarse.",
+      "dificultad": 2,
+      "seccion": "Hemostasia primaria"
+    },
+    {
+      "id": "p09",
+      "tipo": "multiple",
+      "nivel_cognitivo": "ordenar",
+      "tecnica_distractor": ["orden_alterado", "orden_alterado", null, "orden_alterado"],
+      "enunciado": "¿En qué orden se suceden las fases de la hemostasia?",
+      "opciones": [
+        "Vasoconstricción → coágulo de fibrina → tapón plaquetario → fibrinólisis",
+        "Tapón plaquetario → vasoconstricción → coágulo de fibrina → fibrinólisis",
+        "Vasoconstricción → tapón plaquetario → coágulo de fibrina → fibrinólisis",
+        "Vasoconstricción → tapón plaquetario → fibrinólisis → coágulo de fibrina"
+      ],
+      "correcta": 2,
+      "explicacion": "Primero se contrae el vaso, luego se forma el tapón de plaquetas y la coagulación lo refuerza con fibrina; la fibrinólisis llega al final. Poner la fibrina antes que el tapón es el error típico: la coagulación refuerza un tapón que ya existe.",
+      "dificultad": 2,
+      "seccion": "Objetivo y fases"
+    },
+    {
+      "id": "p10",
+      "tipo": "caso",
+      "nivel_cognitivo": "aplicar",
+      "tecnica_distractor": [null, "concepto_vecino", "dato_parcial", "funcion_opuesta"],
+      "contexto": "Una paciente con una enfermedad hepática grave tiene sangrados que tardan mucho en parar. Su número de plaquetas es normal.",
+      "enunciado": "¿Cuál es la explicación más probable?",
+      "opciones": [
+        "Su hígado no fabrica bien los factores II, VII, IX y X",
+        "Sus plaquetas no consiguen adherirse al colágeno",
+        "Le faltan iones de calcio en la sangre",
+        "Produce demasiada antitrombina y frena la coagulación"
+      ],
+      "correcta": 0,
+      "explicacion": "La fuente lo relaciona directamente: el hígado fabrica los factores II, VII, IX y X, y una enfermedad hepática grave puede provocar sangrados. La falta de calcio también frenaría la coagulación, pero nada en el caso apunta a ella.",
+      "dificultad": 3,
+      "seccion": "Calcio y vitamina K"
+    },
+    {
+      "id": "p11",
+      "tipo": "caso",
+      "nivel_cognitivo": "aplicar",
+      "tecnica_distractor": ["concepto_vecino", "orden_alterado", "concepto_vecino", null],
+      "contexto": "Un niño se hace un corte pequeño jugando y la herida sangra durante mucho tiempo. Tiene un número normal de plaquetas y el análisis muestra un déficit de factor VIII.",
+      "enunciado": "¿Qué parte de la hemostasia está fallando?",
+      "opciones": [
+        "La hemostasia primaria: no llega a formarse el tapón plaquetario",
+        "La fibrinólisis: el coágulo se disuelve antes de tiempo",
+        "La vasoconstricción: el vaso no se contrae lo suficiente",
+        "La coagulación: la cadena de factores se interrumpe"
+      ],
+      "correcta": 3,
+      "explicacion": "Con plaquetas normales el tapón llega a formarse; lo que se corta es la cadena de factores, porque falta el VIII. Es la hemofilia A.",
+      "dificultad": 3,
+      "seccion": "Frenos y hemofilia"
+    },
+    {
+      "id": "p12",
+      "tipo": "multiple",
+      "nivel_cognitivo": "comprender",
+      "tecnica_distractor": ["concepto_vecino", null, "dato_parcial", "orden_alterado"],
+      "enunciado": "Horas después de formarse el coágulo, las plaquetas tiran de los filamentos de fibrina. Con eso se consigue que…",
+      "opciones": [
+        "el coágulo se disuelva y la sangre vuelva a circular",
+        "se acerquen los bordes y se expulse parte del suero",
+        "los filamentos se unan entre sí y la red gane resistencia",
+        "lleguen más plaquetas y se forme un segundo tapón"
+      ],
+      "correcta": 1,
+      "explicacion": "Al tirar de la fibrina, las plaquetas acercan los bordes de la herida y expulsan suero: eso es la retracción. Disolver el coágulo corresponde a una fase posterior, la fibrinólisis.",
+      "dificultad": 3,
+      "seccion": "Retracción y fibrinólisis"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "titulo": "Test en molde (a propósito)",
+    "asignatura": "Biología",
+    "nivel": "eso",
+    "penalizacion": "ninguna",
+    "fuente": "sintética, para tests",
+    "secciones": ["Órganos", "Huesos", "Glándulas"]
+  },
+  "preguntas": [
+    {
+      "id": "m01", "tipo": "multiple", "nivel_cognitivo": "recordar",
+      "tecnica_distractor": [null, "concepto_vecino", "concepto_vecino", "concepto_vecino"],
+      "enunciado": "¿Cuál es el órgano que bombea la sangre?",
+      "opciones": ["El corazón, el órgano que bombea la sangre por todo el cuerpo", "El hígado", "El riñón", "El pulmón"],
+      "correcta": 0,
+      "explicacion": "Esto es así porque el corazón bombea la sangre.",
+      "dificultad": 1, "seccion": "Órganos"
+    },
+    {
+      "id": "m02", "tipo": "multiple", "nivel_cognitivo": "recordar",
+      "tecnica_distractor": [null, "concepto_vecino", "concepto_vecino", "concepto_vecino"],
+      "enunciado": "¿Cuál es el órgano que filtra la orina?",
+      "opciones": ["El riñón, que filtra a diario", "El estómago siempre", "El corazón siempre", "El cerebro"],
+      "correcta": 0,
+      "explicacion": "Esto es así porque el riñón filtra.",
+      "dificultad": 1, "seccion": "Órganos"
+    },
+    {
+      "id": "m03", "tipo": "multiple", "nivel_cognitivo": "recordar",
+      "tecnica_distractor": [null, "concepto_vecino", "concepto_vecino", "concepto_vecino"],
+      "enunciado": "¿Cuál es el órgano que bombea la sangre al cuerpo?",
+      "opciones": ["El corazón, que late sin parar", "El bazo", "La vejiga", "El páncreas"],
+      "correcta": 0,
+      "explicacion": "Esto es así porque late sin parar.",
+      "dificultad": 1, "seccion": "Órganos"
+    },
+    {
+      "id": "m04", "tipo": "multiple", "nivel_cognitivo": "recordar",
+      "tecnica_distractor": [null, "concepto_vecino", "concepto_vecino", "concepto_vecino"],
+      "enunciado": "¿Cuál de estos huesos NO está en la pierna?",
+      "opciones": ["El húmero, que está en el brazo", "El fémur", "La tibia", "El peroné"],
+      "correcta": 0,
+      "explicacion": "El húmero es del brazo.",
+      "dificultad": 1, "seccion": "Huesos"
+    },
+    {
+      "id": "m05", "tipo": "multiple", "nivel_cognitivo": "recordar",
+      "tecnica_distractor": [null, "concepto_vecino", "concepto_vecino", "concepto_vecino"],
+      "enunciado": "¿Qué hueso no forma parte del cráneo?",
+      "opciones": ["El fémur, que está en el muslo", "El frontal", "El parietal", "El occipital"],
+      "correcta": 0,
+      "explicacion": "El fémur es de la pierna.",
+      "dificultad": 1, "seccion": "Huesos"
+    },
+    {
+      "id": "m06", "tipo": "multiple", "nivel_cognitivo": "recordar",
+      "tecnica_distractor": [null, "concepto_vecino", "concepto_vecino", "concepto_vecino"],
+      "enunciado": "El órgano que produce la insulina es una",
+      "opciones": ["glándula llamada páncreas", "hígado grande", "riñón izquierdo", "bazo pequeño"],
+      "correcta": 0,
+      "explicacion": "El páncreas fabrica insulina.",
+      "dificultad": 1, "seccion": "Órganos"
+    },
+    {
+      "id": "m07", "tipo": "vf", "nivel_cognitivo": "recordar", "tecnica_distractor": null,
+      "enunciado": "El corazón tiene cuatro cavidades.",
+      "correcta": true,
+      "explicacion": "Verdadero: dos aurículas y dos ventrículos.",
+      "dificultad": 1, "seccion": "Órganos"
+    },
+    {
+      "id": "m08", "tipo": "vf", "nivel_cognitivo": "recordar", "tecnica_distractor": null,
+      "enunciado": "El fémur es el hueso más largo del cuerpo.",
+      "correcta": true,
+      "explicacion": "Verdadero, está en el muslo.",
+      "dificultad": 1, "seccion": "Huesos"
+    },
+    {
+      "id": "m09", "tipo": "vf", "nivel_cognitivo": "recordar", "tecnica_distractor": null,
+      "enunciado": "Los pulmones intercambian gases con la sangre.",
+      "correcta": true,
+      "explicacion": "Verdadero, en los alvéolos.",
+      "dificultad": 1, "seccion": "Órganos"
+    }
+  ]
+}

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><!--TITULO--></title>
+<style>
+/* Paleta: la rellena generar_html.py con los valores de --paleta
+   (tabla PALETAS de ese script, contraste WCAG AA verificado). */
+:root {
+/*PALETA*/
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto); font: 17px/1.55 var(--fuente); }
+main { max-width: 44rem; margin: 0 auto; padding: 1.6rem 1rem 3rem; }
+h1 { font-size: 1.7rem; line-height: 1.2; margin: 0 0 .3rem; color: var(--def); }
+.subtitulo { margin: 0 0 1.2rem; font-size: .95rem; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--def); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+/* Progreso */
+.progreso { height: .55rem; border-radius: 99px; overflow: hidden;
+            background: color-mix(in srgb, var(--def) 15%, var(--fondo)); }
+.progreso .barra { height: 100%; width: 0; background: var(--def); transition: width .2s; }
+.contador { margin: .4rem 0 1rem; font-size: .9rem; }
+
+/* Pregunta */
+.contexto { margin: 0 0 .8rem; padding: .7rem 1rem; border-left: 5px solid var(--clave);
+            background: color-mix(in srgb, var(--clave) 10%, var(--fondo)); border-radius: 0 6px 6px 0; }
+.contexto::before { content: "Caso práctico"; display: block; font-size: .75rem; font-weight: 700;
+                    letter-spacing: .06em; text-transform: uppercase; color: var(--clave); }
+#enunciado { font-size: 1.2rem; line-height: 1.4; margin: 0 0 1rem; }
+.hueco { display: inline-block; min-width: 4.5rem; border-bottom: 2px solid var(--texto); }
+.opciones { display: grid; gap: .55rem; margin: 0 0 1rem; padding: 0; list-style: none; }
+.opcion { display: flex; gap: .7rem; align-items: flex-start; width: 100%; text-align: left;
+          padding: .65rem .8rem; border-radius: 8px; background: var(--fondo);
+          border: 2px solid color-mix(in srgb, var(--texto) 25%, var(--fondo)); }
+.opcion:hover:not(:disabled) { border-color: var(--def); }
+.opcion:disabled { cursor: default; }
+.opcion .letra { flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%; text-align: center;
+                 line-height: 1.7rem; font-weight: 700; background: var(--def); color: var(--fondo); }
+.opcion .marca { margin-left: auto; font-weight: 700; font-size: .85rem; white-space: nowrap; }
+.opcion.es-correcta { border-color: var(--ejemplo); background: color-mix(in srgb, var(--ejemplo) 10%, var(--fondo)); }
+.opcion.es-fallo { border-color: var(--ojo); background: color-mix(in srgb, var(--ojo) 10%, var(--fondo)); }
+.opcion.es-correcta .marca { color: var(--ejemplo); }
+.opcion.es-fallo .marca { color: var(--ojo); }
+.huecos { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 0 0 1rem; }
+.huecos input { font: inherit; padding: .5rem .7rem; min-width: 14rem; border-radius: 8px; color: var(--texto);
+                background: var(--fondo); border: 2px solid color-mix(in srgb, var(--texto) 35%, var(--fondo)); }
+
+/* Feedback */
+.feedback { margin: 0 0 1rem; padding: .7rem 1rem; border-left: 5px solid var(--c); border-radius: 0 6px 6px 0;
+            background: color-mix(in srgb, var(--c) 10%, var(--fondo)); }
+.feedback:empty { display: none; }
+.feedback.acierto { --c: var(--ejemplo); }
+.feedback.fallo { --c: var(--ojo); }
+.feedback.blanco { --c: var(--clave); }
+.feedback .veredicto { display: block; font-weight: 700; color: var(--c); }
+.feedback .origen { display: block; margin-top: .3rem; font-size: .88rem; }
+.feedback p { margin: .3rem 0 0; }
+
+.acciones { display: flex; flex-wrap: wrap; gap: .6rem; }
+.boton { padding: .55rem 1rem; border-radius: 8px; border: 2px solid var(--def); background: var(--fondo); color: var(--def); font-weight: 600; }
+.boton.principal { background: var(--def); color: var(--fondo); }
+.boton:disabled { opacity: .55; cursor: default; }
+.ayuda { margin-top: 1.4rem; font-size: .85rem; }
+kbd { font: .8rem/1 ui-monospace, Consolas, monospace; padding: .1rem .35rem; border-radius: 4px;
+      border: 1px solid color-mix(in srgb, var(--texto) 35%, var(--fondo)); }
+
+/* Resultado */
+.nota { font-size: 2.6rem; font-weight: 700; color: var(--def); margin: .2rem 0; }
+.recuento { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; margin: 0 0 1rem; padding: 0; list-style: none; }
+table { width: 100%; margin: 1rem 0; border-collapse: collapse; font-size: .95rem; }
+th, td { padding: .45rem .6rem; text-align: left; vertical-align: top;
+         border: 1px solid color-mix(in srgb, var(--texto) 20%, var(--fondo)); }
+thead th { background: color-mix(in srgb, var(--def) 10%, var(--fondo)); }
+.repasa { padding: .7rem 1rem; border-left: 5px solid var(--ojo); border-radius: 0 6px 6px 0;
+          background: color-mix(in srgb, var(--ojo) 10%, var(--fondo)); }
+.repasa strong { color: var(--ojo); }
+
+/* Versión papel: solo al imprimir */
+.solo-papel { display: none; }
+.papel-pregunta { margin: 0 0 1rem; break-inside: avoid; }
+.papel-pregunta ol { margin: .3rem 0 0; padding-left: 1.6rem; list-style: upper-alpha; }
+.papel-linea { display: inline-block; min-width: 10rem; border-bottom: 1px solid var(--texto); }
+.soluciones { break-before: page; }
+.soluciones li { margin-bottom: .5rem; }
+
+@media print {
+  @page { size: A4; margin: 1.8cm 1.6cm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-size: 11pt; }
+  main { max-width: none; padding: 0; }
+  .solo-pantalla { display: none !important; }
+  .solo-papel { display: block; }
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1 id="titulo"><!--TITULO--></h1>
+  <p class="subtitulo" id="subtitulo"></p>
+</header>
+
+<section id="pantalla-test" class="solo-pantalla" aria-label="Test">
+  <div class="progreso" id="progreso" role="progressbar" aria-label="Progreso del test" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0">
+    <div class="barra" id="barra"></div>
+  </div>
+  <p class="contador" id="contador"></p>
+  <p class="contexto" id="contexto" hidden></p>
+  <h2 id="enunciado" tabindex="-1"></h2>
+  <div id="respuestas"></div>
+  <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+  <div class="acciones">
+    <button type="button" class="boton" id="btn-blanco">Dejar en blanco <kbd>B</kbd></button>
+    <button type="button" class="boton principal" id="btn-siguiente" hidden>Siguiente <kbd>Enter</kbd></button>
+  </div>
+  <p class="ayuda">Teclado: <kbd>1</kbd>-<kbd>4</kbd> eligen opción, <kbd>V</kbd>/<kbd>F</kbd> en verdadero o falso,
+    <kbd>Enter</kbd> comprueba un hueco o pasa a la siguiente, <kbd>B</kbd> deja en blanco.</p>
+</section>
+
+<section id="pantalla-final" class="solo-pantalla" aria-labelledby="titulo-final" hidden>
+  <h2 id="titulo-final" tabindex="-1">Resultado</h2>
+  <p class="nota" id="nota"></p>
+  <ul class="recuento" id="recuento"></ul>
+  <p id="nota-penalizacion"></p>
+  <table>
+    <thead><tr><th scope="col">Sección</th><th scope="col">Aciertos</th></tr></thead>
+    <tbody id="por-seccion"></tbody>
+  </table>
+  <div class="repasa" id="repasa" hidden></div>
+  <div class="acciones" style="margin-top:1rem">
+    <button type="button" class="boton principal" id="btn-fallos">Repetir solo los fallos</button>
+    <button type="button" class="boton" id="btn-todo">Repetir todo</button>
+  </div>
+</section>
+
+<section id="version-papel" class="solo-papel" aria-hidden="true"></section>
+</main>
+
+<script type="application/json" id="datos-test">/*DATOS*/</script>
+<script>
+(function () {
+  "use strict";
+  var datos = JSON.parse(document.getElementById("datos-test").textContent);
+  var meta = datos.meta;
+  var todas = datos.preguntas;
+  var PENAL = { "ninguna": 0, "1/3": 1 / 3, "1/4": 1 / 4 };
+  var LETRAS = "ABCD";
+  var $ = function (id) { return document.getElementById(id); };
+
+  var lista = [], pos = 0, resultados = {}, respondida = false;
+
+  function el(tag, clase, texto) {
+    var n = document.createElement(tag);
+    if (clase) n.className = clase;
+    if (texto !== undefined) n.textContent = texto;
+    return n;
+  }
+  function barajar(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function normal(s) {
+    return String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
+      .replace(/[.,;:!?¡¿"'()]/g, " ").replace(/\s+/g, " ").trim();
+  }
+  function textoCorrecta(p) {
+    if (p.tipo === "vf") return p.correcta ? "Verdadero" : "Falso";
+    if (p.tipo === "huecos") return p.correcta[0];
+    return p.opciones[p.correcta];
+  }
+  function ponerEnunciado(nodo, texto) {
+    nodo.textContent = "";
+    var partes = String(texto).split(/_{3,}/);
+    partes.forEach(function (parte, i) {
+      nodo.appendChild(document.createTextNode(parte));
+      if (i < partes.length - 1) {
+        var h = el("span", "hueco");
+        h.setAttribute("aria-label", "hueco");
+        nodo.appendChild(h);
+      }
+    });
+  }
+
+  // Orden de un intento: si la dificultad es progresiva, se baraja dentro de cada nivel.
+  function ordenar(preguntas) {
+    if (meta.dificultad !== "progresiva") return barajar(preguntas);
+    var grupos = {};
+    preguntas.forEach(function (p) { (grupos[p.dificultad] = grupos[p.dificultad] || []).push(p); });
+    return Object.keys(grupos).sort().reduce(function (acc, k) { return acc.concat(barajar(grupos[k])); }, []);
+  }
+
+  function empezar(preguntas) {
+    lista = ordenar(preguntas).map(function (p) {
+      var orden = p.opciones ? barajar([0, 1, 2, 3]) : null;
+      return { p: p, orden: orden };
+    });
+    pos = 0; resultados = {};
+    $("pantalla-final").hidden = true;
+    $("pantalla-test").hidden = false;
+    $("progreso").setAttribute("aria-valuemax", String(lista.length));
+    mostrar();
+  }
+
+  function mostrar() {
+    var item = lista[pos], p = item.p;
+    respondida = false;
+    $("barra").style.width = (100 * pos / lista.length) + "%";
+    $("progreso").setAttribute("aria-valuenow", String(pos));
+    $("contador").textContent = "Pregunta " + (pos + 1) + " de " + lista.length;
+    $("contexto").hidden = !p.contexto;
+    $("contexto").textContent = p.contexto || "";
+    ponerEnunciado($("enunciado"), p.enunciado);
+    $("feedback").className = "feedback";
+    $("feedback").textContent = "";
+    $("btn-siguiente").hidden = true;
+    $("btn-blanco").disabled = false;
+    var zona = $("respuestas");
+    zona.textContent = "";
+
+    if (p.tipo === "huecos") {
+      var caja = el("div", "huecos");
+      var etiqueta = el("label", "", "Tu respuesta:");
+      etiqueta.setAttribute("for", "campo-hueco");
+      var campo = el("input");
+      campo.id = "campo-hueco"; campo.type = "text"; campo.autocomplete = "off";
+      var comprobar = el("button", "boton", "Comprobar");
+      comprobar.type = "button"; comprobar.id = "btn-comprobar";
+      comprobar.addEventListener("click", function () { responderHueco(campo.value); });
+      campo.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") { e.preventDefault(); if (!respondida) responderHueco(campo.value); else siguiente(); }
+      });
+      caja.appendChild(etiqueta); caja.appendChild(campo); caja.appendChild(comprobar);
+      zona.appendChild(caja);
+    } else {
+      var ul = el("ul", "opciones");
+      ul.setAttribute("aria-labelledby", "enunciado");
+      var textos = p.tipo === "vf" ? ["Verdadero", "Falso"] : item.orden.map(function (i) { return p.opciones[i]; });
+      textos.forEach(function (t, k) {
+        var li = el("li");
+        var b = el("button", "opcion");
+        b.type = "button";
+        b.dataset.k = String(k);
+        var tecla = p.tipo === "vf" ? (k === 0 ? "V" : "F") : LETRAS[k];
+        b.appendChild(el("span", "letra", tecla));
+        b.appendChild(el("span", "texto", t));
+        b.appendChild(el("span", "marca", ""));
+        b.setAttribute("aria-keyshortcuts", p.tipo === "vf" ? tecla : String(k + 1));
+        b.addEventListener("click", function () { responderOpcion(k); });
+        li.appendChild(b); ul.appendChild(li);
+      });
+      zona.appendChild(ul);
+    }
+    $("enunciado").focus();
+  }
+
+  function indiceCorrecto(item) {
+    var p = item.p;
+    if (p.tipo === "vf") return p.correcta ? 0 : 1;
+    return item.orden.indexOf(p.correcta);
+  }
+
+  function responderOpcion(k) {
+    if (respondida) return;
+    var item = lista[pos];
+    var ok = indiceCorrecto(item);
+    marcarOpciones(ok, k);
+    cerrar(k === ok ? "acierto" : "fallo");
+  }
+  function marcarOpciones(ok, elegida) {
+    var botones = $("respuestas").querySelectorAll(".opcion");
+    for (var i = 0; i < botones.length; i++) {
+      botones[i].disabled = true;
+      if (i === ok) {
+        botones[i].classList.add("es-correcta");
+        botones[i].querySelector(".marca").textContent = i === elegida ? "Tu respuesta: correcta" : "Correcta";
+      } else if (i === elegida) {
+        botones[i].classList.add("es-fallo");
+        botones[i].querySelector(".marca").textContent = "Tu respuesta";
+      }
+    }
+  }
+  function responderHueco(valor) {
+    if (respondida) return;
+    if (!String(valor).trim()) { $("campo-hueco").focus(); return; }
+    var p = lista[pos].p;
+    var acierto = p.correcta.some(function (r) { return normal(r) === normal(valor); });
+    $("campo-hueco").disabled = true;
+    $("btn-comprobar").disabled = true;
+    cerrar(acierto ? "acierto" : "fallo");
+  }
+  function blanco() {
+    if (respondida) return;
+    var item = lista[pos];
+    if (item.p.tipo === "huecos") {
+      $("campo-hueco").disabled = true; $("btn-comprobar").disabled = true;
+    } else {
+      marcarOpciones(indiceCorrecto(item), -1);
+    }
+    cerrar("blanco");
+  }
+
+  function cerrar(estado) {
+    respondida = true;
+    var p = lista[pos].p;
+    resultados[p.id] = estado;
+    var fb = $("feedback");
+    fb.className = "feedback " + estado;
+    fb.textContent = "";
+    var veredicto = { acierto: "Correcto.", fallo: "Incorrecto.", blanco: "En blanco." }[estado];
+    fb.appendChild(el("span", "veredicto", veredicto));
+    if (estado !== "acierto") fb.appendChild(el("p", "", "Respuesta correcta: " + textoCorrecta(p)));
+    fb.appendChild(el("p", "", p.explicacion));
+    fb.appendChild(el("span", "origen", "Sección: " + p.seccion));
+    $("btn-blanco").disabled = true;
+    $("btn-siguiente").hidden = false;
+    $("btn-siguiente").focus();
+  }
+
+  function siguiente() {
+    if (!respondida) return;
+    pos++;
+    if (pos < lista.length) mostrar(); else final();
+  }
+
+  function formatoNota(n) {
+    return (Math.round(n * 100) / 100).toLocaleString("es-ES", { maximumFractionDigits: 2 });
+  }
+
+  function final() {
+    $("pantalla-test").hidden = true;
+    $("pantalla-final").hidden = false;
+    $("barra").style.width = "100%";
+    var n = lista.length, cuenta = { acierto: 0, fallo: 0, blanco: 0 };
+    var secciones = {}, ordenSecciones = [];
+    lista.forEach(function (item) {
+      var p = item.p, r = resultados[p.id];
+      cuenta[r]++;
+      if (!secciones[p.seccion]) { secciones[p.seccion] = { ok: 0, total: 0 }; ordenSecciones.push(p.seccion); }
+      secciones[p.seccion].total++;
+      if (r === "acierto") secciones[p.seccion].ok++;
+    });
+    var factor = PENAL[meta.penalizacion] || 0;
+    var nota = Math.max(0, (cuenta.acierto - factor * cuenta.fallo) / n * 10);
+    $("nota").textContent = formatoNota(nota) + " / 10";
+    var rec = $("recuento"); rec.textContent = "";
+    rec.appendChild(el("li", "", "Aciertos: " + cuenta.acierto));
+    rec.appendChild(el("li", "", "Fallos: " + cuenta.fallo));
+    rec.appendChild(el("li", "", "En blanco: " + cuenta.blanco));
+    $("nota-penalizacion").textContent = factor
+      ? "Cada fallo resta " + meta.penalizacion + " de acierto; las preguntas en blanco no restan."
+      : "Los fallos no restan.";
+    var cuerpo = $("por-seccion"); cuerpo.textContent = "";
+    var flojas = [];
+    ordenSecciones.forEach(function (s) {
+      var tr = el("tr");
+      tr.appendChild(el("td", "", s));
+      tr.appendChild(el("td", "", secciones[s].ok + " de " + secciones[s].total));
+      cuerpo.appendChild(tr);
+      if (secciones[s].ok < secciones[s].total) flojas.push(s);
+    });
+    var repasa = $("repasa"); repasa.textContent = "";
+    repasa.hidden = !flojas.length;
+    if (flojas.length) {
+      repasa.appendChild(el("strong", "", "Repasa: "));
+      repasa.appendChild(document.createTextNode(flojas.join(", ") + "."));
+    }
+    var hayFallos = cuenta.fallo + cuenta.blanco > 0;
+    $("btn-fallos").disabled = !hayFallos;
+    $("btn-fallos").title = hayFallos ? "Incluye las que dejaste en blanco" : "No hay fallos que repetir";
+    $("titulo-final").focus();
+  }
+
+  function repetirFallos() {
+    var fallidas = lista.map(function (i) { return i.p; }).filter(function (p) { return resultados[p.id] !== "acierto"; });
+    if (fallidas.length) empezar(fallidas);
+  }
+
+  // Versión en papel (en el orden del archivo, con hoja de soluciones aparte)
+  function papel() {
+    var cont = $("version-papel");
+    var preg = el("ol");
+    var sol = el("ol");
+    todas.forEach(function (p) {
+      var li = el("li", "papel-pregunta");
+      if (p.contexto) li.appendChild(el("p", "", "Caso: " + p.contexto));
+      var e = el("p");
+      String(p.enunciado).split(/_{3,}/).forEach(function (parte, i, arr) {
+        e.appendChild(document.createTextNode(parte));
+        if (i < arr.length - 1) e.appendChild(el("span", "papel-linea", " "));
+      });
+      li.appendChild(e);
+      if (p.opciones) {
+        var ops = el("ol");
+        p.opciones.forEach(function (o) { ops.appendChild(el("li", "", o)); });
+        li.appendChild(ops);
+      } else if (p.tipo === "vf") {
+        li.appendChild(el("p", "", "(  ) Verdadero     (  ) Falso"));
+      }
+      preg.appendChild(li);
+      var r = p.tipo === "vf" ? (p.correcta ? "Verdadero" : "Falso")
+        : p.tipo === "huecos" ? p.correcta.join(" / ")
+        : LETRAS[p.correcta] + ") " + p.opciones[p.correcta];
+      var s = el("li");
+      s.appendChild(el("strong", "", r + ". "));
+      s.appendChild(document.createTextNode(p.explicacion + " (Sección: " + p.seccion + ")"));
+      sol.appendChild(s);
+    });
+    cont.appendChild(preg);
+    var hoja = el("div", "soluciones");
+    hoja.appendChild(el("h2", "", "Soluciones"));
+    hoja.appendChild(sol);
+    cont.appendChild(hoja);
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if ($("pantalla-test").hidden) return;
+    var t = e.target;
+    if (t && t.tagName === "INPUT") return;              // el campo de huecos gestiona su Enter
+    if (e.key === "Enter") {
+      if (t && t.tagName === "BUTTON") return;           // el botón enfocado ya se activa solo
+      if (respondida) { e.preventDefault(); siguiente(); }
+      return;
+    }
+    if (respondida) return;
+    var p = lista[pos].p, tecla = e.key.toLowerCase();
+    if (tecla === "b") { e.preventDefault(); blanco(); return; }
+    if (p.tipo === "vf") {
+      if (tecla === "v") responderOpcion(0);
+      else if (tecla === "f") responderOpcion(1);
+    } else if (p.opciones && /^[1-4]$/.test(tecla)) {
+      responderOpcion(Number(tecla) - 1);
+    }
+  });
+
+  $("btn-siguiente").addEventListener("click", siguiente);
+  $("btn-blanco").addEventListener("click", blanco);
+  $("btn-fallos").addEventListener("click", repetirFallos);
+  $("btn-todo").addEventListener("click", function () { empezar(todas); });
+
+  var penal = { "ninguna": "sin penalización", "1/3": "cada fallo resta 1/3", "1/4": "cada fallo resta 1/4" };
+  $("subtitulo").textContent = meta.asignatura + " · " + todas.length + " preguntas · " + (penal[meta.penalizacion] || "");
+  papel();
+  empezar(todas);
+})();
+</script>
+</body>
+</html>
