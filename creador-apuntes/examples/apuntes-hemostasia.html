@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apuntes: la hemostasia</title>
+<style>
+:root {
+  --fondo: #fbfdfb;
+  --texto: #18261f;
+  --def: #0b6e69;
+  --ejemplo: #3d6b1f;
+  --ojo: #b02a1f;
+  --clave: #6b3fa0;
+  --fuente: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto); font: 16px/1.55 var(--fuente); }
+main { max-width: 46rem; margin: 0 auto; padding: 2rem 1rem 3rem; }
+h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .3rem; color: var(--def); }
+h2 { font-size: 1.35rem; margin: 2rem 0 .6rem; padding-bottom: .2rem; color: var(--def);
+     border-bottom: 2px solid color-mix(in srgb, var(--def) 30%, var(--fondo)); }
+h3 { font-size: 1.1rem; margin: 1.4rem 0 .4rem; }
+p { margin: .5rem 0; }
+.subtitulo { margin: 0 0 1rem; font-size: .95rem; }
+
+/* Color de cada tipo: lo usan cajas, leyenda y etiquetas */
+.def { --c: var(--def); }
+.ejemplo { --c: var(--ejemplo); }
+.ojo { --c: var(--ojo); }
+.clave { --c: var(--clave); }
+
+/* Leyenda: solo con los tipos de caja que aparezcan */
+.leyenda { display: flex; flex-wrap: wrap; gap: .4rem .8rem; margin: .4rem 0 1.6rem; font-size: .8rem; }
+.leyenda span { padding: .05rem .5rem; border-left: 4px solid var(--c); color: var(--c); font-weight: 600;
+                background: color-mix(in srgb, var(--c) 10%, var(--fondo)); }
+
+/* Cajas semánticas: siempre con <span class="etiqueta"> */
+.caja { margin: 1rem 0; padding: .7rem 1rem; border-left: 5px solid var(--c); border-radius: 0 6px 6px 0;
+        background: color-mix(in srgb, var(--c) 10%, var(--fondo)); }
+.caja > :last-child { margin-bottom: 0; }
+.etiqueta { display: block; margin-bottom: .2rem; font-size: .75rem; font-weight: 700;
+            letter-spacing: .06em; text-transform: uppercase; color: var(--c); }
+
+.porque { margin: .6rem 0; padding-left: .8rem; border-left: 2px dotted var(--clave); font-size: .95rem; }
+.analogia { font-style: italic; }
+
+/* Pasos numerados */
+ol.pasos { list-style: none; counter-reset: paso; margin: 1rem 0; padding: 0; }
+ol.pasos > li { counter-increment: paso; position: relative; padding: 0 0 .9rem 2.6rem; }
+ol.pasos > li::before { content: counter(paso); position: absolute; left: 0; top: 0; width: 1.8rem; height: 1.8rem;
+                        border-radius: 50%; background: var(--def); color: var(--fondo); font-weight: 700;
+                        text-align: center; line-height: 1.8rem; }
+ol.pasos > li:not(:last-child)::after { content: ""; position: absolute; left: .85rem; top: 2rem; bottom: .2rem;
+                                        border-left: 2px solid color-mix(in srgb, var(--def) 30%, var(--fondo)); }
+.paso-titulo { display: block; font-weight: 700; }
+
+/* Línea de tiempo */
+ol.linea-tiempo { list-style: none; margin: 1rem 0; padding: 0 0 0 1.2rem;
+                  border-left: 3px solid color-mix(in srgb, var(--def) 45%, var(--fondo)); }
+ol.linea-tiempo > li { position: relative; margin: 0 0 1rem; padding-left: .9rem; }
+ol.linea-tiempo > li::before { content: ""; position: absolute; left: -1.75rem; top: .35rem; width: .8rem; height: .8rem;
+                               border-radius: 50%; background: var(--fondo); border: 3px solid var(--def); }
+.fecha { display: block; font-size: .85rem; font-weight: 700; letter-spacing: .03em; color: var(--def); }
+
+/* Tabla comparativa */
+table { width: 100%; margin: 1rem 0; border-collapse: collapse; font-size: .95rem; }
+th, td { padding: .45rem .6rem; border: 1px solid color-mix(in srgb, var(--texto) 20%, var(--fondo)); text-align: left; vertical-align: top; }
+thead th { background: color-mix(in srgb, var(--def) 10%, var(--fondo)); }
+tbody th { font-weight: 600; }
+
+/* Árbol / clasificación */
+ul.arbol, ul.arbol ul { list-style: none; margin: 0; padding: 0; }
+ul.arbol { margin: 1rem 0; }
+ul.arbol ul { margin-left: .5rem; padding-left: 1rem; border-left: 2px solid color-mix(in srgb, var(--def) 30%, var(--fondo)); }
+ul.arbol li { margin: .2rem 0; }
+ul.arbol ul > li::before { content: "— "; color: var(--def); }
+ul.arbol > li > strong:first-child { color: var(--def); }
+
+/* Cadena causa → efecto */
+ol.cadena { list-style: none; margin: 1rem 0; padding: 0; }
+ol.cadena > li { position: relative; padding: .45rem .8rem; border-radius: 6px; text-align: center;
+                 border: 1px solid color-mix(in srgb, var(--def) 40%, var(--fondo)); }
+ol.cadena > li:not(:last-child) { margin-bottom: 1.5rem; }
+ol.cadena > li:not(:last-child)::after { content: "↓"; position: absolute; left: 50%; bottom: -1.45rem;
+                                         transform: translateX(-50%); color: var(--def); font-weight: 700; }
+
+/* Método Cornell */
+.cornell { margin: 1rem 0; border: 1px solid color-mix(in srgb, var(--texto) 20%, var(--fondo)); }
+.cornell .fila { display: grid; grid-template-columns: 30% 1fr; border-bottom: 1px solid color-mix(in srgb, var(--texto) 20%, var(--fondo)); }
+.cornell .pregunta { padding: .5rem .7rem; font-weight: 600; background: color-mix(in srgb, var(--clave) 10%, var(--fondo)); }
+.cornell .notas { padding: .5rem .7rem; }
+.cornell .sintesis { padding: .6rem .7rem; }
+
+/* Índice para documentos largos */
+nav.indice { margin: 1rem 0 2rem; font-size: .95rem; }
+nav.indice a { color: var(--def); }
+
+@media (max-width: 34rem) {
+  .cornell .fila { grid-template-columns: 1fr; }
+}
+
+@media print {
+  @page { size: A4; margin: 1.8cm 1.6cm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-size: 11pt; }
+  main { max-width: none; padding: 0; }
+  h2, h3 { break-after: avoid; }
+  .caja, table, ol.pasos > li, ol.linea-tiempo > li, ol.cadena > li, .cornell .fila { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Hemostasia: cómo para de sangrar una herida</h1>
+  <p class="subtitulo">Biología · resumen estándar</p>
+  <div class="leyenda">
+    <span class="def">Definición</span>
+    <span class="ejemplo">Ejemplo</span>
+    <span class="ojo">Ojo</span>
+    <span class="clave">Dato clave</span>
+  </div>
+</header>
+
+<div class="caja def">
+  <span class="etiqueta">Definición</span>
+  <p><strong>Hemostasia:</strong> tapar un vaso roto y, cuando ya está reparado, retirar el tapón.</p>
+</div>
+<p class="porque"><strong>Por qué importa:</strong> si falla, hemorragias o coágulos fuera de sitio.</p>
+
+<h2>Las cuatro fases</h2>
+<ol class="pasos">
+  <li><span class="paso-titulo">Vasoconstricción.</span> El vaso se contrae y da tiempo a las plaquetas.</li>
+  <li><span class="paso-titulo">Tapón plaquetario (hemostasia primaria).</span> Se pegan al colágeno expuesto (factor de von Willebrand) y liberan ADP y tromboxano A2, que atraen a más.</li>
+  <li><span class="paso-titulo">Coagulación (hemostasia secundaria).</span> Una red de fibrina refuerza el tapón.</li>
+  <li><span class="paso-titulo">Retracción y fibrinólisis.</span> El coágulo se encoge; luego la plasmina lo disuelve.</li>
+</ol>
+
+<h2>La cadena de la coagulación</h2>
+<p>Dos entradas, una salida: el factor X.</p>
+<ol class="cadena">
+  <li>Factor tisular + VII (extrínseca) · XII (intrínseca)</li>
+  <li>Factor X activado</li>
+  <li>Protrombina → trombina</li>
+  <li>Fibrinógeno → fibrina</li>
+  <li>Factor XIII: red estable</li>
+</ol>
+
+<div class="caja ojo">
+  <span class="etiqueta">Ojo</span>
+  <p>El fibrinógeno circula disuelto; la fibrina es la red insoluble.</p>
+</div>
+<div class="caja clave">
+  <span class="etiqueta">Dato clave</span>
+  <p>Sin vitamina K, el hígado no fabrica los factores II, VII, IX y X. También hace falta calcio.</p>
+</div>
+<p>La antitrombina y la proteína C la frenan fuera de la herida.</p>
+<div class="caja ejemplo">
+  <span class="etiqueta">Ejemplo</span>
+  <p><strong>Hemofilia A:</strong> sin factor VIII, heridas pequeñas sangran mucho rato.</p>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apuntes: la Transición española</title>
+<style>
+:root {
+  --fondo: #fcf9f2;
+  --texto: #2b2118;
+  --def: #7a3e12;
+  --ejemplo: #4f6228;
+  --ojo: #9e1c1c;
+  --clave: #23527c;
+  --fuente: Georgia, Cambria, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--texto); font: 16px/1.55 var(--fuente); }
+main { max-width: 46rem; margin: 0 auto; padding: 2rem 1rem 3rem; }
+h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .3rem; color: var(--def); }
+h2 { font-size: 1.35rem; margin: 2rem 0 .6rem; padding-bottom: .2rem; color: var(--def);
+     border-bottom: 2px solid color-mix(in srgb, var(--def) 30%, var(--fondo)); }
+h3 { font-size: 1.1rem; margin: 1.4rem 0 .4rem; }
+p { margin: .5rem 0; }
+.subtitulo { margin: 0 0 1rem; font-size: .95rem; }
+
+/* Color de cada tipo: lo usan cajas, leyenda y etiquetas */
+.def { --c: var(--def); }
+.ejemplo { --c: var(--ejemplo); }
+.ojo { --c: var(--ojo); }
+.clave { --c: var(--clave); }
+
+/* Leyenda: solo con los tipos de caja que aparezcan */
+.leyenda { display: flex; flex-wrap: wrap; gap: .4rem .8rem; margin: .4rem 0 1.6rem; font-size: .8rem; }
+.leyenda span { padding: .05rem .5rem; border-left: 4px solid var(--c); color: var(--c); font-weight: 600;
+                background: color-mix(in srgb, var(--c) 10%, var(--fondo)); }
+
+/* Cajas semánticas: siempre con <span class="etiqueta"> */
+.caja { margin: 1rem 0; padding: .7rem 1rem; border-left: 5px solid var(--c); border-radius: 0 6px 6px 0;
+        background: color-mix(in srgb, var(--c) 10%, var(--fondo)); }
+.caja > :last-child { margin-bottom: 0; }
+.etiqueta { display: block; margin-bottom: .2rem; font-size: .75rem; font-weight: 700;
+            letter-spacing: .06em; text-transform: uppercase; color: var(--c); }
+
+.porque { margin: .6rem 0; padding-left: .8rem; border-left: 2px dotted var(--clave); font-size: .95rem; }
+.analogia { font-style: italic; }
+
+/* Pasos numerados */
+ol.pasos { list-style: none; counter-reset: paso; margin: 1rem 0; padding: 0; }
+ol.pasos > li { counter-increment: paso; position: relative; padding: 0 0 .9rem 2.6rem; }
+ol.pasos > li::before { content: counter(paso); position: absolute; left: 0; top: 0; width: 1.8rem; height: 1.8rem;
+                        border-radius: 50%; background: var(--def); color: var(--fondo); font-weight: 700;
+                        text-align: center; line-height: 1.8rem; }
+ol.pasos > li:not(:last-child)::after { content: ""; position: absolute; left: .85rem; top: 2rem; bottom: .2rem;
+                                        border-left: 2px solid color-mix(in srgb, var(--def) 30%, var(--fondo)); }
+.paso-titulo { display: block; font-weight: 700; }
+
+/* Línea de tiempo */
+ol.linea-tiempo { list-style: none; margin: 1rem 0; padding: 0 0 0 1.2rem;
+                  border-left: 3px solid color-mix(in srgb, var(--def) 45%, var(--fondo)); }
+ol.linea-tiempo > li { position: relative; margin: 0 0 1rem; padding-left: .9rem; }
+ol.linea-tiempo > li::before { content: ""; position: absolute; left: -1.75rem; top: .35rem; width: .8rem; height: .8rem;
+                               border-radius: 50%; background: var(--fondo); border: 3px solid var(--def); }
+.fecha { display: block; font-size: .85rem; font-weight: 700; letter-spacing: .03em; color: var(--def); }
+
+/* Tabla comparativa */
+table { width: 100%; margin: 1rem 0; border-collapse: collapse; font-size: .95rem; }
+th, td { padding: .45rem .6rem; border: 1px solid color-mix(in srgb, var(--texto) 20%, var(--fondo)); text-align: left; vertical-align: top; }
+thead th { background: color-mix(in srgb, var(--def) 10%, var(--fondo)); }
+tbody th { font-weight: 600; }
+
+/* Árbol / clasificación */
+ul.arbol, ul.arbol ul { list-style: none; margin: 0; padding: 0; }
+ul.arbol { margin: 1rem 0; }
+ul.arbol ul { margin-left: .5rem; padding-left: 1rem; border-left: 2px solid color-mix(in srgb, var(--def) 30%, var(--fondo)); }
+ul.arbol li { margin: .2rem 0; }
+ul.arbol ul > li::before { content: "— "; color: var(--def); }
+ul.arbol > li > strong:first-child { color: var(--def); }
+
+/* Cadena causa → efecto */
+ol.cadena { list-style: none; margin: 1rem 0; padding: 0; }
+ol.cadena > li { position: relative; padding: .45rem .8rem; border-radius: 6px; text-align: center;
+                 border: 1px solid color-mix(in srgb, var(--def) 40%, var(--fondo)); }
+ol.cadena > li:not(:last-child) { margin-bottom: 1.5rem; }
+ol.cadena > li:not(:last-child)::after { content: "↓"; position: absolute; left: 50%; bottom: -1.45rem;
+                                         transform: translateX(-50%); color: var(--def); font-weight: 700; }
+
+/* Método Cornell */
+.cornell { margin: 1rem 0; border: 1px solid color-mix(in srgb, var(--texto) 20%, var(--fondo)); }
+.cornell .fila { display: grid; grid-template-columns: 30% 1fr; border-bottom: 1px solid color-mix(in srgb, var(--texto) 20%, var(--fondo)); }
+.cornell .pregunta { padding: .5rem .7rem; font-weight: 600; background: color-mix(in srgb, var(--clave) 10%, var(--fondo)); }
+.cornell .notas { padding: .5rem .7rem; }
+.cornell .sintesis { padding: .6rem .7rem; }
+
+/* Índice para documentos largos */
+nav.indice { margin: 1rem 0 2rem; font-size: .95rem; }
+nav.indice a { color: var(--def); }
+
+@media (max-width: 34rem) {
+  .cornell .fila { grid-template-columns: 1fr; }
+}
+
+@media print {
+  @page { size: A4; margin: 1.8cm 1.6cm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-size: 11pt; }
+  main { max-width: none; padding: 0; }
+  h2, h3 { break-after: avoid; }
+  .caja, table, ol.pasos > li, ol.linea-tiempo > li, ol.cadena > li, .cornell .fila { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>La Transición española (1975-1982)</h1>
+  <p class="subtitulo">Historia de España · resumen estándar</p>
+  <div class="leyenda">
+    <span class="def">Definición</span>
+    <span class="ojo">Ojo</span>
+    <span class="clave">Dato clave</span>
+  </div>
+</header>
+
+<div class="caja def">
+  <span class="etiqueta">Definición</span>
+  <p><strong>Transición:</strong> paso negociado de la dictadura franquista a una democracia parlamentaria, hecho en buena parte desde dentro del régimen.</p>
+</div>
+
+<h2>Cronología</h2>
+<ol class="linea-tiempo">
+  <li><span class="fecha">20 nov 1975</span> Muere Franco. Dos días después, Juan Carlos de Borbón es proclamado rey.</li>
+  <li><span class="fecha">Jul 1976</span> Suárez sustituye a Arias Navarro.</li>
+  <li><span class="fecha">15 dic 1976</span> Referéndum de la Ley para la Reforma Política.</li>
+  <li><span class="fecha">Ene 1977</span> Matanza de Atocha.</li>
+  <li><span class="fecha">Abr 1977</span> Legalización del PCE, en Sábado Santo. Irrita al Ejército.</li>
+  <li><span class="fecha">15 jun 1977</span> Primeras elecciones libres desde 1936. Gana UCD.</li>
+  <li><span class="fecha">Oct 1977</span> Pactos de la Moncloa y ley de amnistía.</li>
+  <li><span class="fecha">6 dic 1978</span> Referéndum de la Constitución.</li>
+  <li><span class="fecha">23 feb 1981</span> Golpe de Tejero en la investidura de Calvo-Sotelo. Fracasa.</li>
+  <li><span class="fecha">28 oct 1982</span> Mayoría absoluta del PSOE: fin de la Transición.</li>
+</ol>
+
+<div class="caja clave">
+  <span class="etiqueta">Dato clave</span>
+  <p>«De la ley a la ley»: Suárez usó las leyes franquistas para desmontar el franquismo. Las Cortes del régimen aprobaron su propio final.</p>
+</div>
+<div class="caja ojo">
+  <span class="etiqueta">Ojo</span>
+  <p>Constitución: referéndum el 6 de diciembre; entrada en vigor, a finales de ese mes.</p>
+</div>
+</main>
+</body>
+</html>
