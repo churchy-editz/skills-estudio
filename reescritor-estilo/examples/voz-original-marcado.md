@@ -1,0 +1,3 @@
+La educación para la salud ⟦juega un papel fundamental⟧ en la práctica enfermera. Durante mi rotación en la Unidad de Diabetes, he podido observar que ⟦es importante destacar⟧ la necesidad de adaptar la información a cada paciente. ⟦Además⟧, muchos pacientes no comprenden plenamente las indicaciones sobre la ⟦insulina, la dieta y el ejercicio⟧.
+
+⟦Asimismo⟧, ⟦cabe mencionar⟧ que el uso de materiales visuales mejora ⟦de forma significativa⟧ la comprensión. Por ejemplo, una paciente de 67 años logró ajustar su dosis tras explicarle el procedimiento con dibujos. ⟦En definitiva⟧, la comunicación adaptada ⟦resulta esencial⟧ para lograr la adherencia al tratamiento.
