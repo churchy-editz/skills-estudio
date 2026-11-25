@@ -13,7 +13,7 @@ description: >-
   from this" o "practice exam questions", o pida un test, un simulacro o preguntas
   de repaso para estudiar u opositar.
 license: MIT
-compatibility: Python 3.10 o posterior para validar, generar el HTML y exportar; python-docx solo para exportar a Word.
+compatibility: Python 3.11 o posterior para validar, generar el HTML y exportar; python-docx solo para exportar a Word.
 ---
 
 # Creador de tests

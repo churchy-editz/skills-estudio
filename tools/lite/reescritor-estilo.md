@@ -1,4 +1,4 @@
-<!-- huella-skill: a62be9dd419b -->
+<!-- huella-skill: bae82b0203f1 -->
 ## Flujo
 
 1. Lee el texto entero (pegado, DOCX, PDF o Markdown). Lo que no se pueda leer con seguridad no se reescribe: se avisa.

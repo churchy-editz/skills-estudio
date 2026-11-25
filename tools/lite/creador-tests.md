@@ -1,4 +1,4 @@
-<!-- huella-skill: 9008b2114a11 -->
+<!-- huella-skill: caf9f220311b -->
 ## Flujo
 
 1. Lee el material entero y cuenta sus palabras. Fotos o escaneos: transcribe primero; lo ilegible no se pregunta. Si son apuntes con cajas "Dato clave" u "Ojo", eso es lo que más conviene preguntar.

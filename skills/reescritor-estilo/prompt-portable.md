@@ -6,7 +6,7 @@ Estas son las instrucciones completas de la skill, en un solo texto para usarlas
 
 **Cuándo usarla:** Reescribe textos (pegados, DOCX, PDF o Markdown) para que suenen naturales y escritos por una persona con criterio: ritmo variado, sin muletillas ni fórmulas de relleno y con el registro adecuado (académico, profesional, cercano o redes). Puede imitar la voz del usuario a partir de textos suyos. Conserva todas las ideas, cifras, fechas, nombres, citas y referencias, y mide naturalidad y fidelidad con un script. Usar cuando el usuario diga "haz que esto suene más natural", "reescribe este texto", "que no suene a IA", "humaniza este texto", "mejora la redacción", "ponlo en un tono más cercano", "más profesional", "más académico", "make this sound more natural" o "rewrite this in my style", o pida mejorar el estilo o la naturalidad de un texto.
 
-**Requisitos:** Python 3.10 o posterior para el análisis; python-docx solo para leer y escribir DOCX.
+**Requisitos:** Python 3.11 o posterior para el análisis; python-docx solo para leer y escribir DOCX.
 
 ## Reescritor de estilo
 

@@ -6,7 +6,7 @@ Estas son las instrucciones completas de la skill, en un solo texto para usarlas
 
 **Cuándo usarla:** Crea tests para aprender a partir de material de estudio (PDF, DOCX, texto, fotos o los apuntes de creador-apuntes en HTML, DOCX o Markdown). Cada pregunta explica por qué la correcta lo es y por qué falla el distractor más tentador, y las opciones falsas son errores reales de alumno. Mezcla opción múltiple, verdadero/falso, huecos y casos prácticos, y valida la variedad para que el test no tenga forma de molde. Entrega un HTML interactivo (nota, repaso por secciones, repetir fallos, versión imprimible) y el JSON, exportable a Moodle, Kahoot, Anki, Quizlet o Word. Usar cuando el usuario diga "hazme un test de este tema", "genera preguntas tipo test", "examen de prueba de estos apuntes", "quiero practicar con preguntas", "make a quiz from this" o "practice exam questions", o pida un test, un simulacro o preguntas de repaso para estudiar u opositar.
 
-**Requisitos:** Python 3.10 o posterior para validar, generar el HTML y exportar; python-docx solo para exportar a Word.
+**Requisitos:** Python 3.11 o posterior para validar, generar el HTML y exportar; python-docx solo para exportar a Word.
 
 ## Creador de tests
 

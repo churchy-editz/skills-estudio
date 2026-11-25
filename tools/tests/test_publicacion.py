@@ -106,7 +106,7 @@ class TestFrontmatter(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             skill = self.crear(Path(tmp), "ok-skill",
                                "name: ok-skill\ndescription: Hace algo.\nlicense: MIT\n"
-                               "compatibility: Python 3.10+\nmetadata:\n  autor: alguien\n  version: \"1.0\"")
+                               "compatibility: Python 3.11+\nmetadata:\n  autor: alguien\n  version: \"1.0\"")
             self.assertEqual(frontmatter.validar(skill), [])
 
 

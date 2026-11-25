@@ -1,4 +1,4 @@
-<!-- huella-skill: d5c7c41ec27a -->
+<!-- huella-skill: 03cbcdf85e46 -->
 ## Flujo
 
 1. Lee el material entero antes de escribir y cuenta sus palabras (1 página ≈ 500). Fotos o PDF escaneados: transcribe primero; lo ilegible se marca `[ilegible]`, sin rellenarlo. Transcripciones de clase: quita muletillas, pero conserva los ejemplos del profesor y los avisos de "esto cae".
