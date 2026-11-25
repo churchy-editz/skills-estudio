@@ -4,11 +4,15 @@
 Uso:
     python tools/generar_capturas.py [--chrome RUTA]
 
-Capturas (1200 px de ancho, PNG optimizado con Pillow si está instalado):
-  apuntes-hemostasia.png, apuntes-transicion.png  los dos HTML de ejemplo
+Capturas (PNG optimizado con Pillow si está instalado, máx. 300 KB):
+  apuntes-hemostasia.png, apuntes-transicion.png  parte superior de los dos HTML
   test-pregunta.png    una pregunta respondida, con la explicación visible
   test-resultado.png   la pantalla final con nota y desglose por sección
   reescritor-antes-despues.png  email original marcado ⟦ ⟧ frente a la reescritura
+
+Los apuntes y el test se capturan como en un móvil grande (720 px de ancho, a
+doble resolución) y se recortan al contenido, para que el texto se lea en el
+README. La comparación del reescritor va a 1200 px porque son dos columnas.
 
 El test se captura desde una copia temporal: se fija la semilla del barajado
 (siempre salen las mismas preguntas) y un script responde por el usuario.
@@ -28,7 +32,8 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
 DESTINO = RAIZ / "docs" / "img"
-ANCHO = 1200
+ESTRECHO, ANCHO = 720, 1200  # px CSS
+MARGEN = 14  # px CSS que se dejan alrededor del contenido al recortar
 MAX_BYTES = 300 * 1024
 
 CANDIDATOS = [
@@ -117,14 +122,33 @@ def buscar_navegador(explicito: str | None) -> str:
     sys.exit("No encuentro Chrome, Chromium ni Edge. Pásalo con --chrome RUTA o la variable CHROME.")
 
 
-def capturar(navegador: str, pagina: Path, salida: Path, alto: int, ancla: str = "") -> None:
+def capturar(navegador: str, pagina: Path, salida: Path, ancho: int, alto: int,
+             escala: int = 1, ancla: str = "") -> None:
     with tempfile.TemporaryDirectory() as perfil:
         subprocess.run([
             navegador, "--headless=new", "--disable-gpu", "--hide-scrollbars",
-            "--force-device-scale-factor=1", f"--window-size={ANCHO},{alto}",
+            f"--force-device-scale-factor={escala}", f"--window-size={ancho},{alto}",
             "--virtual-time-budget=4000", f"--user-data-dir={perfil}",
             f"--screenshot={salida}", pagina.resolve().as_uri() + ancla,
         ], check=True, capture_output=True, timeout=120)
+
+
+def recortar(png: Path, escala: int) -> None:
+    """Quita los márgenes del color de fondo, dejando MARGEN px alrededor del contenido."""
+    try:
+        from PIL import Image, ImageChops
+    except ImportError:
+        return
+    with Image.open(png) as img:
+        rgb = img.convert("RGB")
+    fondo = Image.new("RGB", rgb.size, rgb.getpixel((0, 0)))
+    diferencia = ImageChops.difference(rgb, fondo).convert("L").point(lambda v: 255 if v > 12 else 0)
+    caja = diferencia.getbbox()
+    if not caja:
+        return
+    m = MARGEN * escala
+    izq, arr, der, aba = caja
+    rgb.crop((max(izq - m, 0), max(arr - m, 0), min(der + m, rgb.width), min(aba + m, rgb.height))).save(png)
 
 
 def optimizar(png: Path) -> None:
@@ -162,8 +186,11 @@ def main(argv: list[str]) -> int:
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         trabajos = [
-            (RAIZ / "skills/creador-apuntes/examples/apuntes-hemostasia.html", "apuntes-hemostasia.png", 1300, ""),
-            (RAIZ / "skills/creador-apuntes/examples/apuntes-transicion.html", "apuntes-transicion.png", 1300, ""),
+            # (página, archivo, ancho, alto, escala, ancla, recortar)
+            (RAIZ / "skills/creador-apuntes/examples/apuntes-hemostasia.html", "apuntes-hemostasia.png",
+             ESTRECHO, 900, 2, "", True),
+            (RAIZ / "skills/creador-apuntes/examples/apuntes-transicion.html", "apuntes-transicion.png",
+             ESTRECHO, 900, 2, "", True),
         ]
 
         fuente = (RAIZ / "skills/creador-tests/examples/test-hemostasia.html").read_text(encoding="utf-8")
@@ -172,8 +199,8 @@ def main(argv: list[str]) -> int:
         test = test[:cierre] + CONDUCTOR + "\n" + test[cierre:]
         pagina_test = tmp / "test.html"
         pagina_test.write_text(test, encoding="utf-8")
-        trabajos += [(pagina_test, "test-pregunta.png", 860, "#pregunta"),
-                     (pagina_test, "test-resultado.png", 780, "#resultado")]
+        trabajos += [(pagina_test, "test-pregunta.png", ESTRECHO, 1100, 2, "#pregunta", True),
+                     (pagina_test, "test-resultado.png", ESTRECHO, 900, 2, "#resultado", True)]
 
         ej = RAIZ / "skills/reescritor-estilo/examples"
         informe = (ej / "email-informe.txt").read_text(encoding="utf-8")
@@ -188,11 +215,13 @@ def main(argv: list[str]) -> int:
             antes=parrafos_html((ej / "email-original-marcado.md").read_text(encoding="utf-8"), True),
             despues=parrafos_html((ej / "email-reescrito.md").read_text(encoding="utf-8"), False),
             pie=html.escape(pie)), encoding="utf-8")
-        trabajos.append((comparacion, "reescritor-antes-despues.png", 680, ""))
+        trabajos.append((comparacion, "reescritor-antes-despues.png", ANCHO, 680, 1, "", False))
 
-        for pagina, nombre, alto, ancla in trabajos:
+        for pagina, nombre, ancho, alto, escala, ancla, recorte in trabajos:
             salida = DESTINO / nombre
-            capturar(navegador, pagina, salida, alto, ancla)
+            capturar(navegador, pagina, salida, ancho, alto, escala, ancla)
+            if recorte:
+                recortar(salida, escala)
             optimizar(salida)
             kb = salida.stat().st_size / 1024
             aviso = "" if salida.stat().st_size <= MAX_BYTES else "  ← más de 300 KB"
