@@ -12,6 +12,7 @@ description: >-
   académico", "make this sound more natural" o "rewrite this in my style", o pida
   mejorar el estilo o la naturalidad de un texto.
 license: MIT
+compatibility: Python 3.10 o posterior para el análisis; python-docx solo para leer y escribir DOCX.
 ---
 
 # Reescritor de estilo

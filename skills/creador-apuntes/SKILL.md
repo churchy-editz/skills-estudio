@@ -11,6 +11,7 @@ description: >-
   this chapter for exam", o pida apuntes, resúmenes o esquemas para estudiar,
   repasar o preparar exámenes y oposiciones.
 license: MIT
+compatibility: Python 3.10 o posterior y python-docx para generar el DOCX. Sin ejecución de código, entrega solo el HTML.
 ---
 
 # Creador de apuntes

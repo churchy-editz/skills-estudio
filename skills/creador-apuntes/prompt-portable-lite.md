@@ -6,6 +6,8 @@ Versión corta de la skill, para el campo de instrucciones. Las reglas completas
 
 **Cuándo usarla:** Convierte material de estudio (PDF, DOCX, texto pegado, transcripciones de clase o fotos de apuntes) en apuntes para aprender el tema, con una estructura propia para cada contenido, tono cercano y sin aspecto de texto generado. Entrega un HTML imprimible y un DOCX con cajas de color para definiciones, ejemplos, errores frecuentes y datos clave. Usar cuando el usuario diga cosas como "hazme apuntes de este PDF", "resume este tema para estudiar", "haz un esquema de este documento", "explícame este tema para estudiarlo", "make study notes from this" o "summarize this chapter for exam", o pida apuntes, resúmenes o esquemas para estudiar, repasar o preparar exámenes y oposiciones.
 
+**Requisitos:** Python 3.10 o posterior y python-docx para generar el DOCX. Sin ejecución de código, entrega solo el HTML.
+
 ## Flujo
 
 1. Lee el material entero antes de escribir y cuenta sus palabras (1 página ≈ 500). Fotos o PDF escaneados: transcribe primero; lo ilegible se marca `[ilegible]`, sin rellenarlo. Transcripciones de clase: quita muletillas, pero conserva los ejemplos del profesor y los avisos de "esto cae".

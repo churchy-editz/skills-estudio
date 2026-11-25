@@ -97,7 +97,7 @@ Without code execution, both files say which checks to do by hand.
 
 ## Requirements
 
-- Python 3.9 or later for the scripts, which only use the standard library.
+- Python 3.10 or later for the scripts, which only use the standard library.
 - [python-docx](https://pypi.org/project/python-docx/), only for Word output: `python -m pip install python-docx`. The script that needs it prints the exact command when it's missing.
 
 ## How the skills avoid sounding like AI
@@ -112,7 +112,7 @@ In academic settings, follow your institution's rules on AI use. The rewriter is
 
 - **New filler phrases or clichés:** open an issue with the "Nueva muletilla o tópico" template. The template asks for the language, the phrase, the alternative and an example of where it shows up.
 - **Bugs:** use the "Error" template, with the skill, the agent, the input, and the expected versus actual output.
-- **Tests:** from the repo root, with Python 3.9 or later and python-docx installed:
+- **Tests:** from the repo root, with Python 3.10 or later and python-docx installed:
 
 ```bash
 python -m unittest discover -s skills/creador-apuntes/tests

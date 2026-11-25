@@ -95,7 +95,7 @@ Sin ejecución de código, los dos indican qué comprobaciones hacer a mano.
 
 ## Requisitos
 
-- Python 3.9 o posterior para los scripts, que solo usan la librería estándar.
+- Python 3.10 o posterior para los scripts, que solo usan la librería estándar.
 - [python-docx](https://pypi.org/project/python-docx/), solo para las salidas en Word: `python -m pip install python-docx`. El script que lo necesita da el comando exacto cuando falta.
 
 ## Cómo se evita que suene a IA
@@ -110,7 +110,7 @@ En contextos académicos, respeta las normas de tu centro sobre el uso de IA. El
 
 - **Muletillas y tópicos nuevos:** abre un issue con la plantilla «Nueva muletilla o tópico». Pide el idioma, la frase, la alternativa y un ejemplo de dónde aparece.
 - **Errores:** usa la plantilla «Error», con la skill, el agente, la entrada y la salida esperada frente a la obtenida.
-- **Tests:** desde la raíz del repo, con Python 3.9 o posterior y python-docx instalado:
+- **Tests:** desde la raíz del repo, con Python 3.10 o posterior y python-docx instalado:
 
 ```bash
 python -m unittest discover -s skills/creador-apuntes/tests

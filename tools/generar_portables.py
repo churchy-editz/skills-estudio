@@ -135,6 +135,7 @@ def generar(skill: Path) -> str:
         "",
         f"**Cuándo usarla:** {campos.get('description', '')}",
         "",
+        *([f"**Requisitos:** {campos['compatibility']}", ""] if campos.get("compatibility") else []),
         apuntar_a_anexos(bajar_titulos(cuerpo.strip())),
         "",
         "## Si no puedes ejecutar código",
@@ -188,6 +189,7 @@ def generar_lite(skill: Path) -> str:
         "",
         f"**Cuándo usarla:** {campos.get('description', '')}",
         "",
+        *([f"**Requisitos:** {campos['compatibility']}", ""] if campos.get("compatibility") else []),
         cuerpo,
     ]
     return "\n".join(partes).rstrip() + "\n"
@@ -211,8 +213,7 @@ def skills() -> list[Path]:
 
 
 def escribir(destino: Path, texto: str) -> None:
-    with open(destino, "w", encoding="utf-8", newline="\n") as f:  # write_text(newline=) es 3.10+
-        f.write(texto)
+    destino.write_text(texto, encoding="utf-8", newline="\n")
     print(f"{destino.relative_to(RAIZ).as_posix()}: {len(texto):,} caracteres".replace(",", "."))
 
 
