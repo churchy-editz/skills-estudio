@@ -2,7 +2,8 @@ Análisis de estilo · linkedin-original.md → linkedin-reescrito.md · idioma:
 
                                   Original   Reescrito
   Palabras                             127         132
-  Muletillas                            10           0
+  Muletillas                             9           0
+  Tópicos de ensayo                      0           0
   Frase media (palabras)              11,5        13,2
   Desviación                           5,3         7,0
   CV del ritmo                        0,46        0,53
@@ -12,6 +13,7 @@ Análisis de estilo · linkedin-original.md → linkedin-reescrito.md · idioma:
   Tríadas                                3           1
   CV de párrafos                      0,33        0,60
   Párrafos con cierre-resumen          0/6         0/5
+  Cierre que resume (conceptos)          0           0
   Guiones largos /100 pal.             0,8         0,0
   Exclamaciones /100 pal.              2,4         0,0
 
@@ -19,8 +21,10 @@ FIDELIDAD: OK (cifras: 3, nombres: 10)
 
 AVISOS EN EL REESCRITO: ninguno
 
-Naturalidad: 10,0/10 (original: 5,7/10)
+Naturalidad: 10,0/10 (original: 6,7/10)
   [ OK ] muletillas
+  [ OK ] frases hechas y tópicos
+  [ OK ] cierre del texto
   [ OK ] ritmo de frase
   [ OK ] arranques de frase y párrafo
   [ OK ] frecuencia de conectores

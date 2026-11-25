@@ -11,7 +11,7 @@ Todos los textos están escritos para esta skill. Personas, empresas, proyectos,
 
 El ejemplo de voz parte de dos muestras de una usuaria ficticia (`voz-muestra-1.md`, `voz-muestra-2.md`). El perfil que se extrae de ellas está en `voz-perfil.md`.
 
-Los marcados los genera `analizar.py --marcar`. Señalan muletillas, conectores de la lista y tríadas. Las estructuras que dependen del conjunto (ritmo, longitud de párrafos, cierres) aparecen en el informe, no en el marcado.
+Los marcados los genera `analizar.py --marcar`. Señalan muletillas, tópicos de ensayo, conectores de la lista y tríadas. Las estructuras que dependen del conjunto (ritmo, longitud de párrafos, cierres, el último párrafo) aparecen en el informe, no en el marcado.
 
 Para regenerar un informe:
 

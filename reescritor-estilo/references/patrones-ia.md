@@ -5,6 +5,8 @@ Las fórmulas que delatan un texto escrito en piloto automático, con lo que se 
 `scripts/analizar.py` lee este archivo. Formato:
 - Secciones `## ES · …` y `## EN · …`. Si el título contiene "Muletillas", cada aparición es un aviso. Si contiene "Conectores", se avisa por frecuencia (más de 2 por cada 300 palabras). Si contiene "Cierres", además de contar como muletilla, sirve para detectar párrafos que acaban en frase-resumen.
 - Solo se detecta lo escrito entre `comillas invertidas`. Varias variantes en una celda: `a` / `b`. Un `…` dentro de la frase significa "cualquier cosa en medio" (máx. 80 caracteres).
+- Si contiene "Tópicos", son frases hechas de ensayo escolar: cada aparición es un aviso de la categoría `topicos`, que pesa en la nota igual que las muletillas.
+- Si contiene "Apelaciones", son las palabras que delatan un cierre de manual cuando aparecen en la ÚLTIMA frase del texto (expertos, el futuro, la opción equilibrada). Se avisan en la categoría `cierre`.
 - Las secciones "Estructuras" son descriptivas: el script las mide con sus propias reglas (ritmo, tríadas, párrafos, arranques, puntuación).
 
 Una alternativa no es un sustituto fijo. Si se quita "Además" en cinco sitios, no se pone "Asimismo" en los cinco: en tres no hace falta conector, en uno basta un punto y en otro sí conviene uno, el que pida la lógica de esa frase.
@@ -19,7 +21,6 @@ Una alternativa no es un sustituto fijo. Si se quita "Además" en cinco sitios, 
 | `vale la pena mencionar` / `merece la pena destacar` | eliminar |
 | `en el mundo actual` / `en el mundo de hoy` | eliminar o concretar ("desde 2020", "en España") |
 | `en la sociedad actual` / `en la sociedad moderna` | concretar qué sociedad y cuándo |
-| `en la era digital` / `en la era de la información` | eliminar |
 | `hoy en día más que nunca` | eliminar |
 | `en el panorama actual` / `el panorama de` | eliminar o nombrar el sector |
 | `juega un papel crucial` / `desempeña un papel crucial` | decir qué hace: "regula", "decide", "frena" |
@@ -60,12 +61,10 @@ Una alternativa no es un sustituto fijo. Si se quita "Además" en cinco sitios, 
 | `en última instancia` / `a fin de cuentas` | eliminar |
 | `en un mundo donde` / `en un mundo en el que` | eliminar |
 | `pieza clave` / `piedra angular` | decir qué sostiene |
-| `un antes y un después` | decir qué cambió |
 | `marca la diferencia` / `marcar la diferencia` | decir en qué |
 | `potenciar al máximo` / `maximizar el impacto` | dar el objetivo medible |
 | `aportar valor` / `valor añadido` | decir qué aporta |
 | `de cara al futuro` | dar el plazo |
-| `ha llegado para quedarse` / `llegó para quedarse` | decir desde cuándo y con qué datos |
 
 ## ES · Conectores sobreusados
 
@@ -103,6 +102,65 @@ Una alternativa no es un sustituto fijo. Si se quita "Además" en cinco sitios, 
 | `todo ello pone de manifiesto` / `esto pone de manifiesto` | eliminar |
 | `en última instancia, esto` | eliminar |
 
+## ES · Frases hechas y tópicos de ensayo
+
+Suenan a redacción de bachillerato o a texto generado: valen para cualquier tema y por eso no dicen nada del tuyo. Son frases correctas, así que no están entre las muletillas: tienen su propia categoría, `topicos`.
+
+| Patrón | Alternativa |
+|---|---|
+| `luces y sombras` / `sus luces y sus sombras` | eliminar; nombrar la ventaja y el problema concretos |
+| `no… pasar por alto` / `no… pasarse por alto` | eliminar y dar el dato |
+| `herramienta valiosa` / `herramienta muy valiosa` / `herramienta tan valiosa` | decir para qué sirve |
+| `lo mejor de ambos mundos` / `lo mejor de los dos mundos` / `lo mejor de los dos` | decir qué se aprovecha de cada parte |
+| `una nueva realidad` / `la nueva realidad` / `la nueva normalidad` | decir qué ha cambiado y desde cuándo |
+| `un antes y un después` | decir qué cambió |
+| `cada vez más` | dar la cifra o el periodo, o eliminar |
+| `en la era digital` / `en la era de la información` | eliminar |
+| `no es oro todo lo que reluce` / `no todo lo que reluce es oro` | decir el problema |
+| `arma de doble filo` | decir qué ayuda y qué perjudica |
+| `a día de hoy` / `hoy en día` | eliminar o dar la fecha |
+| `muchos expertos` / `numerosos expertos` / `según los expertos` / `los expertos coinciden` / `los expertos señalan` | nombrar al experto y la fuente, o eliminar |
+| `en definitiva` | eliminar |
+| `abrir un debate` / `abre un debate` / `abre el debate` / `el debate está servido` | eliminar o plantear la pregunta concreta |
+| `a la orden del día` / `un tema de actualidad` | eliminar o dar la fecha |
+| `sin precedentes` | comparar con el caso anterior más parecido |
+| `una realidad innegable` / `es innegable que` / `nadie puede negar que` | afirmarlo, con el dato |
+| `un tema candente` / `un tema muy debatido` | decir quién lo discute |
+| `la otra cara de la moneda` / `las dos caras de la moneda` / `toda moneda tiene dos caras` | decir el inconveniente |
+| `pros y contras` | nombrarlos |
+| `tanto un reto como una oportunidad` / `un reto y una oportunidad` | nombrar el reto o la oportunidad |
+| `el justo equilibrio` / `encontrar el equilibrio` / `la opción más equilibrada` / `la alternativa más equilibrada` | decir qué se combina y por qué |
+| `ha venido para quedarse` / `ha llegado para quedarse` / `llegó para quedarse` | decir desde cuándo y con qué datos |
+| `un giro de 180 grados` | decir qué cambió |
+| `la punta del iceberg` | dar la magnitud |
+| `el quid de la cuestión` | decirlo |
+| `un mundo globalizado` / `la sociedad globalizada` | concretar el ámbito |
+| `cambiar las reglas del juego` / `cambia las reglas del juego` | decir qué regla cambia |
+| `a pasos agigantados` | dar el ritmo con un dato |
+| `un sinfín de` / `un sinnúmero de` | "muchos", o la cifra |
+| `en boca de todos` | eliminar |
+| `ha revolucionado` / `ha supuesto una revolución` | "ha cambiado", y decir qué |
+| `no cabe duda de que` / `no hay duda de que` | afirmarlo |
+| `en los tiempos que corren` / `de un tiempo a esta parte` | dar el periodo |
+| `en pleno siglo xxi` | eliminar |
+| `queda mucho camino por recorrer` / `un largo camino por recorrer` | decir qué falta |
+| `el tiempo dirá` / `solo el tiempo lo dirá` | eliminar |
+| `dejar huella` / `marcar un hito` / `marca un hito` | decir qué consecuencia tuvo |
+| `las nuevas tecnologías` | nombrar la tecnología |
+| `una cuestión compleja` / `un tema complejo` | explicar qué lo complica |
+| `aprovechar al máximo` / `sacar el máximo partido` | decir qué se aprovecha |
+| `un factor a tener en cuenta` / `un aspecto a tener en cuenta` | decir por qué cuenta |
+
+## ES · Apelaciones finales
+
+Se buscan solo en la última frase del texto. Un cierre que delega en "los expertos", mira "al futuro" o elige "la opción equilibrada" es de manual: no añade nada.
+
+| Patrón | Alternativa |
+|---|---|
+| `expertos` / `expertas` / `especialistas` | cerrar con la última idea propia, o citar a alguien concreto con su fuente |
+| `futuro` | cerrar con una consecuencia concreta |
+| `equilibrada` / `equilibrado` / `equilibrio` | tomar postura o terminar en el último dato |
+
 ## ES · Estructuras y tics
 
 | Estructura | Alternativa |
@@ -132,7 +190,6 @@ Una alternativa no es un sustituto fijo. Si se quita "Además" en cinco sitios, 
 | `it's important to note` / `it is important to note` | delete |
 | `it's important to remember` / `it is important to remember` | delete or say why it matters |
 | `in today's fast-paced world` / `in today's world` | delete or give a date |
-| `in today's digital age` / `in the digital age` | delete |
 | `ever-evolving` / `ever-changing` | delete or say what changes |
 | `the landscape of` / `in the landscape` | name the field |
 | `delve` / `delves` / `delving` | "look at", "cover" |
@@ -145,7 +202,6 @@ Una alternativa no es un sustituto fijo. Si se quita "Además" en cinco sitios, 
 | `unlock the potential` / `unlock the full potential` | say what you get |
 | `unleash` | delete |
 | `harness the power` / `the power of` | delete |
-| `game-changer` / `game changer` | say what changed |
 | `revolutionize` / `revolutionise` | "change" |
 | `cutting-edge` / `state-of-the-art` | say what is new |
 | `seamless` / `seamlessly` | "smooth", or delete |
@@ -220,6 +276,64 @@ Una alternativa no es un sustituto fijo. Si se quita "Además" en cinco sitios, 
 | `in short` / `in essence` | delete |
 | `this shows that` / `this highlights` | let the facts show it |
 | `the bottom line is` | state it |
+
+## EN · Frases hechas y tópicos de ensayo
+
+| Pattern | Alternative |
+|---|---|
+| `double-edged sword` | say what helps and what hurts |
+| `game changer` / `game-changer` | say what changed |
+| `best of both worlds` | say what each side brings |
+| `in this day and age` | delete or give a date |
+| `experts agree` / `many experts` / `experts say` / `according to experts` | name the expert and the source, or delete |
+| `in the digital age` / `in today's digital age` / `in the digital era` | delete |
+| `a new reality` / `the new normal` | say what changed and when |
+| `pros and cons` | name them |
+| `lights and shadows` / `light and shadow` | name the upside and the problem |
+| `cannot be overlooked` / `can't be overlooked` / `should not be overlooked` / `cannot be ignored` | delete and state the fact |
+| `a valuable tool` / `an invaluable tool` | say what it is for |
+| `more and more` | give the number or the period |
+| `here to stay` | say since when, with data |
+| `a turning point` / `a watershed moment` | say what changed |
+| `the tip of the iceberg` | give the scale |
+| `the heart of the matter` / `at the heart of` | say it |
+| `all that glitters is not gold` | name the problem |
+| `two sides of the same coin` / `the other side of the coin` | name the downside |
+| `strike a balance` / `the right balance` / `a healthy balance` / `the most balanced` | say what is combined and why |
+| `the jury is still out` | say what is still unknown |
+| `only time will tell` / `time will tell` | delete |
+| `a long way to go` | say what is missing |
+| `sparks a debate` / `opens a debate` / `opens up a debate` | state the actual question |
+| `a hot topic` / `hotly debated` | say who disagrees about what |
+| `unprecedented` | compare with the closest previous case |
+| `there is no doubt that` / `there's no doubt that` | state it |
+| `it is undeniable` / `undeniably` | state it, with the fact |
+| `in the 21st century` / `in the twenty-first century` | delete |
+| `a globalized world` / `a globalised world` / `global village` | name the scope |
+| `rapidly changing world` / `fast-changing world` | delete |
+| `by leaps and bounds` | give the rate |
+| `a wake-up call` | say what should change |
+| `food for thought` | delete |
+| `a perfect storm` | name the causes |
+| `win-win` | say who gains what |
+| `the elephant in the room` | name it |
+| `think outside the box` | say what to do differently |
+| `on the rise` | give the trend with a number |
+| `a must-have` | say why it is needed |
+| `at a crossroads` | name the choice |
+| `it remains to be seen` | say what is unknown |
+| `new technologies` | name the technology |
+| `make the most of` / `get the most out of` | say what is used |
+
+## EN · Apelaciones finales
+
+Checked only in the last sentence of the text.
+
+| Pattern | Alternative |
+|---|---|
+| `experts` / `expert` / `specialists` | end on your own last point, or cite someone concrete with a source |
+| `future` | end on a concrete consequence |
+| `balanced` / `balance` | take a position or end on the last fact |
 
 ## EN · Estructuras y tics
 

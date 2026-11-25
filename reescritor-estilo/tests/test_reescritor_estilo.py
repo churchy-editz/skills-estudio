@@ -49,6 +49,24 @@ class TestPatrones(unittest.TestCase):
             for clase in ("muletillas", "conectores", "cierres"):
                 self.assertTrue(pat[idioma][clase], f"{idioma}: {clase} vacío")
 
+    def test_al_menos_40_topicos_por_idioma(self):
+        pat = analizar.cargar_patrones()
+        for idioma in ("es", "en"):
+            self.assertGreaterEqual(pat[idioma]["filas"]["topicos"], 40, idioma)
+            self.assertTrue(pat[idioma]["apelaciones"], f"{idioma}: apelaciones vacío")
+        for frase in ("luces y sombras", "herramienta valiosa", "lo mejor de ambos mundos", "una nueva realidad",
+                      "un antes y un después", "cada vez más", "en la era digital", "no es oro todo lo que reluce",
+                      "arma de doble filo", "a día de hoy", "muchos expertos", "en definitiva", "abrir un debate"):
+            self.assertIn(frase, pat["es"]["topicos"])
+        for frase in ("double-edged sword", "game changer", "best of both worlds", "in this day and age", "experts agree"):
+            self.assertIn(frase, pat["en"]["topicos"])
+
+    def test_solapes_cuentan_una_vez(self):
+        pat = analizar.cargar_patrones()["es"]
+        m = analizar.medir("Vivimos en un mundo cada vez más rápido. Y cada vez más caro.", "es", pat)
+        self.assertEqual(m["muletillas"], {"en un mundo cada vez más": 1})
+        self.assertEqual(m["topicos"], {"cada vez más": 1})
+
     def test_patron_con_hueco(self):
         r = analizar.compilar("no solo… sino también")
         self.assertTrue(r.search("no solo mejora la conciliación, sino también la productividad"))
@@ -97,6 +115,7 @@ class TestNaturalidad(unittest.TestCase):
         self.assertEqual(analizar.triadas(frase, "es"), [])
         self.assertEqual(len(analizar.triadas("Compró pan, leche y huevos.", "es")), 1)
         self.assertEqual(analizar.triadas("Tiene ventajas, pero también costes y riesgos.", "es"), [])
+        self.assertEqual(analizar.triadas("Los problemas pendientes, también, y piden una respuesta.", "es"), [])
 
     def test_detecta_idioma(self):
         self.assertEqual(analizar.detectar_idioma(leer("texto-natural.md")), "es")
@@ -106,6 +125,54 @@ class TestNaturalidad(unittest.TestCase):
         marcado = analizar.marcar(leer("texto-ia.md"), "es", analizar.cargar_patrones()["es"])
         self.assertIn("⟦juega un papel crucial⟧", marcado)
         self.assertIn("⟦sencilla, rápida y barata", marcado)
+
+
+class TestTopicosYCierre(unittest.TestCase):
+    """Caso real: un ensayo sin muletillas, pero lleno de tópicos y con cierre de manual."""
+
+    def setUp(self):
+        texto = leer("ensayo-topicos.md")
+        self.r = analizar.analizar(texto, texto, idioma="es")
+        self.av = self.r["avisos"]
+
+    def test_sin_muletillas_pero_con_topicos(self):
+        self.assertNotIn("muletillas", self.av)
+        topicos = " | ".join(self.av["topicos"])
+        for frase in ("luces y sombras", "herramienta valiosa", "muchos expertos", "la opción más equilibrada"):
+            self.assertIn(f"«{frase}»", topicos)
+
+    def test_cierre_de_manual(self):
+        self.assertIn("apela a «expertos»", " | ".join(self.av["cierre"]))
+
+    def test_nota_por_debajo_de_8(self):
+        self.assertLess(self.r["naturalidad"], 8.0)
+
+    def test_cierre_que_resume(self):
+        texto = ("La biblioteca abre ahora los domingos por la mañana.\n\n"
+                 "Los estudiantes de bachillerato la llenan en época de exámenes.\n\n"
+                 "Los jubilados vienen a leer la prensa y a usar los ordenadores.\n\n"
+                 "Las familias aprovechan los talleres infantiles de los sábados.\n\n"
+                 "Al final, estudiantes, jubilados y familias encuentran en la biblioteca un sitio con "
+                 "prensa, ordenadores y talleres.")
+        r = analizar.analizar(texto, texto, idioma="es")
+        cierre = " | ".join(r["avisos"].get("cierre", []))
+        self.assertIn("resume lo anterior", cierre)
+        self.assertIn("tríada en el último párrafo", " | ".join(r["avisos"]["triadas"]))
+
+    def test_cierre_con_idea_nueva_no_avisa(self):
+        r = analizar.analizar(leer("texto-natural.md"), leer("texto-natural.md"), idioma="es")
+        self.assertTrue(r["reescrito"]["cierre"]["aplica"])
+        self.assertNotIn("cierre", r["avisos"])
+
+    def test_ingles(self):
+        texto = ("Remote work: a double-edged sword\n\nCommuting time drops to zero and rent gets cheaper.\n\n"
+                 "Loneliness grows, and meetings stretch into the evening.\n\n"
+                 "Hybrid schedules offer the best of both worlds, which is why experts agree they are the way forward.")
+        r = analizar.analizar(texto, texto, idioma="en")
+        topicos = " | ".join(r["avisos"]["topicos"])
+        for frase in ("double-edged sword", "best of both worlds", "experts agree"):
+            self.assertIn(frase, topicos)
+        self.assertIn("cierre", r["avisos"])
 
 
 class TestFidelidad(unittest.TestCase):

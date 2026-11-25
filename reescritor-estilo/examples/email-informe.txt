@@ -3,6 +3,7 @@ Análisis de estilo · email-original.md → email-reescrito.md · idioma: es
                                   Original   Reescrito
   Palabras                             129          99
   Muletillas                             6           0
+  Tópicos de ensayo                      0           0
   Frase media (palabras)               9,2         6,6
   Desviación                           6,7         4,7
   CV del ritmo                        0,72        0,72
@@ -12,6 +13,7 @@ Análisis de estilo · email-original.md → email-reescrito.md · idioma: es
   Tríadas                                2           1
   CV de párrafos                      0,86        0,72
   Párrafos con cierre-resumen          0/7         0/7
+  Cierre que resume (conceptos)          0           0
   Guiones largos /100 pal.             0,0         0,0
   Exclamaciones /100 pal.              0,8         0,0
 
@@ -19,8 +21,10 @@ FIDELIDAD: OK (cifras: 2, fechas: 1, nombres: 4)
 
 AVISOS EN EL REESCRITO: ninguno
 
-Naturalidad: 10,0/10 (original: 7,1/10)
+Naturalidad: 10,0/10 (original: 7,5/10)
   [ OK ] muletillas
+  [ OK ] frases hechas y tópicos
+  [ OK ] cierre del texto
   [ OK ] ritmo de frase
   [ OK ] arranques de frase y párrafo
   [ OK ] frecuencia de conectores

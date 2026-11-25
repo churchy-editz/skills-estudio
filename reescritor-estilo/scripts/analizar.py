@@ -5,15 +5,18 @@ Uso:
     python analizar.py original.txt reescrito.txt [--idioma es|en] [--marcar salida.md]
 
 Naturalidad (avisos sobre el reescrito; el original se mide para comparar):
-  muletillas, ritmo de frase, arranques repetidos, conectores, tríadas,
-  párrafos y puntuación (guiones largos, exclamaciones).
+  muletillas, frases hechas y tópicos de ensayo, cierre del texto (resumen de
+  lo anterior, apelación final a expertos/futuro/equilibrio, tríada en el
+  último párrafo), ritmo de frase, arranques repetidos, conectores, tríadas,
+  párrafos y puntuación (guiones largos, exclamaciones). Muletillas, tópicos
+  y cierre pesan el doble en la nota que las categorías de forma.
 Fidelidad (errores): cifras, fechas, nombres propios, citas entre comillas y
   referencias (Autor, año) del original que faltan en el reescrito.
 
-Las listas de muletillas, conectores y cierres se leen de
+Las listas de muletillas, tópicos, conectores, cierres y apelaciones se leen de
 references/patrones-ia.md, que es la única fuente de verdad.
 
---marcar escribe el ORIGINAL con las muletillas y tríadas detectadas entre ⟦ ⟧.
+--marcar escribe el ORIGINAL con las muletillas, tópicos y tríadas detectados entre ⟦ ⟧.
 
 Código de salida: 1 si hay errores de fidelidad, 2 si solo hay avisos, 0 si está limpio.
 Solo librería estándar.
@@ -24,6 +27,7 @@ import argparse
 import re
 import statistics
 import sys
+import unicodedata
 from collections import Counter
 from pathlib import Path
 
@@ -38,9 +42,13 @@ MAX_TRIADAS_200 = 1
 MAX_GUIONES_100 = 1.0
 MAX_EXCLAMACIONES_100 = 1.0
 CORTA, LARGA = 8, 25
+MIN_CONCEPTOS_RESUMEN = 3   # conceptos de párrafos previos repetidos en el cierre
+MIN_LETRAS_CONCEPTO = 5
 
 CATEGORIAS = [
     ("muletillas", "muletillas"),
+    ("topicos", "frases hechas y tópicos"),
+    ("cierre", "cierre del texto"),
     ("ritmo", "ritmo de frase"),
     ("arranques", "arranques de frase y párrafo"),
     ("conectores", "frecuencia de conectores"),
@@ -48,6 +56,9 @@ CATEGORIAS = [
     ("parrafos", "párrafos"),
     ("puntuacion", "guiones largos y exclamaciones"),
 ]
+# Lo que más delata un texto en piloto automático es léxico: muletillas, tópicos
+# y el cierre de manual. Pesan el doble que las categorías de forma.
+PESOS = {"muletillas": 2, "topicos": 2, "cierre": 2}
 
 ARTICULOS = {"el", "la", "los", "las", "un", "una", "unos", "unas", "lo",
              "the", "a", "an"}
@@ -61,8 +72,29 @@ MESES = {
     "es": "enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre",
     "en": "january|february|march|april|may|june|july|august|september|october|november|december",
 }
+VACIAS = {
+    "es": set("""
+        además ahora algunas algunos antes aquel aquella aquellas aquellos aunque cada cierto
+        cómo como contra cosas cualquier cuando cuanto debajo desde después donde dónde durante
+        ellas ellos embargo entonces entre estaba estado están estar estas estos frente fuera
+        había hacer hacia hasta incluso luego mayor manera mejor menor menos mientras misma mismo
+        mismas mismos mucha muchas mucho muchos nadie ningún ninguna nosotros nuestra nuestro
+        nunca otras otros parte pero poder porque puede pueden pues quien quienes realmente según
+        sería siempre sobre sólo solo también tanto tenemos tener tiene tienen todas todavía todos
+        través veces vuestra vuestro forma hacen hecho""".split()),
+    "en": set("""
+        about above after again against along among another anything around because before being
+        below between both cannot could doing during each either every first from further having
+        however into itself later least might more most much must never other others ourselves
+        over perhaps quite rather really same several should since some something still such than
+        that their them themselves then there these they thing things this those though through
+        under until very what when where whether which while whose with within without would your
+        also just like make made many even""".split()),
+}
 CONJ = {"es": r"(?:y|e|o|u)", "en": r"(?:and|or)"}
 ADVERSATIVAS = {"pero", "sino", "aunque", "mas", "but", "yet", "although"}
+# Adverbios entre comas («Los problemas, también, y…»): inciso, no elemento de lista.
+INCISOS = {"también", "tampoco", "además", "incluso", "claro", "too", "also", "though", "however"}
 PAL = r"[^\W\d_][\w'’-]*"
 
 
@@ -71,18 +103,22 @@ PAL = r"[^\W\d_][\w'’-]*"
 def cargar_patrones(ruta: Path = PATRONES) -> dict:
     """Lee las tablas '## ES · …' / '## EN · …' de patrones-ia.md.
 
-    Devuelve {idioma: {"muletillas": [...], "conectores": [...], "cierres": [...], "entradas": n}}.
+    Devuelve {idioma: {"muletillas": [...], "topicos": [...], "conectores": [...],
+    "cierres": [...], "apelaciones": [...], "entradas": n, "filas": {clase: n}}}.
     Solo se detectan las celdas escritas entre `comillas invertidas`; las filas
     sin ellas son descriptivas (estructuras que se miden con otras reglas).
     """
-    datos = {i: {"muletillas": [], "conectores": [], "cierres": [], "entradas": 0} for i in ("es", "en")}
+    datos = {i: {"muletillas": [], "topicos": [], "conectores": [], "cierres": [], "apelaciones": [],
+                 "entradas": 0, "filas": Counter()} for i in ("es", "en")}
     idioma = clase = None
     for linea in ruta.read_text(encoding="utf-8").splitlines():
         m = re.match(r"^##\s+(ES|EN)\s+·\s+(.+)$", linea)
         if m:
             idioma = m.group(1).lower()
             t = m.group(2).lower()
-            clase = ("conectores" if "conector" in t else
+            clase = ("topicos" if "tópico" in t else
+                     "apelaciones" if "apelaci" in t else
+                     "conectores" if "conector" in t else
                      "cierres" if "cierre" in t else
                      "muletillas" if "muletilla" in t else None)
             continue
@@ -96,6 +132,7 @@ def cargar_patrones(ruta: Path = PATRONES) -> dict:
             continue
         datos[idioma]["entradas"] += 1
         if clase:
+            datos[idioma]["filas"][clase] += 1
             datos[idioma][clase].extend(re.findall(r"`([^`]+)`", celdas[0]))
     return datos
 
@@ -106,6 +143,28 @@ def compilar(frase: str) -> re.Pattern:
     ini = r"(?<!\w)" if re.match(r"\w", frase) else ""
     fin = r"(?!\w)" if re.search(r"\w$", frase.replace("…", "")) else ""
     return re.compile(ini + cuerpo + fin, re.IGNORECASE | re.DOTALL)
+
+
+def contar_frases(texto: str, grupos: list[tuple[str, list[str]]]) -> dict[str, Counter]:
+    """Cuenta apariciones de cada frase por clase, sin contar dos veces el mismo tramo.
+
+    Si dos patrones se solapan («cada vez más» dentro de «en un mundo cada vez
+    más»), cuenta el más largo; a igual tramo, la clase que va antes en `grupos`.
+    """
+    candidatos = []
+    for orden, (clase, frases) in enumerate(grupos):
+        for frase in dict.fromkeys(frases):
+            for m in compilar(frase).finditer(texto):
+                candidatos.append((-(m.end() - m.start()), orden, m.start(), m.end(), clase, frase))
+    candidatos.sort()
+    ocupado: list[tuple[int, int]] = []
+    cuentas = {clase: Counter() for clase, _ in grupos}
+    for _, _, a, b, clase, frase in candidatos:
+        if any(a < y and x < b for x, y in ocupado):
+            continue
+        ocupado.append((a, b))
+        cuentas[clase][frase] += 1
+    return cuentas
 
 
 # ---------------------------------------------------------------- texto
@@ -148,6 +207,56 @@ def limpiar_md(t: str) -> str:
     return t.replace("**", "").replace("__", "")
 
 
+def raiz(palabra: str) -> str:
+    """Raíz tosca para comparar conceptos: minúsculas, sin tildes, 5 letras."""
+    sin = "".join(c for c in unicodedata.normalize("NFD", palabra.lower()) if unicodedata.category(c) != "Mn")
+    return sin[:MIN_LETRAS_CONCEPTO]
+
+
+def conceptos(texto: str, idioma: str) -> set[str]:
+    return {raiz(p) for p in re.findall(PAL, texto)
+            if len(p) >= MIN_LETRAS_CONCEPTO and p.lower() not in VACIAS[idioma]}
+
+
+def analizar_cierre(parrafos: list[str], idioma: str, pat: dict) -> dict:
+    """Mira el último párrafo: si resume lo anterior, cómo termina y si trae tríadas.
+
+    Un concepto clave de un párrafo previo es una raíz que sale en pocos párrafos
+    (como mucho en la mitad menos uno de los previos, mínimo 1): así no cuenta el
+    tema general del texto, que aparece en todas partes. El cierre «resume» si
+    repite al menos MIN_CONCEPTOS_RESUMEN conceptos clave venidos de dos párrafos
+    distintos o más (si solo vienen del anterior, es continuidad, no resumen).
+    """
+    vacio = {"aplica": False, "resumen": [], "apelacion": None, "triadas": []}
+    if len(parrafos) < 2:
+        return vacio
+    previos = [conceptos(p, idioma) for p in parrafos[:-1]]
+    ultimo = parrafos[-1]
+    frecuencia = Counter(c for cs in previos for c in cs)
+    tope = max(1, (len(previos) - 1) // 2)
+    repetidos, origen = [], set()
+    palabra_de = {}
+    for p in re.findall(PAL, ultimo):
+        palabra_de.setdefault(raiz(p), p.lower())
+    if len(previos) >= 2:
+        for c in sorted(conceptos(ultimo, idioma), key=lambda c: ultimo.lower().find(palabra_de[c])):
+            if 0 < frecuencia[c] <= tope:
+                repetidos.append(palabra_de[c])
+                origen |= {i for i, cs in enumerate(previos) if c in cs}
+    resumen = repetidos if len(repetidos) >= MIN_CONCEPTOS_RESUMEN and len(origen) >= 2 else []
+
+    frases = frases_de(ultimo)
+    apelacion = None
+    if frases:
+        final = frases[-1].lower()
+        for palabra in pat["apelaciones"]:
+            if compilar(palabra).search(final):
+                apelacion = palabra
+                break
+    return {"aplica": True, "resumen": resumen, "apelacion": apelacion,
+            "triadas": [t for _, _, t in triadas(ultimo, idioma)]}
+
+
 def cv(valores: list[float]) -> float:
     if len(valores) < 2 or statistics.mean(valores) == 0:
         return 0.0
@@ -178,6 +287,8 @@ def triadas(texto: str, idioma: str) -> list[tuple[int, int, str]]:
                 continue  # enumeración de 4 o más («a, en la b, en la c y d»)
             if m.group(2).split()[0].lower() in ADVERSATIVAS:
                 continue
+            if m.group(2).lower() in INCISOS:
+                continue
             ini = frase.start() + m.start()
             encontradas.append((ini, ini + len(m.group(0)), m.group(0)))
     return encontradas
@@ -193,11 +304,8 @@ def medir(texto: str, idioma: str, pat: dict) -> dict:
     largos = [len(palabras(f)) for f in frases]
     bajo = cuerpo.lower()
 
-    muletillas = Counter()
-    for frase in pat["muletillas"] + pat["cierres"]:
-        n = len(compilar(frase).findall(bajo))
-        if n:
-            muletillas[frase] += n
+    cuentas = contar_frases(bajo, [("topicos", pat["topicos"]), ("muletillas", pat["muletillas"] + pat["cierres"])])
+    muletillas, topicos = cuentas["muletillas"], cuentas["topicos"]
     conectores = Counter()
     for frase in pat["conectores"]:
         n = len(compilar(frase).findall(bajo))
@@ -222,6 +330,8 @@ def medir(texto: str, idioma: str, pat: dict) -> dict:
         "arr_frases": Counter(clave_arranque(f) for f in frases if clave_arranque(f)),
         "arr_parrafos": Counter(clave_arranque(p) for p in (limpiar_md(x) for x in parrafos) if clave_arranque(p)),
         "muletillas": muletillas,
+        "topicos": topicos,
+        "cierre": analizar_cierre([limpiar_md(p) for p in parrafos], idioma, pat),
         "conectores": conectores,
         "triadas": [t for _, _, t in triadas(cuerpo, idioma)],
         "parrafos": len(parrafos),
@@ -234,10 +344,23 @@ def medir(texto: str, idioma: str, pat: dict) -> dict:
 
 def avisos(m: dict) -> tuple[dict[str, list[str]], list[str]]:
     av: dict[str, list[str]] = {c: [] for c, _ in CATEGORIAS}
-    aplicables = ["muletillas", "arranques", "conectores", "triadas", "puntuacion"]
+    aplicables = ["muletillas", "topicos", "arranques", "conectores", "triadas", "puntuacion"]
 
     for frase, n in m["muletillas"].most_common():
         av["muletillas"].append(f"«{frase}» ×{n}")
+    for frase, n in m["topicos"].most_common():
+        av["topicos"].append(f"«{frase}» ×{n}")
+
+    ci = m["cierre"]
+    if ci["aplica"]:
+        aplicables.append("cierre")
+        if ci["resumen"]:
+            av["cierre"].append(
+                f"el último párrafo resume lo anterior: repite {len(ci['resumen'])} conceptos de párrafos previos "
+                f"({', '.join(ci['resumen'][:6])}…). Cierra con algo concreto o termina en la última idea")
+        if ci["apelacion"]:
+            av["cierre"].append(
+                f"la última frase apela a «{ci['apelacion']}»: cierre de manual (expertos, el futuro, la opción equilibrada)")
 
     if m["frases"] >= 5:
         aplicables.append("ritmo")
@@ -261,6 +384,8 @@ def avisos(m: dict) -> tuple[dict[str, list[str]], list[str]]:
     if len(m["triadas"]) > tope_t:
         ejemplos = "; ".join(f"«{t}»" for t in m["triadas"][:4])
         av["triadas"].append(f"{len(m['triadas'])} enumeraciones de 3 (máx. {tope_t:.0f}): {ejemplos}")
+    for tri in ci["triadas"]:
+        av["triadas"].append(f"tríada en el último párrafo: «{tri}» (en el cierre se nota aunque sea una)")
 
     if m["parrafos"] >= 2:
         aplicables.append("parrafos")
@@ -278,8 +403,9 @@ def avisos(m: dict) -> tuple[dict[str, list[str]], list[str]]:
 
 
 def nota(av: dict, aplicables: list[str]) -> float:
-    ok = sum(1 for c in aplicables if c not in av)
-    return round(10 * ok / len(aplicables), 1) if aplicables else 10.0
+    total = sum(PESOS.get(c, 1) for c in aplicables)
+    ok = sum(PESOS.get(c, 1) for c in aplicables if c not in av)
+    return round(10 * ok / total, 1) if total else 10.0
 
 
 # ---------------------------------------------------------------- fidelidad
@@ -343,7 +469,7 @@ def fidelidad(original: str, reescrito: str, idioma: str) -> tuple[list[str], di
 
 def marcar(texto: str, idioma: str, pat: dict) -> str:
     tramos = []
-    for frase in pat["muletillas"] + pat["cierres"] + pat["conectores"]:
+    for frase in pat["muletillas"] + pat["topicos"] + pat["cierres"] + pat["conectores"]:
         tramos += [(m.start(), m.end()) for m in compilar(frase).finditer(texto)]
     tramos += [(a, b) for a, b, _ in triadas(texto, idioma)]
     tramos.sort()
@@ -374,6 +500,7 @@ def informe(ruta_o: str, ruta_r: str, idioma: str, mo: dict, mr: dict, av_o, av_
     l.append(fila("", "Original", "Reescrito"))
     l.append(fila("Palabras", mo["palabras"], mr["palabras"]))
     l.append(fila("Muletillas", sum(mo["muletillas"].values()), sum(mr["muletillas"].values())))
+    l.append(fila("Tópicos de ensayo", sum(mo["topicos"].values()), sum(mr["topicos"].values())))
     l.append(fila("Frase media (palabras)", num(mo["media"]), num(mr["media"])))
     l.append(fila("Desviación", num(mo["desv"]), num(mr["desv"])))
     l.append(fila("CV del ritmo", num(mo["cv"], 2), num(mr["cv"], 2)))
@@ -383,6 +510,7 @@ def informe(ruta_o: str, ruta_r: str, idioma: str, mo: dict, mr: dict, av_o, av_
     l.append(fila("Tríadas", len(mo["triadas"]), len(mr["triadas"])))
     l.append(fila("CV de párrafos", num(mo["cv_parrafos"], 2), num(mr["cv_parrafos"], 2)))
     l.append(fila("Párrafos con cierre-resumen", f"{mo['con_cierre']}/{mo['parrafos']}", f"{mr['con_cierre']}/{mr['parrafos']}"))
+    l.append(fila("Cierre que resume (conceptos)", len(mo["cierre"]["resumen"]), len(mr["cierre"]["resumen"])))
     l.append(fila("Guiones largos /100 pal.", num(mo["guiones"]), num(mr["guiones"])))
     l.append(fila("Exclamaciones /100 pal.", num(mo["exclamaciones"]), num(mr["exclamaciones"])))
     if mr["conectores"]:

@@ -39,7 +39,10 @@ Antes del texto reescrito, 3-4 líneas, sin tabla:
 Límites:
 - No se copian frases de las muestras, ni siquiera cambiando una palabra.
 - Si el perfil incluye un tic de `patrones-ia.md` (por ejemplo, usa mucho "además"), se respeta su frecuencia real, pero sin pasar los límites del analizador.
-- Si el registro pedido choca con la voz (muestras coloquiales, texto académico), se toman ritmo, puntuación y persona del perfil, y vocabulario y formalidad del registro.
+- Con registro "mantener", la voz pesa más que el registro del original. Si la muestra va en primera persona y el texto es de opinión, ensayo, email o post, se pasa a primera persona. Solo se mantiene impersonal si el tipo lo exige (académico formal, informe técnico), y se avisa en la línea del perfil: "Mantengo impersonal porque es un texto académico; si lo quieres en primera persona, dímelo".
+- Pasar a primera persona no cambia de quién son las ideas: lo que el original atribuye a otros ("según los expertos") sigue atribuido.
+- Si el usuario pide otro registro (muestras coloquiales, texto que quiere académico), se toman ritmo, nexos y puntuación del perfil, y vocabulario y formalidad del registro.
+- Los errores de la muestra (tildes, comas que faltan) no son voz y no se imitan.
 
 ## Ejemplo
 

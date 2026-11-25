@@ -53,7 +53,15 @@ Solo si da muestras. Se extrae un perfil según `references/voz.md`:
 - conectores que usa y conectores que NO usa;
 - primera persona, puntuación, nivel de formalidad y rasgos propios.
 
-El perfil se muestra en 3-4 líneas antes del texto y se aplica a toda la reescritura. No se copian frases de las muestras. Si el perfil choca con el registro pedido, manda el registro y el perfil ajusta el resto (ritmo, vocabulario, puntuación).
+El perfil se muestra en 3-4 líneas antes del texto y se aplica a toda la reescritura. No se copian frases de las muestras.
+
+Si el usuario da una muestra, **su voz pesa más que el registro del original**. Con registro "mantener" se aplica de la voz:
+- **Persona gramatical.** Si escribe en primera persona y el tipo de texto lo admite (opinión, ensayo, email, post), el texto pasa a primera persona. Lo que el original atribuye a otros sigue atribuido a ellos: "los expertos señalan" no se convierte en "yo creo".
+- Longitud de frase, nexos, vocabulario y rasgos propios.
+
+Solo se mantiene impersonal si el tipo lo exige (académico formal, informe técnico), y se avisa en la línea del perfil: "Mantengo impersonal porque es un texto académico; si lo quieres en primera persona, dímelo".
+
+Si el usuario pide un registro distinto ("más académico"), manda ese registro en formalidad y vocabulario, y el perfil ajusta el resto (ritmo, nexos, puntuación). Los errores de la muestra (tildes, comas que faltan) no se imitan.
 
 ## 5. Fidelidad (regla dura)
 
@@ -75,6 +83,8 @@ El objetivo es "Fidelidad: OK" y "Naturalidad: 10/10". Un aviso puede ser legít
 
 Detalle en `references/patrones-ia.md` y `references/variedad.md`.
 - **Muletillas prohibidas (ES/EN):** la lista completa está en `patrones-ia.md`. Por ejemplo: "es importante destacar", "cabe mencionar", "en el mundo actual", "en resumen", "además" como comodín, "no solo… sino también", "juega un papel crucial", "sumergirse", "un viaje", "delve", "tapestry", "it's worth noting", "in today's fast-paced world".
+- **Frases hechas y tópicos de ensayo:** "luces y sombras", "herramienta valiosa", "no se puede pasar por alto", "lo mejor de ambos mundos", "una nueva realidad", "arma de doble filo", "muchos expertos", "double-edged sword", "best of both worlds"… Son correctas, pero valen para cualquier tema. Lista completa en `patrones-ia.md`. Pesan en la nota tanto como las muletillas.
+- **Cierre:** el cierre aporta algo concreto (una consecuencia, un matiz, una postura) o simplemente termina con la última idea; nunca resume. Tampoco termina apelando a "los expertos", "el futuro" o "la opción más equilibrada", ni mete una tríada en el último párrafo. `analizar.py` avisa de las tres cosas.
 - **Estructuras:** tríadas sistemáticas ("rápido, eficiente y seguro"), frase-resumen al final de cada párrafo, párrafos todos de la misma longitud, varios párrafos que empiezan igual, abuso de guiones largos, preguntas retóricas como transición y cierres motivacionales.
 - **Ritmo:** frases cortas y largas alternadas de verdad, con variación medible. No todas de 15-25 palabras.
 - **Sin sustituto fijo:** si se quita "Además", no se pone "Asimismo" en todas partes. Muchas veces la mejor transición es ninguna.
@@ -103,7 +113,8 @@ Antes de entregar:
 1. ¿Se ha perdido o añadido alguna idea? Comprobarlo párrafo a párrafo con el original.
 2. ¿Están intactos los datos, aunque el script no los vea? Por ejemplo, términos técnicos en minúscula.
 3. Leído en voz alta, ¿suena a una persona que sabe del tema?
-4. ¿Se nota algún truco repetido? Por ejemplo, todas las frases cortas al final del párrafo, o el mismo tipo de arranque.
+4. ¿El último párrafo dice algo nuevo o termina en la última idea? Si repasa lo dicho o se apoya en "los expertos", se reescribe aunque el script no avise.
+5. ¿Se nota algún truco repetido? Por ejemplo, todas las frases cortas al final del párrafo, o el mismo tipo de arranque.
 
 ## Ejemplos
 

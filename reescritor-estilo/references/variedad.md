@@ -7,6 +7,10 @@ Un texto suena a plantilla cuando todo tiene la misma forma: frases de longitud 
 | Qué | Límite | Categoría |
 |---|---|---|
 | Muletillas de `patrones-ia.md` | 0 | `muletillas` |
+| Frases hechas y tópicos de ensayo de `patrones-ia.md` | 0 | `topicos` |
+| Último párrafo que repite conceptos de los anteriores | menos de 3 (o todos del párrafo anterior) | `cierre` |
+| Última frase que apela a expertos, al futuro o a la opción equilibrada | 0 | `cierre` |
+| Tríada en el último párrafo | 0 | `triadas` |
 | Coeficiente de variación (CV) de la longitud de frase | ≥ 0,35 (con 5 frases o más) | `ritmo` |
 | Frases o párrafos que empiezan por la misma palabra | máx. 2 (si la primera es un artículo, cuentan las dos primeras) | `arranques` |
 | Un mismo conector de la lista | máx. 2 por cada 300 palabras | `conectores` |
@@ -14,6 +18,8 @@ Un texto suena a plantilla cuando todo tiene la misma forma: frases de longitud 
 | CV de la longitud de párrafo | ≥ 0,25 (con 3 párrafos o más) | `parrafos` |
 | Párrafos que acaban en frase-resumen | máx. la mitad | `parrafos` |
 | Guiones largos / exclamaciones | máx. 1 por cada 100 palabras | `puntuacion` |
+
+La nota de naturalidad es la proporción de categorías sin avisos. Muletillas, tópicos y cierre pesan el doble que el resto, porque son lo que más delata un texto en piloto automático.
 
 El CV es la desviación típica dividida por la media. Un CV de 0,2 significa que casi todas las frases miden lo mismo. A partir de 0,4 ya hay contraste de verdad. El informe también da la proporción de frases cortas (menos de 8 palabras) y largas (más de 25). Un texto natural suele tener de las dos.
 
