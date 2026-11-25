@@ -1,0 +1,54 @@
+name: Nueva muletilla o tópico
+description: Propón una frase hecha, muletilla o conector que suene a texto en piloto automático.
+title: "[tópico] "
+labels: ["patrones"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Las listas están en `skills/reescritor-estilo/references/patrones-ia.md` (y, para el tono de apuntes y tests, en el `references/tono.md` de cada skill). Antes de proponer, busca la frase ahí para no duplicarla.
+  - type: dropdown
+    id: idioma
+    attributes:
+      label: Idioma
+      options:
+        - Español
+        - Inglés
+        - Otro (indícalo abajo)
+    validations:
+      required: true
+  - type: input
+    id: frase
+    attributes:
+      label: Frase o patrón
+      description: Tal como aparece. Usa … para marcar un hueco («no solo… sino también»).
+      placeholder: "a día de hoy"
+    validations:
+      required: true
+  - type: input
+    id: alternativa
+    attributes:
+      label: Alternativa
+      description: Qué poner en su lugar. Muchas veces la respuesta es «eliminar».
+      placeholder: "eliminar, o dar la fecha"
+    validations:
+      required: true
+  - type: textarea
+    id: ejemplo
+    attributes:
+      label: Ejemplo de dónde aparece
+      description: Una o dos frases reales o inventadas en las que suene a relleno, y el tipo de texto (académico, email, redes…).
+    validations:
+      required: true
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo
+      options:
+        - Muletilla (se avisa siempre)
+        - Conector (se avisa si se repite mucho)
+        - Cierre de párrafo o de texto
+        - Frase hecha o tópico de ensayo
+        - Estructura (no es una frase fija)
+    validations:
+      required: false

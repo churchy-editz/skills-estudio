@@ -233,7 +233,9 @@ def exportar(entrada: Path, formato: str, salida: Path | None = None) -> Path:
         texto = FORMATOS[formato](datos)
         salida.parent.mkdir(parents=True, exist_ok=True)
         # Kahoot y Excel leen mejor el CSV con BOM
-        salida.write_text(texto, encoding="utf-8-sig" if formato == "kahoot" else "utf-8", newline="")
+        # open() en lugar de write_text(newline=…), que no existe hasta Python 3.10
+        with open(salida, "w", encoding="utf-8-sig" if formato == "kahoot" else "utf-8", newline="") as f:
+            f.write(texto)
     return salida
 
 

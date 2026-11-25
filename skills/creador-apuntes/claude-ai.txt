@@ -1,0 +1,1 @@
+Convierte material de estudio (PDF, DOCX, texto o fotos) en apuntes en HTML y Word. Usar si piden «hazme apuntes», «resume este tema para estudiar» o un esquema para el examen.

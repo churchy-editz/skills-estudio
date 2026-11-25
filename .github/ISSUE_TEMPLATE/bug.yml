@@ -1,0 +1,48 @@
+name: Error
+description: Algo no funciona como dice la skill o un script falla.
+title: "[error] "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill
+      options:
+        - creador-apuntes
+        - creador-tests
+        - reescritor-estilo
+        - tools (scripts del repo)
+    validations:
+      required: true
+  - type: input
+    id: agente
+    attributes:
+      label: Agente usado
+      description: Claude Code, Claude.ai, Codex, Cursor, ChatGPT con el portable… y versión si la sabes.
+    validations:
+      required: true
+  - type: textarea
+    id: entrada
+    attributes:
+      label: Entrada
+      description: Qué le pediste y con qué material. No pegues material con derechos de autor ni datos personales; un fragmento inventado que reproduzca el fallo es mejor.
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Salida esperada
+    validations:
+      required: true
+  - type: textarea
+    id: obtenido
+    attributes:
+      label: Salida obtenida
+      description: Lo que salió, con el mensaje de error completo si lo hubo.
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python y sistema operativo (si falló un script)
+      placeholder: "Python 3.12, Windows 11"

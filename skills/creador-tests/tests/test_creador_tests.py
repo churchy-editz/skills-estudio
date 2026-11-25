@@ -1,7 +1,7 @@
 """Tests de los scripts de creador-tests.
 
 Ejecutar desde la raíz del repo (o desde creador-tests):
-    python -m unittest discover -s creador-tests/tests -v
+    python -m unittest discover -s skills/creador-tests/tests -v
 También funcionan con pytest.
 """
 from __future__ import annotations

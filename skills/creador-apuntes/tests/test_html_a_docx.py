@@ -1,7 +1,7 @@
 """Tests de scripts/html_a_docx.py con los dos ejemplos de examples/.
 
 Ejecutar desde la carpeta creador-apuntes (o la raíz del repo):
-    python -m unittest discover -s creador-apuntes/tests -v
+    python -m unittest discover -s skills/creador-apuntes/tests -v
 También funcionan con pytest.
 """
 from __future__ import annotations

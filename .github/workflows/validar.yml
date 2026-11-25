@@ -1,0 +1,46 @@
+name: validar
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Instalar python-docx
+        run: python -m pip install --upgrade pip python-docx
+
+      - name: Tests de creador-apuntes
+        run: python -m unittest discover -s skills/creador-apuntes/tests -v
+
+      - name: Tests de creador-tests
+        run: python -m unittest discover -s skills/creador-tests/tests -v
+
+      - name: Tests de reescritor-estilo
+        run: python -m unittest discover -s skills/reescritor-estilo/tests -v
+
+      - name: Tests de tools
+        run: python -m unittest discover -s tools/tests -v
+
+      - name: Independencia entre skills
+        run: python tools/comprobar_independencia.py
+
+      - name: Frontmatter de cada SKILL.md
+        run: python tools/validar_frontmatter.py
+
+      - name: Portables al día
+        run: python tools/generar_portables.py --comprobar

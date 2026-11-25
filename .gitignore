@@ -10,3 +10,6 @@ __pycache__/
 # Sistema operativo
 .DS_Store
 Thumbs.db
+
+# Paquetes para las Releases (tools/empaquetar.py)
+dist/

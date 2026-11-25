@@ -23,7 +23,7 @@ _spec.loader.exec_module(ci)
 
 def crear_repo(tmp: Path, archivos: dict[str, str]) -> Path:
     for ruta, texto in archivos.items():
-        f = tmp / ruta
+        f = tmp / "skills" / ruta
         f.parent.mkdir(parents=True, exist_ok=True)
         f.write_text(texto, encoding="utf-8")
     return tmp
@@ -45,7 +45,7 @@ class TestIndependencia(unittest.TestCase):
             })
             problemas = ci.comprobar(raiz)
         self.assertEqual(len(problemas), 3, problemas)
-        self.assertTrue(problemas[0].startswith("skill-a/SKILL.md:1:"))
+        self.assertTrue(problemas[0].startswith("skills/skill-a/SKILL.md:1:"))
 
     def test_permite_nombrar_otra_skill_sin_ruta(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -64,7 +64,7 @@ class TestIndependencia(unittest.TestCase):
             })
             r = subprocess.run([sys.executable, str(SCRIPT), str(raiz)], capture_output=True, text=True, encoding="utf-8")
         self.assertEqual(r.returncode, 1)
-        self.assertIn("skill-a/SKILL.md:1", r.stdout)
+        self.assertIn("skills/skill-a/SKILL.md:1", r.stdout)
 
 
 if __name__ == "__main__":

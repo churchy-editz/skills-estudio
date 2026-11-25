@@ -4,7 +4,7 @@
 Uso:
     python tools/comprobar_independencia.py [raíz-del-repo]
 
-Una skill es una carpeta de primer nivel con SKILL.md. Falla (código 1) si el
+Una skill es una carpeta de skills/ con SKILL.md. Falla (código 1) si el
 SKILL.md, los scripts, las referencias o los assets de una skill nombran la
 CARPETA de otra: "otra-skill/…", "../otra-skill", "otra-skill\\…". Nombrar otra
 skill sin ruta ("acepta los apuntes de creador-apuntes") está permitido, porque
@@ -24,7 +24,10 @@ EXTENSIONES = {".md", ".py", ".html", ".css", ".js", ".json", ".txt", ".sh", ".p
 
 
 def skills(raiz: Path) -> list[Path]:
-    return sorted(d for d in raiz.iterdir() if d.is_dir() and (d / "SKILL.md").is_file())
+    carpeta = raiz / "skills"
+    if not carpeta.is_dir():
+        return []
+    return sorted(d for d in carpeta.iterdir() if d.is_dir() and (d / "SKILL.md").is_file())
 
 
 def archivos(skill: Path):

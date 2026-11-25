@@ -1,7 +1,7 @@
 """Tests de los scripts de reescritor-estilo.
 
 Ejecutar desde la raíz del repo (o desde reescritor-estilo):
-    python -m unittest discover -s reescritor-estilo/tests -v
+    python -m unittest discover -s skills/reescritor-estilo/tests -v
 También funcionan con pytest.
 """
 from __future__ import annotations
