@@ -121,8 +121,10 @@ class TestEmpaquetar(unittest.TestCase):
                     self.assertIn(f"{skill.name}/SKILL.md", nombres)
                     self.assertTrue(all(n.startswith(f"{skill.name}/") for n in nombres))
                     for prohibido in ("/tests/", "/examples/", "__pycache__", ".pyc",
-                                      "/README.md", "/prompt-portable.md"):
+                                      "/README.md", "/prompt-portable.md", "/prompt-portable-lite.md"):
                         self.assertFalse(any(prohibido in n for n in nombres), prohibido)
+                    with zipfile.ZipFile(zip_path) as z:  # el SKILL.md va tal cual, con su description completa
+                        self.assertEqual(z.read(f"{skill.name}/SKILL.md"), (skill / "SKILL.md").read_bytes())
                     for ref in (skill / "references").glob("*.md"):
                         self.assertIn(f"{skill.name}/references/{ref.name}", nombres)
 
@@ -161,46 +163,6 @@ class TestPortableLite(unittest.TestCase):
             skill_md = copia / "SKILL.md"
             skill_md.write_text(skill_md.read_text(encoding="utf-8") + "\nRegla nueva.\n", encoding="utf-8")
             self.assertTrue(any("ha cambiado" in p for p in portables.problemas_lite(copia)))
-
-
-class TestClaudeAI(unittest.TestCase):
-    def test_descripcion_corta_existe_y_cabe(self):
-        for skill in SKILLS:
-            with self.subTest(skill.name):
-                ruta = skill / empaquetar.CLAUDE_AI
-                self.assertTrue(ruta.is_file(), f"falta {skill.name}/{empaquetar.CLAUDE_AI}")
-                texto = ruta.read_text(encoding="utf-8").strip()
-                self.assertTrue(texto)
-                self.assertNotIn("\n", texto)
-                self.assertLessEqual(len(texto), 200, f"{skill.name}: {len(texto)} caracteres")
-
-    def test_zip_claude_ai_inyecta_la_descripcion(self):
-        with tempfile.TemporaryDirectory() as normal, tempfile.TemporaryDirectory() as corta:
-            for skill in SKILLS:
-                with self.subTest(skill.name):
-                    z1 = zipfile.ZipFile(empaquetar.empaquetar(skill, Path(normal)))
-                    z2 = zipfile.ZipFile(empaquetar.empaquetar(skill, Path(corta), claude_ai=True))
-                    with z1, z2:
-                        self.assertEqual(z1.namelist(), z2.namelist())
-                        self.assertFalse(any(n.endswith(("claude-ai.txt", "prompt-portable-lite.md"))
-                                             for n in z2.namelist()))
-                        md = z2.read(f"{skill.name}/SKILL.md").decode("utf-8")
-                        campos = frontmatter.leer(md)
-                        self.assertEqual(campos["description"], empaquetar.descripcion_corta(skill))
-                        self.assertEqual(campos["name"], skill.name)
-                        self.assertTrue(set(campos) <= frontmatter.PERMITIDOS)
-                        # el cuerpo del SKILL.md no cambia; el resto de archivos, tampoco
-                        original = (skill / "SKILL.md").read_text(encoding="utf-8")
-                        self.assertEqual(md.split("\n---\n", 1)[1], original.split("\n---\n", 1)[1])
-                        for n in z1.namelist():
-                            if not n.endswith("/SKILL.md"):
-                                self.assertEqual(z1.read(n), z2.read(n), n)
-
-    def test_inyectar_descripcion_de_una_linea(self):
-        md = "---\nname: x\ndescription: Larga, larga.\nlicense: MIT\n---\n\n# X\n"
-        nuevo = empaquetar.inyectar_descripcion(md, "Corta.")
-        self.assertEqual(frontmatter.leer(nuevo), {"name": "x", "description": "Corta.", "license": "MIT"})
-        self.assertTrue(nuevo.endswith("\n# X\n"))
 
 
 if __name__ == "__main__":
