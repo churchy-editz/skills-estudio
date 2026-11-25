@@ -58,7 +58,7 @@ npx skills add churchy-editz/skills-estudio --skill creador-tests   # just one
 npx skills add churchy-editz/skills-estudio -g -a claude-code       # all your projects, Claude Code only
 ```
 
-### b) Claude Code, Codex or Cursor, by copying the folder
+### b) Claude Code, Codex, Cursor or OpenCode, by copying the folder
 
 1. Download the repository: `git clone https://github.com/churchy-editz/skills-estudio.git`
 2. Copy the folder of each skill you want (the whole folder: `SKILL.md`, `scripts/`, `references/` and `assets/`) into your agent's path:
@@ -68,6 +68,7 @@ npx skills add churchy-editz/skills-estudio -g -a claude-code       # all your p
 | Claude Code | `~/.claude/skills/` | `.claude/skills/` |
 | Codex | `~/.agents/skills/` | `.agents/skills/` |
 | Cursor | `~/.cursor/skills/` | `.cursor/skills/` |
+| OpenCode | `~/.config/opencode/skills/` | `.opencode/skills/` |
 
 macOS or Linux:
 
@@ -82,7 +83,9 @@ New-Item -ItemType Directory -Force "$HOME\.claude\skills" | Out-Null
 Copy-Item -Recurse skills-estudio\skills\creador-tests "$HOME\.claude\skills\"
 ```
 
-All three agents pick up new skills on their own. When one doesn't show up, restart the agent. Cursor also reads `.agents/skills/` and `.claude/skills/`.
+Claude Code, Codex and Cursor pick up new skills on their own. When one doesn't show up, restart the agent. Cursor also reads `.agents/skills/` and `.claude/skills/`.
+
+OpenCode also reads `~/.claude/skills/` and `~/.agents/skills/`, so if you already installed them for Claude Code or Codex, there's no need to copy them again.
 
 ### c) Claude.ai, ChatGPT and Gemini
 
