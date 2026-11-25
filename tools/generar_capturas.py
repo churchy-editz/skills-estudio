@@ -9,6 +9,13 @@ Capturas (PNG optimizado con Pillow si está instalado, máx. 300 KB):
   test-pregunta.png    una pregunta respondida, con la explicación visible
   test-resultado.png   la pantalla final con nota y desglose por sección
   reescritor-antes-despues.png  email original marcado ⟦ ⟧ frente a la reescritura
+  corrector-informe.png  parte superior del informe HTML de corrector-trabajos
+  corrector-word.png     página 2 del DOCX comentado, tal como la muestra Word
+
+La captura de Word necesita Windows con Microsoft Word y pypdfium2
+(pip install pypdfium2): Word exporta el DOCX a PDF con los globos de los
+comentarios y pypdfium2 lo convierte en imagen. Si falta alguno, esa captura se
+salta y se avisa; las demás se generan igual.
 
 Los apuntes y el test se capturan como en un móvil grande (720 px de ancho, a
 doble resolución) y se recortan al contenido, para que el texto se lea en el
@@ -133,6 +140,48 @@ def capturar(navegador: str, pagina: Path, salida: Path, ancho: int, alto: int,
         ], check=True, capture_output=True, timeout=120)
 
 
+WORD_A_PDF = r"""
+$ErrorActionPreference = 'Stop'
+$word = New-Object -ComObject Word.Application
+$word.Visible = $false
+try {
+  $doc = $word.Documents.Open($env:CAPTURA_DOCX, $false, $true)
+  $word.ActiveWindow.View.ShowComments = $true
+  $word.ActiveWindow.View.MarkupMode = 0  # globos en el margen
+  # 17 = PDF; 7 = documento con marcas (comentarios incluidos)
+  $doc.ExportAsFixedFormat($env:CAPTURA_PDF, 17, $false, 0, 0, 1, 1, 7)
+  $doc.Close($false)
+} finally { $word.Quit() }
+"""
+
+
+def capturar_word(docx: Path, salida: Path, pagina: int = 1, escala: float = 2.0, fraccion: float = 0.84) -> bool:
+    """Una página del DOCX con los comentarios en globos, como en Word. False si no se puede."""
+    try:
+        import pypdfium2 as pdfium
+    except ImportError:
+        print(f"  {salida.name}: falta pypdfium2 (pip install pypdfium2); se deja la captura anterior")
+        return False
+    powershell = shutil.which("powershell") or shutil.which("pwsh")
+    if not powershell:
+        print(f"  {salida.name}: necesita Windows con Word; se deja la captura anterior")
+        return False
+    with tempfile.TemporaryDirectory() as tmp:
+        pdf = Path(tmp) / "comentado.pdf"
+        entorno = dict(os.environ, CAPTURA_DOCX=str(docx.resolve()), CAPTURA_PDF=str(pdf))
+        r = subprocess.run([powershell, "-NoProfile", "-NonInteractive", "-Command", WORD_A_PDF],
+                           env=entorno, capture_output=True, timeout=180)
+        if r.returncode != 0 or not pdf.is_file():
+            print(f"  {salida.name}: Word no ha podido exportar el PDF; se deja la captura anterior")
+            return False
+        documento = pdfium.PdfDocument(str(pdf))
+        imagen = documento[pagina].render(scale=escala).to_pil().convert("RGB")
+        documento.close()
+    # Página 2 del ejemplo de Bradford: métodos y resultados, con tres comentarios.
+    imagen.crop((0, 0, imagen.width, int(imagen.height * fraccion))).save(salida)
+    return True
+
+
 def recortar(png: Path, escala: int) -> None:
     """Quita los márgenes del color de fondo, dejando MARGEN px alrededor del contenido."""
     try:
@@ -216,12 +265,22 @@ def main(argv: list[str]) -> int:
             despues=parrafos_html((ej / "email-reescrito.md").read_text(encoding="utf-8"), False),
             pie=html.escape(pie)), encoding="utf-8")
         trabajos.append((comparacion, "reescritor-antes-despues.png", ANCHO, 680, 1, "", False))
+        trabajos.append((RAIZ / "skills/corrector-trabajos/examples/correccion-informe-bradford.html",
+                         "corrector-informe.png", ESTRECHO, 1150, 2, "", True))
 
         for pagina, nombre, ancho, alto, escala, ancla, recorte in trabajos:
             salida = DESTINO / nombre
             capturar(navegador, pagina, salida, ancho, alto, escala, ancla)
             if recorte:
                 recortar(salida, escala)
+            optimizar(salida)
+            kb = salida.stat().st_size / 1024
+            aviso = "" if salida.stat().st_size <= MAX_BYTES else "  ← más de 300 KB"
+            print(f"{salida.relative_to(RAIZ).as_posix()}: {kb:.0f} KB{aviso}")
+
+        salida = DESTINO / "corrector-word.png"
+        if capturar_word(RAIZ / "skills/corrector-trabajos/examples/informe-bradford-corregido.docx", salida):
+            recortar(salida, 2)
             optimizar(salida)
             kb = salida.stat().st_size / 1024
             aviso = "" if salida.stat().st_size <= MAX_BYTES else "  ← más de 300 KB"

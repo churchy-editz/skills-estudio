@@ -1,0 +1,587 @@
+{
+ "meta": {
+  "titulo": "Práctica 3. Determinación de la concentración de proteínas por el método de Bradford",
+  "archivo": "informe-bradford.docx",
+  "tipo": "laboratorio",
+  "asignatura": "Bioquímica I",
+  "nivel": "Grado en Bioquímica",
+  "idioma": "es",
+  "estilo_citas": "APA",
+  "rubrica": "por defecto (informe de laboratorio)",
+  "exigencia": "exigente",
+  "fecha": "2026-11-25",
+  "version": 1
+ },
+ "resumen": "Informe completo y bien organizado, con las muestras bien calculadas. Lo que más resta es un volumen de dilución que no cuadra con C1·V1 = C2·V2, una conclusión que compara con un método que no se usó y una cita sin referencia.",
+ "valoracion": {
+  "criterios": [
+   {
+    "id": "C1",
+    "nombre": "Estructura y presentación",
+    "peso": 10,
+    "nota": 7.0,
+    "justificacion": "Todas las secciones están y en orden. Bajan la Figura 2, que no se cita, y tres unidades mal escritas en los métodos."
+   },
+   {
+    "id": "C2",
+    "nombre": "Introducción y objetivos",
+    "peso": 10,
+    "nota": 8.5,
+    "justificacion": "El fundamento del método está explicado con su mecanismo y fuentes, y los dos objetivos se pueden comprobar."
+   },
+   {
+    "id": "C3",
+    "nombre": "Materiales y métodos",
+    "peso": 15,
+    "nota": 6.0,
+    "justificacion": "Los volúmenes y diluciones están completos, pero el de la disolución de trabajo de BSA es diez veces menor que el que sale del cálculo."
+   },
+   {
+    "id": "C4",
+    "nombre": "Resultados",
+    "peso": 25,
+    "nota": 6.5,
+    "justificacion": "Las concentraciones de las muestras son correctas. El R² del texto no es el de la figura, hay interpretación dentro de Resultados y faltan las desviaciones estándar."
+   },
+   {
+    "id": "C5",
+    "nombre": "Discusión",
+    "peso": 20,
+    "nota": 7.0,
+    "justificacion": "Discute datos concretos (el patrón de 0,4 mg/mL, la etiqueta de la leche, el detergente del lisado). La explicación principal de la diferencia con la etiqueta no tiene fuente."
+   },
+   {
+    "id": "C6",
+    "nombre": "Conclusiones",
+    "peso": 10,
+    "nota": 4.5,
+    "justificacion": "Una de las tres conclusiones no sale de los resultados y otra omite la salvedad que la propia discusión plantea."
+   },
+   {
+    "id": "C7",
+    "nombre": "Citas y bibliografía",
+    "peso": 5,
+    "nota": 6.0,
+    "justificacion": "Formato APA consistente, pero una cita del texto no tiene entrada."
+   },
+   {
+    "id": "C8",
+    "nombre": "Redacción",
+    "peso": 5,
+    "nota": 8.5,
+    "justificacion": "Clara e impersonal, con frases de longitud razonable."
+   }
+  ],
+  "global": 6.7
+ },
+ "prioridades": [
+  {
+   "texto": "Corregir el volumen de disolución madre de BSA (2,5 mL, no 0,25 mL) o, si de verdad se pipetearon 0,25 mL, repetir la recta.",
+   "comentarios": [
+    "k01"
+   ]
+  },
+  {
+   "texto": "Quitar de las conclusiones la comparación con Lowry y añadir la salvedad del lisado.",
+   "comentarios": [
+    "k02",
+    "k09"
+   ]
+  },
+  {
+   "texto": "Completar la bibliografía con Compton y Jones (1985) y apoyar con una fuente la explicación de la diferencia con la etiqueta.",
+   "comentarios": [
+    "k03",
+    "k08"
+   ]
+  }
+ ],
+ "puntos_fuertes": [
+  {
+   "texto": "La Tabla 1 da para cada patrón los volúmenes de BSA y de agua, así que la recta se puede reproducir sin el guion.",
+   "ubicacion": "Tabla 1"
+  },
+  {
+   "texto": "Las tres concentraciones de la Tabla 2 están bien calculadas: el recálculo con la recta y los factores de dilución da 26,43, 7,03 y 1,48 mg/mL.",
+   "ubicacion": "Tabla 2"
+  },
+  {
+   "texto": "La discusión no se queda en «errores de pipeteo» genéricos: señala el patrón que se aparta de la recta y la posible interferencia del detergente en el lisado.",
+   "ubicacion": "5. Discusión"
+  }
+ ],
+ "comentarios": [
+  {
+   "id": "k01",
+   "cita": "se tomaron 0,25 mL de la disolución madre",
+   "ubicacion": {
+    "seccion": "3.2. Recta de calibrado",
+    "parrafo": 1
+   },
+   "gravedad": "critico",
+   "categoria": "calculo",
+   "que_falla": "Con C1·V1 = C2·V2, preparar 10 mL a 0,5 mg/mL desde una madre de 2 mg/mL exige 2,5 mL de madre, no 0,25 mL.",
+   "por_que_importa": "Con 0,25 mL la disolución de trabajo saldría a 0,05 mg/mL y todos los patrones de la Tabla 1 serían diez veces más diluidos. Las absorbancias encajan con 0,5 mg/mL, así que lo probable es una errata, pero tal como está escrito el método no se puede reproducir.",
+   "como_arreglarlo": "Mira en el cuaderno qué volumen pipeteaste y corrige el dato. Si de verdad fueron 0,25 mL, la recta no vale y hay que repetirla.",
+   "criterio": "C3",
+   "comprobacion": "c1"
+  },
+  {
+   "id": "k02",
+   "cita": "el método de Bradford es más preciso que el de Lowry",
+   "ubicacion": {
+    "seccion": "6. Conclusiones",
+    "parrafo": 3
+   },
+   "gravedad": "critico",
+   "categoria": "coherencia",
+   "que_falla": "En la práctica no se aplicó el método de Lowry, así que los datos no permiten comparar la precisión de los dos.",
+   "por_que_importa": "Es una conclusión que no sale de tus resultados, y en un informe es de lo que más se penaliza: indica que no se distingue lo medido de lo leído.",
+   "como_arreglarlo": "Quítala. Si te interesa la comparación, llévala a la discusión como dato bibliográfico, con su fuente.",
+   "criterio": "C6"
+  },
+  {
+   "id": "k03",
+   "cita": "(Compton y Jones, 1985)",
+   "ubicacion": {
+    "seccion": "1. Introducción",
+    "parrafo": 2
+   },
+   "gravedad": "critico",
+   "categoria": "citas",
+   "que_falla": "Esta cita no tiene entrada en la bibliografía.",
+   "por_que_importa": "Sostiene el mecanismo de unión del colorante, que es el fundamento de toda la práctica. Sin la referencia completa, nadie puede ir a la fuente.",
+   "como_arreglarlo": "Añade la entrada en APA, con el mismo formato que las otras tres.",
+   "criterio": "C7"
+  },
+  {
+   "id": "k04",
+   "cita": "R² = 0,9943",
+   "ubicacion": {
+    "seccion": "4. Resultados",
+    "parrafo": 2
+   },
+   "gravedad": "importante",
+   "categoria": "calculo",
+   "que_falla": "El R² del texto (0,9943) no coincide con el de la Figura 1 (0,9934). Recalculado con los datos de la Tabla 1 sale 0,9934, así que el correcto es el de la figura.",
+   "por_que_importa": "El R² es el dato que justifica usar la recta para interpolar. Si el texto y la figura dan valores distintos, el lector no sabe cuál vale.",
+   "como_arreglarlo": "Copia en el texto el valor de la figura.",
+   "criterio": "C4",
+   "comprobacion": "c3.r2"
+  },
+  {
+   "id": "k05",
+   "cita": "lo que confirma que la respuesta es lineal en todo el intervalo estudiado",
+   "ubicacion": {
+    "seccion": "4. Resultados",
+    "parrafo": 2
+   },
+   "gravedad": "importante",
+   "categoria": "resultados_discusion",
+   "que_falla": "Esta frase interpreta dentro de Resultados y, además, afirma más de lo que dice un R².",
+   "por_que_importa": "Un R² alto es compatible con un punto que se aparta, y en la discusión explicas que el de 0,4 mg/mL lo hace. Resultados y discusión acaban diciendo cosas distintas.",
+   "como_arreglarlo": "Deja en Resultados la ecuación y el R², sin valorarlos. La valoración del ajuste va en la Discusión, junto al comentario del patrón de 0,4 mg/mL.",
+   "criterio": "C4"
+  },
+  {
+   "id": "k06",
+   "cita": "Figura 2. Concentración de proteína de las tres muestras problema",
+   "ubicacion": {
+    "seccion": "4. Resultados"
+   },
+   "gravedad": "importante",
+   "categoria": "figuras_tablas",
+   "que_falla": "La Figura 2 no se cita en ningún sitio del texto, y repite los datos de la Tabla 2.",
+   "por_que_importa": "Una figura que el texto no menciona queda suelta. Quien lee no sabe cuándo mirarla ni qué tiene que ver en ella.",
+   "como_arreglarlo": "Decide si aporta algo que la tabla no da. Si la mantienes, cítala en el párrafo de las muestras; si no, quítala y deja solo la tabla.",
+   "criterio": "C1"
+  },
+  {
+   "id": "k07",
+   "cita": "Absorbancia media (n = 3)",
+   "ubicacion": {
+    "seccion": "4. Resultados",
+    "parrafo": "leyenda de la Tabla 2"
+   },
+   "gravedad": "importante",
+   "categoria": "resultados_discusion",
+   "que_falla": "Las dos tablas dan la media de tres réplicas, pero no su desviación estándar.",
+   "por_que_importa": "Sin la dispersión no se puede saber si el patrón de 0,4 mg/mL se aparta por un error de pipeteo, como dice la discusión, o por el ruido normal de la medida.",
+   "como_arreglarlo": "Añade a las Tablas 1 y 2 una columna con la desviación estándar, o barras de error en la Figura 1.",
+   "criterio": "C4"
+  },
+  {
+   "id": "k08",
+   "cita": "la BSA da más color por miligramo que la caseína",
+   "ubicacion": {
+    "seccion": "5. Discusión",
+    "parrafo": 2
+   },
+   "gravedad": "importante",
+   "categoria": "contenido",
+   "que_falla": "Es una explicación razonable de la diferencia con la etiqueta, pero va sin fuente y no está cuantificada.",
+   "por_que_importa": "Toda la discusión de la leche descansa en esta idea. Si es cierta, explica buena parte del 22 % que falta respecto a la etiqueta; si no lo es, la discusión se queda sin argumento.",
+   "como_arreglarlo": "Busca la respuesta relativa de la caseína frente a la BSA en el método de Bradford y cítala. Pon además los dos valores en la misma unidad (34 g/L son 34 mg/mL) y da la diferencia en porcentaje.",
+   "criterio": "C5",
+   "verificar": true
+  },
+  {
+   "id": "k09",
+   "cita": "el lisado de E. coli 1,48 mg/mL",
+   "ubicacion": {
+    "seccion": "6. Conclusiones",
+    "parrafo": 2
+   },
+   "gravedad": "importante",
+   "categoria": "coherencia",
+   "que_falla": "La conclusión da el valor del lisado sin la reserva que planteas en la discusión: el detergente del tampón puede interferir y no se midió su blanco.",
+   "por_que_importa": "Si la discusión duda del dato y la conclusión lo da como seguro, el informe se contradice.",
+   "como_arreglarlo": "Añade la salvedad a la conclusión del lisado. Si puedes repetir la medida, mide el tampón de lisis como blanco.",
+   "criterio": "C6"
+  },
+  {
+   "id": "k10",
+   "cita": "595nm",
+   "ubicacion": {
+    "seccion": "3. Materiales y métodos"
+   },
+   "gravedad": "menor",
+   "categoria": "cifras_unidades",
+   "casos": 3,
+   "que_falla": "Hay tres unidades mal escritas en los métodos: «595nm» va sin espacio, «20 ul» debería ser «20 µL» y «5 mins» debería ser «5 min».",
+   "por_que_importa": "Son detalles de forma, pero las unidades del SI tienen una escritura fija y en un informe científico se descuentan.",
+   "como_arreglarlo": "Separa la cifra de la unidad, usa µ para micro y escribe min sin plural, como ya haces en el resto del informe.",
+   "criterio": "C1"
+  }
+ ],
+ "comprobaciones": {
+  "estructura": {
+   "tipo": "laboratorio",
+   "secciones": {
+    "titulos": [
+     {
+      "texto": "1. Introducción",
+      "nivel": 1,
+      "seccion": "introduccion"
+     },
+     {
+      "texto": "2. Objetivos",
+      "nivel": 1,
+      "seccion": "objetivos"
+     },
+     {
+      "texto": "3. Materiales y métodos",
+      "nivel": 1,
+      "seccion": "metodos"
+     },
+     {
+      "texto": "3.1. Reactivos y equipos",
+      "nivel": 2,
+      "seccion": "metodos"
+     },
+     {
+      "texto": "3.2. Recta de calibrado",
+      "nivel": 2,
+      "seccion": "metodos"
+     },
+     {
+      "texto": "3.3. Muestras problema",
+      "nivel": 2,
+      "seccion": "metodos"
+     },
+     {
+      "texto": "4. Resultados",
+      "nivel": 1,
+      "seccion": "resultados"
+     },
+     {
+      "texto": "5. Discusión",
+      "nivel": 1,
+      "seccion": "discusion"
+     },
+     {
+      "texto": "6. Conclusiones",
+      "nivel": 1,
+      "seccion": "conclusiones"
+     },
+     {
+      "texto": "7. Bibliografía",
+      "nivel": 1,
+      "seccion": "bibliografia"
+     }
+    ],
+    "presentes": [
+     "Introducción",
+     "Objetivos",
+     "Materiales y métodos",
+     "Resultados",
+     "Discusión",
+     "Conclusiones",
+     "Bibliografía"
+    ],
+    "faltan": [],
+    "recomendadas": [],
+    "orden": []
+   },
+   "figuras_tablas": {
+    "figura": {
+     "leyendas": [
+      "1",
+      "2"
+     ],
+     "citadas": [
+      "1"
+     ]
+    },
+    "tabla": {
+     "leyendas": [
+      "1",
+      "2"
+     ],
+     "citadas": [
+      "1",
+      "2"
+     ]
+    },
+    "imagenes": 2,
+    "tablas": 2
+   },
+   "avisos": [
+    {
+     "tipo": "sin_citar",
+     "gravedad": "importante",
+     "seccion": "4. Resultados",
+     "detalle": "Figura 2 no se cita en el texto",
+     "leyenda": "Figura 2. Concentración de proteína de las tres muestras problema, en mg/mL de muestra sin diluir."
+    }
+   ]
+  },
+  "referencias": {
+   "estilo": "APA",
+   "entradas": 3,
+   "estilos_bibliografia": {
+    "APA": 3
+   },
+   "citas": {
+    "autor_anio": 4,
+    "numericas": 0,
+    "latex": 0
+   },
+   "avisos": [
+    {
+     "tipo": "cita_sin_entrada",
+     "gravedad": "critico",
+     "seccion": "1. Introducción",
+     "cita": "(Compton y Jones, 1985)",
+     "detalle": "(Compton y Jones, 1985) no está en la bibliografía"
+    }
+   ]
+  },
+  "numeros": {
+   "separador_decimal": ",",
+   "avisos": [
+    {
+     "tipo": "valor_inconsistente",
+     "gravedad": "importante",
+     "seccion": "4. Resultados",
+     "detalle": "R² aparece con valores distintos: 0,9943 en «4. Resultados»; 0,9934 en «4. Resultados»",
+     "casos": [
+      "…iciente de determinación R² = 0,9943, lo que confirma que la…",
+      "…n. y = 0,5951x + 0,0047; R² = 0,9934."
+     ]
+    },
+    {
+     "tipo": "unidad_mal_escrita",
+     "gravedad": "menor",
+     "seccion": "3.2. Recta de calibrado",
+     "detalle": "«ul» → µL (1 caso)",
+     "casos": [
+      "En cada pocillo se pusieron 20 ul de patrón o de muestra y 200 µL de reac…"
+     ]
+    },
+    {
+     "tipo": "unidad_mal_escrita",
+     "gravedad": "menor",
+     "seccion": "3.2. Recta de calibrado",
+     "detalle": "«mins» → min (1 caso)",
+     "casos": [
+      "…La placa se agitó suavemente, se incubó 5 mins en oscuridad y se leyó la absorbancia.…"
+     ]
+    },
+    {
+     "tipo": "unidad_sin_espacio",
+     "gravedad": "menor",
+     "seccion": "3.1. Reactivos y equipos",
+     "detalle": "1 cifra(s) pegada(s) a la unidad: 595nm (entre la cifra y la unidad va un espacio)",
+     "casos": [
+      "…ano y un lector de placas con filtro de 595nm. Todas las medidas se hicieron a temper…"
+     ]
+    }
+   ]
+  },
+  "calculos": {
+   "tolerancia": 0.02,
+   "resultados": [
+    {
+     "id": "c1",
+     "tipo": "dilucion",
+     "ubicacion": "3.2. Recta de calibrado, párr. 1",
+     "formula": "C1·V1 = C2·V2 → V1 = C2·V2 / C1",
+     "valores": "C1 = 2.000, C2 = 0.5000, V2 = 10.00",
+     "resultado": 2.5,
+     "resultado_texto": "2.500 mL",
+     "unidad": "mL",
+     "declarado": "0,25",
+     "coincide": false,
+     "diferencia_rel": 0.9,
+     "nota": ""
+    },
+    {
+     "id": "c2",
+     "tipo": "dilucion",
+     "ubicacion": "Tabla 1, patrón de 0,1 mg/mL",
+     "formula": "C1·V1 = C2·V2 → C2 = C1·V1 / V2",
+     "valores": "C1 = 0.5000, V1 = 20.00, V2 = 100.0",
+     "resultado": 0.1,
+     "resultado_texto": "0.1000 mg/mL",
+     "unidad": "mg/mL",
+     "declarado": "0,1",
+     "coincide": true,
+     "diferencia_rel": 0.0,
+     "nota": ""
+    },
+    {
+     "id": "c3.pendiente",
+     "tipo": "calibrado",
+     "ubicacion": "4. Resultados, párr. 2 (texto)",
+     "formula": "m = Sxy / Sxx (mínimos cuadrados)",
+     "valores": "6 puntos, x de 0 a 0.5000",
+     "resultado": 0.5951428571428572,
+     "resultado_texto": "0.5951 A595/(mg/mL)",
+     "unidad": "A595/(mg/mL)",
+     "declarado": "0,5951",
+     "coincide": true,
+     "diferencia_rel": 7.2e-05,
+     "nota": ""
+    },
+    {
+     "id": "c3.ordenada",
+     "tipo": "calibrado",
+     "ubicacion": "4. Resultados, párr. 2 (texto)",
+     "formula": "b = ȳ − m·x̄",
+     "valores": "6 puntos, x de 0 a 0.5000",
+     "resultado": 0.004714285714285699,
+     "resultado_texto": "0.004714 A595",
+     "unidad": "A595",
+     "declarado": "0,0047",
+     "coincide": true,
+     "diferencia_rel": 0.00303,
+     "nota": ""
+    },
+    {
+     "id": "c3.r2",
+     "tipo": "calibrado",
+     "ubicacion": "4. Resultados, párr. 2 (texto)",
+     "formula": "R² = 1 − SSres / SStot",
+     "valores": "6 puntos, x de 0 a 0.5000",
+     "resultado": 0.9934388769892468,
+     "resultado_texto": "0.9934",
+     "unidad": "",
+     "declarado": "0,9943",
+     "coincide": false,
+     "diferencia_rel": 0.000867,
+     "nota": ""
+    },
+    {
+     "id": "c3.A",
+     "tipo": "calibrado",
+     "ubicacion": "Tabla 2",
+     "formula": "x = (y − b) / m · factor de dilución",
+     "valores": "muestra A: y = 0.1620, m = 0.5951, b = 0.004714, factor = 100.0",
+     "resultado": 26.42822851656265,
+     "resultado_texto": "26.43 mg/mL",
+     "unidad": "mg/mL",
+     "declarado": "26,4",
+     "coincide": true,
+     "diferencia_rel": 0.001068,
+     "nota": ""
+    },
+    {
+     "id": "c3.B",
+     "tipo": "calibrado",
+     "ubicacion": "Tabla 2",
+     "formula": "x = (y − b) / m · factor de dilución",
+     "valores": "muestra B: y = 0.2140, m = 0.5951, b = 0.004714, factor = 20.00",
+     "resultado": 7.033125300048008,
+     "resultado_texto": "7.033 mg/mL",
+     "unidad": "mg/mL",
+     "declarado": "7,03",
+     "coincide": true,
+     "diferencia_rel": 0.000444,
+     "nota": ""
+    },
+    {
+     "id": "c3.C",
+     "tipo": "calibrado",
+     "ubicacion": "Tabla 2",
+     "formula": "x = (y − b) / m · factor de dilución",
+     "valores": "muestra C: y = 0.09300, m = 0.5951, b = 0.004714, factor = 10.00",
+     "resultado": 1.483437349975996,
+     "resultado_texto": "1.483 mg/mL",
+     "unidad": "mg/mL",
+     "declarado": "1,48",
+     "coincide": true,
+     "diferencia_rel": 0.002317,
+     "nota": ""
+    },
+    {
+     "id": "c4.pendiente",
+     "tipo": "calibrado",
+     "ubicacion": "Figura 1 (leyenda)",
+     "formula": "m = Sxy / Sxx (mínimos cuadrados)",
+     "valores": "6 puntos, x de 0 a 0.5000",
+     "resultado": 0.5951428571428572,
+     "resultado_texto": "0.5951 A595/(mg/mL)",
+     "unidad": "A595/(mg/mL)",
+     "declarado": null,
+     "coincide": null,
+     "diferencia_rel": null,
+     "nota": ""
+    },
+    {
+     "id": "c4.ordenada",
+     "tipo": "calibrado",
+     "ubicacion": "Figura 1 (leyenda)",
+     "formula": "b = ȳ − m·x̄",
+     "valores": "6 puntos, x de 0 a 0.5000",
+     "resultado": 0.004714285714285699,
+     "resultado_texto": "0.004714 A595",
+     "unidad": "A595",
+     "declarado": null,
+     "coincide": null,
+     "diferencia_rel": null,
+     "nota": ""
+    },
+    {
+     "id": "c4.r2",
+     "tipo": "calibrado",
+     "ubicacion": "Figura 1 (leyenda)",
+     "formula": "R² = 1 − SSres / SStot",
+     "valores": "6 puntos, x de 0 a 0.5000",
+     "resultado": 0.9934388769892468,
+     "resultado_texto": "0.9934",
+     "unidad": "",
+     "declarado": "0,9934",
+     "coincide": true,
+     "diferencia_rel": 3.9e-05,
+     "nota": ""
+    }
+   ],
+   "errores": [],
+   "no_coinciden": [
+    "c1",
+    "c3.r2"
+   ]
+  }
+ }
+}

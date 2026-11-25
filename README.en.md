@@ -2,13 +2,13 @@
 
 [Español](README.md) · **English**
 
-Three skills for AI agents: they turn study material into notes and practice tests, and rewrite texts so they read as written by a person. Built for students, people preparing for civil-service exams, and teachers.
+Four skills for AI agents: they turn study material into notes and practice tests, rewrite texts so they read as written by a person, and mark university assignments the way a lecturer would. Built for students, people preparing for civil-service exams, and teachers.
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Tests](https://github.com/churchy-editz/skills-estudio/actions/workflows/validar.yml/badge.svg)](https://github.com/churchy-editz/skills-estudio/actions/workflows/validar.yml)
 [![Agent Skills compatible](https://img.shields.io/badge/Agent%20Skills-compatible-6f42c1.svg)](https://agentskills.io)
 
-The skills' instructions are written in Spanish and they work in Spanish and English: they answer in the language of the material or the conversation.
+The skills' instructions are written in Spanish and they work in Spanish and English (corrector-trabajos also in Basque): they answer in the language of the material or the conversation.
 
 ## The skills
 
@@ -39,6 +39,16 @@ Rewrites a text so it sounds natural and fits its register (academic, profession
 ![Original email with its filler phrases marked, next to the rewrite](docs/img/reescritor-antes-despues.png)
 
 > "Make this email sound more natural without changing any of the details."
+
+### corrector-trabajos (assignment feedback)
+
+Marks lab reports, internship and project reports, final-year projects, essays and literature reviews. Every comment quotes the exact sentence, explains what is wrong and why, and says how to fix it, but the work itself is never rewritten. Lab calculations are redone with a script before anything is called a mistake, and citations are checked against the reference list. The output is an HTML report with an indicative grade per criterion and, when the assignment is a DOCX, a copy with Word comments.
+
+| Report with the grade per criterion | Comments in Word |
+|---|---|
+| ![Feedback report with an indicative grade of 6.7 and the criteria table](docs/img/corrector-informe.png) | ![Lab report open in Word with margin comments about a dilution and the R²](docs/img/corrector-word.png) |
+
+> "Review my lab report before I hand it in: what grade would it get?"
 
 ## Installation
 
@@ -101,7 +111,7 @@ Without code execution, both files say which checks to do by hand.
 ## Requirements
 
 - Python 3.11 or later for the scripts, which only use the standard library.
-- [python-docx](https://pypi.org/project/python-docx/), only for Word output: `python -m pip install python-docx`. The script that needs it prints the exact command when it's missing.
+- [python-docx](https://pypi.org/project/python-docx/), only for reading and writing Word files (including the feedback comments): `python -m pip install python-docx`. The script that needs it prints the exact command when it's missing.
 
 ## How the skills avoid sounding like AI
 
@@ -118,6 +128,7 @@ In academic settings, follow your institution's rules on AI use. The rewriter is
 - **Tests:** from the repo root, with Python 3.11 or later and python-docx installed:
 
 ```bash
+python -m unittest discover -s skills/corrector-trabajos/tests
 python -m unittest discover -s skills/creador-apuntes/tests
 python -m unittest discover -s skills/creador-tests/tests
 python -m unittest discover -s skills/reescritor-estilo/tests

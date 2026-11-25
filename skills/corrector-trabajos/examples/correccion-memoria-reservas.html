@@ -1,0 +1,122 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Práctica 2. API REST para reservar puestos de laboratorio</title><style>:root{--fondo:#fdfdfd;--texto:#1a1c24;--menor:#1d4e89;--fuerte:#2f6b4f;--critico:#b3261e;--importante:#8a4b00;--fuente:system-ui, "Segoe UI", Roboto, Arial, sans-serif;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.55 var(--fuente)}
+main{max-width:920px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:1.6rem;margin:0 0 4px;line-height:1.25}
+h2{font-size:1.2rem;margin:36px 0 12px;padding-bottom:4px;border-bottom:2px solid color-mix(in srgb,var(--texto) 15%,var(--fondo))}
+h3{font-size:1rem;margin:20px 0 8px}
+.meta{color:color-mix(in srgb,var(--texto) 72%,var(--fondo));font-size:.92rem;margin:0}
+.aviso{border-left:4px solid var(--importante);background:color-mix(in srgb,var(--importante) 9%,var(--fondo));padding:10px 14px;margin:18px 0;font-size:.93rem}
+.nota{display:flex;gap:22px;align-items:center;flex-wrap:wrap;margin:18px 0}
+.nota .cifra{font-size:2.6rem;font-weight:700;line-height:1}
+.nota .cifra small{font-size:1rem;font-weight:400}
+.recuento{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1.5px solid currentColor;border-radius:999px;padding:2px 10px;font-size:.85rem;font-weight:600}
+.critico{color:var(--critico)}.importante{color:var(--importante)}.menor{color:var(--menor)}.fuerte{color:var(--fuerte)}
+table{border-collapse:collapse;width:100%;font-size:.92rem;margin:8px 0}
+th,td{border-bottom:1px solid color-mix(in srgb,var(--texto) 14%,var(--fondo));padding:7px 8px;text-align:left;vertical-align:top}
+th{font-weight:600}
+td.n{text-align:right;white-space:nowrap}
+.barra{height:8px;background:color-mix(in srgb,var(--texto) 10%,var(--fondo));border-radius:4px;min-width:80px}
+.barra span{display:block;height:100%;border-radius:4px;background:var(--menor)}
+ol.prioridades{padding-left:1.3em}ol.prioridades li{margin:6px 0}
+ul.fuertes{list-style:none;padding:0}
+ul.fuertes li{border-left:4px solid var(--fuerte);background:color-mix(in srgb,var(--fuerte) 8%,var(--fondo));padding:8px 12px;margin:8px 0}
+ul.fuertes li b{color:var(--fuerte)}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.filtros button{font:inherit;font-size:.88rem;padding:4px 12px;border-radius:999px;border:1.5px solid color-mix(in srgb,var(--texto) 35%,var(--fondo));background:var(--fondo);color:var(--texto);cursor:pointer}
+.filtros button[aria-pressed=true]{background:var(--texto);color:var(--fondo);border-color:var(--texto)}
+.filtros button:focus-visible{outline:3px solid var(--menor);outline-offset:2px}
+article.c{border:1px solid color-mix(in srgb,var(--texto) 16%,var(--fondo));border-left:5px solid var(--g);border-radius:6px;padding:12px 16px;margin:14px 0;break-inside:avoid}
+article.c[data-g=critico]{--g:var(--critico)}article.c[data-g=importante]{--g:var(--importante)}article.c[data-g=menor]{--g:var(--menor)}
+.cab{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:.86rem}
+.cab .g{font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--g)}
+.cab .donde{color:color-mix(in srgb,var(--texto) 70%,var(--fondo))}
+blockquote{margin:8px 0;padding:6px 12px;border-left:3px solid color-mix(in srgb,var(--texto) 25%,var(--fondo));background:color-mix(in srgb,var(--texto) 4%,var(--fondo));font-style:italic}
+dl{margin:6px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px}
+dt{font-weight:600}dd{margin:0}
+.ej{font-style:italic}
+.ok{color:var(--fuerte);font-weight:600}.mal{color:var(--critico);font-weight:600}.nd{color:color-mix(in srgb,var(--texto) 60%,var(--fondo))}
+code{font-size:.88em;background:color-mix(in srgb,var(--texto) 6%,var(--fondo));padding:1px 4px;border-radius:3px}
+footer{margin-top:40px;font-size:.85rem;color:color-mix(in srgb,var(--texto) 65%,var(--fondo))}
+@media (max-width:620px){dl{grid-template-columns:1fr}.nota .cifra{font-size:2.1rem}table{font-size:.85rem}}
+@media print{.filtros{display:none}article.c{display:block!important}main{padding:0}body{font-size:11pt}h2{break-after:avoid}}
+</style></head><body><main>
+<h1>Práctica 2. API REST para reservar puestos de laboratorio</h1>
+<p class="meta">Memoria de prácticas / informe técnico · Ingeniería del Software · Grado en Ingeniería Informática · 2026-11-25</p>
+<p class="meta">Rúbrica: por defecto (memoria de prácticas o informe técnico) · exigente</p>
+<div class="nota"><div><div class="cifra">6,4<small> / 10</small></div><div class="meta">Nota orientativa</div></div><div class="recuento"><span class="chip critico">2 críticos</span><span class="chip importante">3 importantes</span><span class="chip menor">2 menores</span></div></div>
+<p class="aviso">Valoración orientativa. La nota real la pone tu profesor con su rúbrica; esta sirve para saber dónde se pierden puntos.</p>
+<p>El análisis, el diseño y la implementación están bien contados. Lo que más resta son las pruebas: se describen, pero sin resultados, y el objetivo de rendimiento (O3) no se mide en ningún momento.</p>
+<table><thead><tr><th>Criterio</th><th class="n">Peso</th><th class="n">Nota</th><th aria-hidden="true"></th><th>Por qué</th></tr></thead><tbody>
+<tr><td>Estructura y presentación</td><td class="n">10 %</td><td class="n">7,0</td><td><div class="barra"><span style="width:70%"></span></div></td><td>Están todas las secciones esperadas. La Figura 1 no se cita y la «Figura 2» es un párrafo de texto.</td></tr>
+<tr><td>Objetivos y análisis</td><td class="n">15 %</td><td class="n">8,0</td><td><div class="barra"><span style="width:80%"></span></div></td><td>Los objetivos son medibles y los requisitos salen de entrevistas con usuarios reales.</td></tr>
+<tr><td>Diseño</td><td class="n">20 %</td><td class="n">6,5</td><td><div class="barra"><span style="width:65%"></span></div></td><td>Flask y la arquitectura en capas están justificados, pero la elección de MongoDB no.</td></tr>
+<tr><td>Implementación</td><td class="n">15 %</td><td class="n">7,5</td><td><div class="barra"><span style="width:75%"></span></div></td><td>Explica lo difícil (solapamientos con peticiones simultáneas y formato de errores). Falta aclarar en qué condiciones funciona la transacción.</td></tr>
+<tr><td>Pruebas y resultados</td><td class="n">20 %</td><td class="n">3,5</td><td><div class="barra"><span style="width:35%"></span></div></td><td>Las pruebas se describen, pero no se da ningún resultado, y O3 no se evalúa.</td></tr>
+<tr><td>Conclusiones</td><td class="n">10 %</td><td class="n">5,5</td><td><div class="barra"><span style="width:55%"></span></div></td><td>Dan O1, O2 y O4 por cumplidos sin remitir a ninguna prueba y no mencionan O3.</td></tr>
+<tr><td>Redacción y fuentes</td><td class="n">10 %</td><td class="n">8,0</td><td><div class="barra"><span style="width:80%"></span></div></td><td>Redacción clara y fuentes citadas. A la referencia web le falta la fecha de consulta.</td></tr>
+</tbody></table>
+<h2>Los 3 cambios que más suben la nota</h2><ol class="prioridades">
+<li>Dar los resultados de las pruebas (casos, superados, cobertura) y relacionarlos con cada objetivo. (<a href="#m02">m02</a>)</li>
+<li>Medir el tiempo de respuesta con 50 usuarios para evaluar O3, o explicar en las conclusiones por qué no se evaluó. (<a href="#m01">m01</a>)</li>
+<li>Justificar MongoDB y aclarar cómo se garantiza la transacción de las reservas en vuestro despliegue. (<a href="#m03">m03</a> <a href="#m05">m05</a>)</li>
+</ol>
+<h2>Puntos fuertes</h2><ul class="fuertes">
+<li>La elección de Flask se justifica con dos motivos concretos frente a una alternativa: el equipo ya lo conocía y la API no necesita lo que aporta Django. <span class="nd">(4. Diseño)</span></li>
+<li>La Tabla 1 resume los endpoints con método, ruta y descripción, y con ella se entiende la API de un vistazo. <span class="nd">(Tabla 1)</span></li>
+<li>Las conclusiones cuentan un fallo real que encontrasteis (dos reservas del mismo hueco con peticiones simultáneas) y cómo lo resolvisteis. <span class="nd">(7. Conclusiones)</span></li>
+</ul>
+<h2>Comentarios (7)</h2>
+<div class="filtros" role="group" aria-label="Comentarios"><button type="button" data-g="todos" aria-pressed="true">Todos</button><button type="button" data-g="critico" aria-pressed="false">Crítico (2)</button><button type="button" data-g="importante" aria-pressed="false">Importante (3)</button><button type="button" data-g="menor" aria-pressed="false">Menor (2)</button></div>
+<article class="c" id="m01" data-g="critico"><div class="cab"><span class="g">Crítico</span><span>m01</span><span class="donde">2. Objetivos</span><span class="donde">C5 · Pruebas y resultados</span></div>
+<blockquote>O3. Conseguir un tiempo de respuesta medio inferior a 200 ms con 50 usuarios concurrentes.</blockquote><dl>
+<dt>Qué falla</dt><dd>Nadie vuelve a hablar de O3: ni las pruebas ni las conclusiones dan un solo tiempo de respuesta, y las conclusiones lo saltan sin explicarlo.</dd>
+<dt>Por qué importa</dt><dd>Un objetivo con una cifra promete una medida. Si la medida no aparece, quien evalúa entiende que no se cumplió o que no se comprobó.</dd>
+<dt>Cómo arreglarlo</dt><dd>Haz una prueba de carga con 50 usuarios (Locust o JMeter sirven) y da el tiempo medio y el percentil 95. Si no hay tiempo, di en las conclusiones que O3 queda sin evaluar y por qué.</dd>
+</dl></article>
+<article class="c" id="m02" data-g="critico"><div class="cab"><span class="g">Crítico</span><span>m02</span><span class="donde">6. Pruebas, párr. 1</span><span class="donde">C5 · Pruebas y resultados</span></div>
+<blockquote>Para las pruebas unitarias se usó pytest.</blockquote><dl>
+<dt>Qué falla</dt><dd>La sección cuenta qué se probó, pero no qué salió: no dice cuántas pruebas hay, cuántas pasan ni qué cobertura tienen.</dd>
+<dt>Por qué importa</dt><dd>Las conclusiones dan por cumplidos O1, O2 y O4, y sin resultados de pruebas esa afirmación no tiene en qué apoyarse.</dd>
+<dt>Cómo arreglarlo</dt><dd>Añade una tabla con cada grupo de pruebas, su número de casos, los superados y la cobertura (pytest-cov la calcula). Indica qué objetivo o requisito comprueba cada grupo.</dd>
+</dl></article>
+<article class="c" id="m03" data-g="importante"><div class="cab"><span class="g">Importante</span><span>m03</span><span class="donde">4. Diseño, párr. 2</span><span class="donde">C3 · Diseño</span></div>
+<blockquote>Se eligió MongoDB como base de datos.</blockquote><dl>
+<dt>Qué falla</dt><dd>Es la única decisión de diseño importante sin justificar, y llega justo después de una buena justificación de Flask.</dd>
+<dt>Por qué importa</dt><dd>El modelo de la Figura 1 son cuatro entidades relacionadas entre sí, que es el caso en que una base relacional suele encajar mejor. Sin un motivo, la elección parece arbitraria.</dd>
+<dt>Cómo arreglarlo</dt><dd>Di qué ganabais con MongoDB frente a PostgreSQL o SQLite: esquema flexible, experiencia del equipo, un requisito de la asignatura… Si no hay un motivo, plantéate cambiarla.</dd>
+</dl></article>
+<article class="c" id="m04" data-g="importante"><div class="cab"><span class="g">Importante</span><span>m04</span><span class="donde">4. Diseño</span><span class="donde">C1 · Estructura y presentación</span></div>
+<blockquote>Figura 1. Diagrama de clases del modelo de dominio.</blockquote><dl>
+<dt>Qué falla</dt><dd>El texto no remite a la Figura 1 en ningún momento.</dd>
+<dt>Por qué importa</dt><dd>El párrafo anterior describe las mismas cuatro entidades. Sin la referencia no se ve que el diagrama las detalla con sus atributos y cardinalidades.</dd>
+<dt>Cómo arreglarlo</dt><dd>Cita la figura en ese párrafo y comenta algo que solo se ve en el diagrama, como la cardinalidad entre Puesto y Laboratorio.</dd>
+</dl></article>
+<article class="c" id="m05" data-g="importante"><div class="cab"><span class="g">Importante</span><span>m05</span><span class="donde">5. Implementación, párr. 1</span><span class="donde">C4 · Implementación</span><span class="chip importante">Verificar con la bibliografía</span></div>
+<blockquote>El servicio hace esa consulta y la inserción dentro de una transacción</blockquote><dl>
+<dt>Qué falla</dt><dd>En MongoDB, las transacciones que abarcan varios documentos solo funcionan si la base está desplegada como conjunto de réplicas (replica set), y la memoria no dice cómo se desplegó.</dd>
+<dt>Por qué importa</dt><dd>Esta transacción es lo que garantiza O2. Si no se aplica, podría repetirse el problema de las dos reservas simultáneas que contáis en las conclusiones.</dd>
+<dt>Cómo arreglarlo</dt><dd>Comprueba la configuración que usasteis y menciónala en Implementación. Una prueba con peticiones concurrentes demostraría que funciona.</dd>
+</dl></article>
+<article class="c" id="m06" data-g="menor"><div class="cab"><span class="g">Menor</span><span>m06</span><span class="donde">5. Implementación</span><span class="donde">C1 · Estructura y presentación</span></div>
+<blockquote>Figura 2. Respuesta JSON de POST /reservas con código 201.</blockquote><dl>
+<dt>Qué falla</dt><dd>La «Figura 2» no es una imagen: es un fragmento de JSON en un párrafo corrido.</dd>
+<dt>Por qué importa</dt><dd>Un JSON sin sangría se lee mal, y los fragmentos de código suelen numerarse aparte de las figuras.</dd>
+<dt>Cómo arreglarlo</dt><dd>Pásalo a un bloque con fuente monoespaciada y sangría, y numéralo como «Listado 1», o como indique la guía de la asignatura.</dd>
+</dl></article>
+<article class="c" id="m07" data-g="menor"><div class="cab"><span class="g">Menor</span><span>m07</span><span class="donde">8. Bibliografía</span><span class="donde">C7 · Redacción y fuentes</span></div>
+<blockquote>Pallets Projects, &quot;Flask documentation,&quot; 2025.</blockquote><dl>
+<dt>Qué falla</dt><dd>La referencia web no lleva fecha de consulta.</dd>
+<dt>Por qué importa</dt><dd>La documentación en línea cambia con cada versión; sin la fecha no se sabe qué versión se consultó.</dd>
+<dt>Cómo arreglarlo</dt><dd>Añade la fecha de consulta al final, como pide IEEE para las fuentes en línea.</dd>
+</dl></article>
+<h2>Comprobaciones automáticas</h2>
+<h3>Estructura</h3><ul><li><span class="importante">[Importante]</span> Figura 1 no se cita en el texto <span class="nd">(4. Diseño)</span></li><li><span class="importante">[Importante]</span> objetivo que no parece evaluarse en resultados, pruebas o conclusiones: la cifra objetivo (200 ms, 50 usuarios) no vuelve a aparecer <span class="nd">(2. Objetivos)</span></li><li><span class="importante">[Importante]</span> la sección de pruebas describe qué se probó, pero no da resultados medibles (casos superados/fallidos, tiempos, cobertura o una tabla) <span class="nd">(6. Pruebas)</span></li></ul>
+<h3>Citas y bibliografía</h3><p>Sin avisos.</p>
+<h3>Cifras y unidades</h3><p>Sin avisos.</p>
+<footer>Corrección hecha con la skill corrector-trabajos. Los comentarios señalan qué cambiar; la redacción sigue siendo tuya.</footer></main><script>
+document.querySelectorAll('.filtros button').forEach(function(b){b.addEventListener('click',function(){
+var g=b.dataset.g;document.querySelectorAll('.filtros button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+document.querySelectorAll('article.c').forEach(function(a){a.style.display=(g==='todos'||a.dataset.g===g)?'':'none'});});});
+</script></body></html>

@@ -38,6 +38,22 @@ EXT_ASSETS = {".html": "html", ".css": "css", ".js": "javascript", ".md": "markd
 # Comprobaciones que hace cada script, para aplicarlas a mano cuando no se puede
 # ejecutar código. Una entrada por skill; si una skill nueva no tiene, se usa GENERICO.
 MANUAL = {
+    "corrector-trabajos": """\
+Los scripts extraen el texto, revisan estructura, referencias y cifras, recalculan los cálculos de laboratorio, validan la corrección y generan el HTML y el DOCX comentado. Sin código:
+
+- **Cálculos (regla dura):** rehaz a mano cada cálculo con su fórmula del anexo `esquema.md` (C1·V1 = C2·V2; M = masa / (PM · V); pH = pKa + log([A⁻]/[HA]); A = ε·l·c; recta por mínimos cuadrados con m = Sxy/Sxx, b = ȳ − m·x̄ y R² = 1 − SSres/SStot). Escribe en el comentario la fórmula, los datos y el resultado. Si no puedes hacer la cuenta con seguridad (una regresión larga, por ejemplo), no afirmes que está mal: escribe «no he podido recalcularlo; compruébalo con…».
+- **Estructura:** compara los títulos con las secciones esperadas del tipo (anexo `criterios.md`). Lista las figuras y tablas, comprueba que la numeración no salta y busca en el texto «Figura n» o «Tabla n» para cada una. Repasa cada objetivo y busca dónde se evalúa.
+- **Referencias:** haz dos listas, las citas del texto y las entradas de la bibliografía, y crúzalas en los dos sentidos (autor y año).
+- **Cifras y unidades:** compara cada cifra que el texto toma de una tabla o figura, en especial R², pendientes y concentraciones. Busca unidades sin espacio, «ºC», «mins», «ul», «ml» mezclado con «mL» y decimales distintos en una misma columna.
+- **Validación:** cada cita literal y comprobada en el trabajo; ningún ejemplo de más de 2 frases; pesos que suman 100 y nota global igual a la media ponderada; como mucho 2 comentarios que empiecen igual; ninguna fórmula prohibida del anexo `tono.md`.
+- **Formato de entrega:** sin archivos, la corrección va en Markdown, con estas partes:
+  - nota orientativa y tabla de criterios;
+  - los 3 cambios con más impacto;
+  - los puntos fuertes;
+  - los comentarios agrupados por gravedad, cada uno con cita, ubicación, qué falla, por qué importa, cómo arreglarlo y criterio.
+
+  Sin la posibilidad de escribir en el DOCX, cada comentario lleva su cita literal para que el alumno lo localice con Buscar.""",
+
     "creador-apuntes": """\
 Esta skill no tiene validador automático; su único script (`scripts/html_a_docx.py`) convierte el HTML en Word.
 

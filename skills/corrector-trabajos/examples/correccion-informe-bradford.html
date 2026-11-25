@@ -1,0 +1,154 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Práctica 3. Determinación de la concentración de proteínas por el método de Bradford</title><style>:root{--fondo:#fbfdfb;--texto:#18261f;--menor:#0b6e69;--fuerte:#3d6b1f;--critico:#b02a1f;--importante:#6b3fa0;--fuente:system-ui, "Segoe UI", Roboto, Arial, sans-serif;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.55 var(--fuente)}
+main{max-width:920px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:1.6rem;margin:0 0 4px;line-height:1.25}
+h2{font-size:1.2rem;margin:36px 0 12px;padding-bottom:4px;border-bottom:2px solid color-mix(in srgb,var(--texto) 15%,var(--fondo))}
+h3{font-size:1rem;margin:20px 0 8px}
+.meta{color:color-mix(in srgb,var(--texto) 72%,var(--fondo));font-size:.92rem;margin:0}
+.aviso{border-left:4px solid var(--importante);background:color-mix(in srgb,var(--importante) 9%,var(--fondo));padding:10px 14px;margin:18px 0;font-size:.93rem}
+.nota{display:flex;gap:22px;align-items:center;flex-wrap:wrap;margin:18px 0}
+.nota .cifra{font-size:2.6rem;font-weight:700;line-height:1}
+.nota .cifra small{font-size:1rem;font-weight:400}
+.recuento{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1.5px solid currentColor;border-radius:999px;padding:2px 10px;font-size:.85rem;font-weight:600}
+.critico{color:var(--critico)}.importante{color:var(--importante)}.menor{color:var(--menor)}.fuerte{color:var(--fuerte)}
+table{border-collapse:collapse;width:100%;font-size:.92rem;margin:8px 0}
+th,td{border-bottom:1px solid color-mix(in srgb,var(--texto) 14%,var(--fondo));padding:7px 8px;text-align:left;vertical-align:top}
+th{font-weight:600}
+td.n{text-align:right;white-space:nowrap}
+.barra{height:8px;background:color-mix(in srgb,var(--texto) 10%,var(--fondo));border-radius:4px;min-width:80px}
+.barra span{display:block;height:100%;border-radius:4px;background:var(--menor)}
+ol.prioridades{padding-left:1.3em}ol.prioridades li{margin:6px 0}
+ul.fuertes{list-style:none;padding:0}
+ul.fuertes li{border-left:4px solid var(--fuerte);background:color-mix(in srgb,var(--fuerte) 8%,var(--fondo));padding:8px 12px;margin:8px 0}
+ul.fuertes li b{color:var(--fuerte)}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+.filtros button{font:inherit;font-size:.88rem;padding:4px 12px;border-radius:999px;border:1.5px solid color-mix(in srgb,var(--texto) 35%,var(--fondo));background:var(--fondo);color:var(--texto);cursor:pointer}
+.filtros button[aria-pressed=true]{background:var(--texto);color:var(--fondo);border-color:var(--texto)}
+.filtros button:focus-visible{outline:3px solid var(--menor);outline-offset:2px}
+article.c{border:1px solid color-mix(in srgb,var(--texto) 16%,var(--fondo));border-left:5px solid var(--g);border-radius:6px;padding:12px 16px;margin:14px 0;break-inside:avoid}
+article.c[data-g=critico]{--g:var(--critico)}article.c[data-g=importante]{--g:var(--importante)}article.c[data-g=menor]{--g:var(--menor)}
+.cab{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:.86rem}
+.cab .g{font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--g)}
+.cab .donde{color:color-mix(in srgb,var(--texto) 70%,var(--fondo))}
+blockquote{margin:8px 0;padding:6px 12px;border-left:3px solid color-mix(in srgb,var(--texto) 25%,var(--fondo));background:color-mix(in srgb,var(--texto) 4%,var(--fondo));font-style:italic}
+dl{margin:6px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px}
+dt{font-weight:600}dd{margin:0}
+.ej{font-style:italic}
+.ok{color:var(--fuerte);font-weight:600}.mal{color:var(--critico);font-weight:600}.nd{color:color-mix(in srgb,var(--texto) 60%,var(--fondo))}
+code{font-size:.88em;background:color-mix(in srgb,var(--texto) 6%,var(--fondo));padding:1px 4px;border-radius:3px}
+footer{margin-top:40px;font-size:.85rem;color:color-mix(in srgb,var(--texto) 65%,var(--fondo))}
+@media (max-width:620px){dl{grid-template-columns:1fr}.nota .cifra{font-size:2.1rem}table{font-size:.85rem}}
+@media print{.filtros{display:none}article.c{display:block!important}main{padding:0}body{font-size:11pt}h2{break-after:avoid}}
+</style></head><body><main>
+<h1>Práctica 3. Determinación de la concentración de proteínas por el método de Bradford</h1>
+<p class="meta">Informe de laboratorio · Bioquímica I · Grado en Bioquímica · 2026-11-25</p>
+<p class="meta">Rúbrica: por defecto (informe de laboratorio) · exigente</p>
+<div class="nota"><div><div class="cifra">6,7<small> / 10</small></div><div class="meta">Nota orientativa</div></div><div class="recuento"><span class="chip critico">3 críticos</span><span class="chip importante">6 importantes</span><span class="chip menor">1 menor</span></div></div>
+<p class="aviso">Valoración orientativa. La nota real la pone tu profesor con su rúbrica; esta sirve para saber dónde se pierden puntos.</p>
+<p>Informe completo y bien organizado, con las muestras bien calculadas. Lo que más resta es un volumen de dilución que no cuadra con C1·V1 = C2·V2, una conclusión que compara con un método que no se usó y una cita sin referencia.</p>
+<table><thead><tr><th>Criterio</th><th class="n">Peso</th><th class="n">Nota</th><th aria-hidden="true"></th><th>Por qué</th></tr></thead><tbody>
+<tr><td>Estructura y presentación</td><td class="n">10 %</td><td class="n">7,0</td><td><div class="barra"><span style="width:70%"></span></div></td><td>Todas las secciones están y en orden. Bajan la Figura 2, que no se cita, y tres unidades mal escritas en los métodos.</td></tr>
+<tr><td>Introducción y objetivos</td><td class="n">10 %</td><td class="n">8,5</td><td><div class="barra"><span style="width:85%"></span></div></td><td>El fundamento del método está explicado con su mecanismo y fuentes, y los dos objetivos se pueden comprobar.</td></tr>
+<tr><td>Materiales y métodos</td><td class="n">15 %</td><td class="n">6,0</td><td><div class="barra"><span style="width:60%"></span></div></td><td>Los volúmenes y diluciones están completos, pero el de la disolución de trabajo de BSA es diez veces menor que el que sale del cálculo.</td></tr>
+<tr><td>Resultados</td><td class="n">25 %</td><td class="n">6,5</td><td><div class="barra"><span style="width:65%"></span></div></td><td>Las concentraciones de las muestras son correctas. El R² del texto no es el de la figura, hay interpretación dentro de Resultados y faltan las desviaciones estándar.</td></tr>
+<tr><td>Discusión</td><td class="n">20 %</td><td class="n">7,0</td><td><div class="barra"><span style="width:70%"></span></div></td><td>Discute datos concretos (el patrón de 0,4 mg/mL, la etiqueta de la leche, el detergente del lisado). La explicación principal de la diferencia con la etiqueta no tiene fuente.</td></tr>
+<tr><td>Conclusiones</td><td class="n">10 %</td><td class="n">4,5</td><td><div class="barra"><span style="width:45%"></span></div></td><td>Una de las tres conclusiones no sale de los resultados y otra omite la salvedad que la propia discusión plantea.</td></tr>
+<tr><td>Citas y bibliografía</td><td class="n">5 %</td><td class="n">6,0</td><td><div class="barra"><span style="width:60%"></span></div></td><td>Formato APA consistente, pero una cita del texto no tiene entrada.</td></tr>
+<tr><td>Redacción</td><td class="n">5 %</td><td class="n">8,5</td><td><div class="barra"><span style="width:85%"></span></div></td><td>Clara e impersonal, con frases de longitud razonable.</td></tr>
+</tbody></table>
+<h2>Los 3 cambios que más suben la nota</h2><ol class="prioridades">
+<li>Corregir el volumen de disolución madre de BSA (2,5 mL, no 0,25 mL) o, si de verdad se pipetearon 0,25 mL, repetir la recta. (<a href="#k01">k01</a>)</li>
+<li>Quitar de las conclusiones la comparación con Lowry y añadir la salvedad del lisado. (<a href="#k02">k02</a> <a href="#k09">k09</a>)</li>
+<li>Completar la bibliografía con Compton y Jones (1985) y apoyar con una fuente la explicación de la diferencia con la etiqueta. (<a href="#k03">k03</a> <a href="#k08">k08</a>)</li>
+</ol>
+<h2>Puntos fuertes</h2><ul class="fuertes">
+<li>La Tabla 1 da para cada patrón los volúmenes de BSA y de agua, así que la recta se puede reproducir sin el guion. <span class="nd">(Tabla 1)</span></li>
+<li>Las tres concentraciones de la Tabla 2 están bien calculadas: el recálculo con la recta y los factores de dilución da 26,43, 7,03 y 1,48 mg/mL. <span class="nd">(Tabla 2)</span></li>
+<li>La discusión no se queda en «errores de pipeteo» genéricos: señala el patrón que se aparta de la recta y la posible interferencia del detergente en el lisado. <span class="nd">(5. Discusión)</span></li>
+</ul>
+<h2>Comentarios (10)</h2>
+<div class="filtros" role="group" aria-label="Comentarios"><button type="button" data-g="todos" aria-pressed="true">Todos</button><button type="button" data-g="critico" aria-pressed="false">Crítico (3)</button><button type="button" data-g="importante" aria-pressed="false">Importante (6)</button><button type="button" data-g="menor" aria-pressed="false">Menor (1)</button></div>
+<article class="c" id="k01" data-g="critico"><div class="cab"><span class="g">Crítico</span><span>k01</span><span class="donde">3.2. Recta de calibrado, párr. 1</span><span class="donde">C3 · Materiales y métodos</span></div>
+<blockquote>se tomaron 0,25 mL de la disolución madre</blockquote><dl>
+<dt>Qué falla</dt><dd>Con C1·V1 = C2·V2, preparar 10 mL a 0,5 mg/mL desde una madre de 2 mg/mL exige 2,5 mL de madre, no 0,25 mL.</dd>
+<dt>Por qué importa</dt><dd>Con 0,25 mL la disolución de trabajo saldría a 0,05 mg/mL y todos los patrones de la Tabla 1 serían diez veces más diluidos. Las absorbancias encajan con 0,5 mg/mL, así que lo probable es una errata, pero tal como está escrito el método no se puede reproducir.</dd>
+<dt>Cómo arreglarlo</dt><dd>Mira en el cuaderno qué volumen pipeteaste y corrige el dato. Si de verdad fueron 0,25 mL, la recta no vale y hay que repetirla.</dd>
+</dl></article>
+<article class="c" id="k02" data-g="critico"><div class="cab"><span class="g">Crítico</span><span>k02</span><span class="donde">6. Conclusiones, párr. 3</span><span class="donde">C6 · Conclusiones</span></div>
+<blockquote>el método de Bradford es más preciso que el de Lowry</blockquote><dl>
+<dt>Qué falla</dt><dd>En la práctica no se aplicó el método de Lowry, así que los datos no permiten comparar la precisión de los dos.</dd>
+<dt>Por qué importa</dt><dd>Es una conclusión que no sale de tus resultados, y en un informe es de lo que más se penaliza: indica que no se distingue lo medido de lo leído.</dd>
+<dt>Cómo arreglarlo</dt><dd>Quítala. Si te interesa la comparación, llévala a la discusión como dato bibliográfico, con su fuente.</dd>
+</dl></article>
+<article class="c" id="k03" data-g="critico"><div class="cab"><span class="g">Crítico</span><span>k03</span><span class="donde">1. Introducción, párr. 2</span><span class="donde">C7 · Citas y bibliografía</span></div>
+<blockquote>(Compton y Jones, 1985)</blockquote><dl>
+<dt>Qué falla</dt><dd>Esta cita no tiene entrada en la bibliografía.</dd>
+<dt>Por qué importa</dt><dd>Sostiene el mecanismo de unión del colorante, que es el fundamento de toda la práctica. Sin la referencia completa, nadie puede ir a la fuente.</dd>
+<dt>Cómo arreglarlo</dt><dd>Añade la entrada en APA, con el mismo formato que las otras tres.</dd>
+</dl></article>
+<article class="c" id="k04" data-g="importante"><div class="cab"><span class="g">Importante</span><span>k04</span><span class="donde">4. Resultados, párr. 2</span><span class="donde">C4 · Resultados</span></div>
+<blockquote>R² = 0,9943</blockquote><dl>
+<dt>Qué falla</dt><dd>El R² del texto (0,9943) no coincide con el de la Figura 1 (0,9934). Recalculado con los datos de la Tabla 1 sale 0,9934, así que el correcto es el de la figura.</dd>
+<dt>Por qué importa</dt><dd>El R² es el dato que justifica usar la recta para interpolar. Si el texto y la figura dan valores distintos, el lector no sabe cuál vale.</dd>
+<dt>Cómo arreglarlo</dt><dd>Copia en el texto el valor de la figura.</dd>
+</dl></article>
+<article class="c" id="k05" data-g="importante"><div class="cab"><span class="g">Importante</span><span>k05</span><span class="donde">4. Resultados, párr. 2</span><span class="donde">C4 · Resultados</span></div>
+<blockquote>lo que confirma que la respuesta es lineal en todo el intervalo estudiado</blockquote><dl>
+<dt>Qué falla</dt><dd>Esta frase interpreta dentro de Resultados y, además, afirma más de lo que dice un R².</dd>
+<dt>Por qué importa</dt><dd>Un R² alto es compatible con un punto que se aparta, y en la discusión explicas que el de 0,4 mg/mL lo hace. Resultados y discusión acaban diciendo cosas distintas.</dd>
+<dt>Cómo arreglarlo</dt><dd>Deja en Resultados la ecuación y el R², sin valorarlos. La valoración del ajuste va en la Discusión, junto al comentario del patrón de 0,4 mg/mL.</dd>
+</dl></article>
+<article class="c" id="k06" data-g="importante"><div class="cab"><span class="g">Importante</span><span>k06</span><span class="donde">4. Resultados</span><span class="donde">C1 · Estructura y presentación</span></div>
+<blockquote>Figura 2. Concentración de proteína de las tres muestras problema</blockquote><dl>
+<dt>Qué falla</dt><dd>La Figura 2 no se cita en ningún sitio del texto, y repite los datos de la Tabla 2.</dd>
+<dt>Por qué importa</dt><dd>Una figura que el texto no menciona queda suelta. Quien lee no sabe cuándo mirarla ni qué tiene que ver en ella.</dd>
+<dt>Cómo arreglarlo</dt><dd>Decide si aporta algo que la tabla no da. Si la mantienes, cítala en el párrafo de las muestras; si no, quítala y deja solo la tabla.</dd>
+</dl></article>
+<article class="c" id="k07" data-g="importante"><div class="cab"><span class="g">Importante</span><span>k07</span><span class="donde">4. Resultados, párr. leyenda de la Tabla 2</span><span class="donde">C4 · Resultados</span></div>
+<blockquote>Absorbancia media (n = 3)</blockquote><dl>
+<dt>Qué falla</dt><dd>Las dos tablas dan la media de tres réplicas, pero no su desviación estándar.</dd>
+<dt>Por qué importa</dt><dd>Sin la dispersión no se puede saber si el patrón de 0,4 mg/mL se aparta por un error de pipeteo, como dice la discusión, o por el ruido normal de la medida.</dd>
+<dt>Cómo arreglarlo</dt><dd>Añade a las Tablas 1 y 2 una columna con la desviación estándar, o barras de error en la Figura 1.</dd>
+</dl></article>
+<article class="c" id="k08" data-g="importante"><div class="cab"><span class="g">Importante</span><span>k08</span><span class="donde">5. Discusión, párr. 2</span><span class="donde">C5 · Discusión</span><span class="chip importante">Verificar con la bibliografía</span></div>
+<blockquote>la BSA da más color por miligramo que la caseína</blockquote><dl>
+<dt>Qué falla</dt><dd>Es una explicación razonable de la diferencia con la etiqueta, pero va sin fuente y no está cuantificada.</dd>
+<dt>Por qué importa</dt><dd>Toda la discusión de la leche descansa en esta idea. Si es cierta, explica buena parte del 22 % que falta respecto a la etiqueta; si no lo es, la discusión se queda sin argumento.</dd>
+<dt>Cómo arreglarlo</dt><dd>Busca la respuesta relativa de la caseína frente a la BSA en el método de Bradford y cítala. Pon además los dos valores en la misma unidad (34 g/L son 34 mg/mL) y da la diferencia en porcentaje.</dd>
+</dl></article>
+<article class="c" id="k09" data-g="importante"><div class="cab"><span class="g">Importante</span><span>k09</span><span class="donde">6. Conclusiones, párr. 2</span><span class="donde">C6 · Conclusiones</span></div>
+<blockquote>el lisado de E. coli 1,48 mg/mL</blockquote><dl>
+<dt>Qué falla</dt><dd>La conclusión da el valor del lisado sin la reserva que planteas en la discusión: el detergente del tampón puede interferir y no se midió su blanco.</dd>
+<dt>Por qué importa</dt><dd>Si la discusión duda del dato y la conclusión lo da como seguro, el informe se contradice.</dd>
+<dt>Cómo arreglarlo</dt><dd>Añade la salvedad a la conclusión del lisado. Si puedes repetir la medida, mide el tampón de lisis como blanco.</dd>
+</dl></article>
+<article class="c" id="k10" data-g="menor"><div class="cab"><span class="g">Menor</span><span>k10</span><span class="donde">3. Materiales y métodos</span><span class="donde">C1 · Estructura y presentación</span><span class="chip menor">3 casos</span></div>
+<blockquote>595nm</blockquote><dl>
+<dt>Qué falla</dt><dd>Hay tres unidades mal escritas en los métodos: «595nm» va sin espacio, «20 ul» debería ser «20 µL» y «5 mins» debería ser «5 min».</dd>
+<dt>Por qué importa</dt><dd>Son detalles de forma, pero las unidades del SI tienen una escritura fija y en un informe científico se descuentan.</dd>
+<dt>Cómo arreglarlo</dt><dd>Separa la cifra de la unidad, usa µ para micro y escribe min sin plural, como ya haces en el resto del informe.</dd>
+</dl></article>
+<h2>Comprobaciones automáticas</h2>
+<h3>Cálculos recalculados</h3><table><thead><tr><th>Id</th><th>Fórmula</th><th>Datos</th><th class="n">Resultado</th><th class="n">En el trabajo</th><th>Estado</th></tr></thead><tbody>
+<tr><td>c1</td><td><code>C1·V1 = C2·V2 → V1 = C2·V2 / C1</code><br><span class="nd">3.2. Recta de calibrado, párr. 1</span></td><td>C1 = 2,000, C2 = 0,5000, V2 = 10,00</td><td class="n">2,500 mL</td><td class="n">0,25</td><td><span class="mal">No coincide</span></td></tr>
+<tr><td>c2</td><td><code>C1·V1 = C2·V2 → C2 = C1·V1 / V2</code><br><span class="nd">Tabla 1, patrón de 0,1 mg/mL</span></td><td>C1 = 0,5000, V1 = 20,00, V2 = 100,0</td><td class="n">0,1000 mg/mL</td><td class="n">0,1</td><td><span class="ok">Coincide</span></td></tr>
+<tr><td>c3.pendiente</td><td><code>m = Sxy / Sxx (mínimos cuadrados)</code><br><span class="nd">4. Resultados, párr. 2 (texto)</span></td><td>6 puntos, x de 0 a 0,5000</td><td class="n">0,5951 A595/(mg/mL)</td><td class="n">0,5951</td><td><span class="ok">Coincide</span></td></tr>
+<tr><td>c3.ordenada</td><td><code>b = ȳ − m·x̄</code><br><span class="nd">4. Resultados, párr. 2 (texto)</span></td><td>6 puntos, x de 0 a 0,5000</td><td class="n">0,004714 A595</td><td class="n">0,0047</td><td><span class="ok">Coincide</span></td></tr>
+<tr><td>c3.r2</td><td><code>R² = 1 − SSres / SStot</code><br><span class="nd">4. Resultados, párr. 2 (texto)</span></td><td>6 puntos, x de 0 a 0,5000</td><td class="n">0,9934</td><td class="n">0,9943</td><td><span class="mal">No coincide</span></td></tr>
+<tr><td>c3.A</td><td><code>x = (y − b) / m · factor de dilución</code><br><span class="nd">Tabla 2</span></td><td>muestra A: y = 0,1620, m = 0,5951, b = 0,004714, factor = 100,0</td><td class="n">26,43 mg/mL</td><td class="n">26,4</td><td><span class="ok">Coincide</span></td></tr>
+<tr><td>c3.B</td><td><code>x = (y − b) / m · factor de dilución</code><br><span class="nd">Tabla 2</span></td><td>muestra B: y = 0,2140, m = 0,5951, b = 0,004714, factor = 20,00</td><td class="n">7,033 mg/mL</td><td class="n">7,03</td><td><span class="ok">Coincide</span></td></tr>
+<tr><td>c3.C</td><td><code>x = (y − b) / m · factor de dilución</code><br><span class="nd">Tabla 2</span></td><td>muestra C: y = 0,09300, m = 0,5951, b = 0,004714, factor = 10,00</td><td class="n">1,483 mg/mL</td><td class="n">1,48</td><td><span class="ok">Coincide</span></td></tr>
+<tr><td>c4.pendiente</td><td><code>m = Sxy / Sxx (mínimos cuadrados)</code><br><span class="nd">Figura 1 (leyenda)</span></td><td>6 puntos, x de 0 a 0,5000</td><td class="n">0,5951 A595/(mg/mL)</td><td class="n">—</td><td><span class="nd">Sin dato</span></td></tr>
+<tr><td>c4.ordenada</td><td><code>b = ȳ − m·x̄</code><br><span class="nd">Figura 1 (leyenda)</span></td><td>6 puntos, x de 0 a 0,5000</td><td class="n">0,004714 A595</td><td class="n">—</td><td><span class="nd">Sin dato</span></td></tr>
+<tr><td>c4.r2</td><td><code>R² = 1 − SSres / SStot</code><br><span class="nd">Figura 1 (leyenda)</span></td><td>6 puntos, x de 0 a 0,5000</td><td class="n">0,9934</td><td class="n">0,9934</td><td><span class="ok">Coincide</span></td></tr>
+</tbody></table>
+<h3>Estructura</h3><ul><li><span class="importante">[Importante]</span> Figura 2 no se cita en el texto <span class="nd">(4. Resultados)</span></li></ul>
+<h3>Citas y bibliografía</h3><ul><li><span class="critico">[Crítico]</span> (Compton y Jones, 1985) no está en la bibliografía <span class="nd">(1. Introducción)</span></li></ul>
+<h3>Cifras y unidades</h3><ul><li><span class="importante">[Importante]</span> R² aparece con valores distintos: 0,9943 en «4. Resultados»; 0,9934 en «4. Resultados» <span class="nd">(4. Resultados)</span></li><li><span class="menor">[Menor]</span> «ul» → µL (1 caso) <span class="nd">(3.2. Recta de calibrado)</span></li><li><span class="menor">[Menor]</span> «mins» → min (1 caso) <span class="nd">(3.2. Recta de calibrado)</span></li><li><span class="menor">[Menor]</span> 1 cifra(s) pegada(s) a la unidad: 595nm (entre la cifra y la unidad va un espacio) <span class="nd">(3.1. Reactivos y equipos)</span></li></ul>
+<footer>Corrección hecha con la skill corrector-trabajos. Los comentarios señalan qué cambiar; la redacción sigue siendo tuya.</footer></main><script>
+document.querySelectorAll('.filtros button').forEach(function(b){b.addEventListener('click',function(){
+var g=b.dataset.g;document.querySelectorAll('.filtros button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+document.querySelectorAll('article.c').forEach(function(a){a.style.display=(g==='todos'||a.dataset.g===g)?'':'none'});});});
+</script></body></html>

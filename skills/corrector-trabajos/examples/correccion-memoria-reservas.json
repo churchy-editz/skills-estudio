@@ -1,0 +1,324 @@
+{
+ "meta": {
+  "titulo": "Práctica 2. API REST para reservar puestos de laboratorio",
+  "archivo": "memoria-reservas.docx",
+  "tipo": "tecnico",
+  "asignatura": "Ingeniería del Software",
+  "nivel": "Grado en Ingeniería Informática",
+  "idioma": "es",
+  "estilo_citas": "IEEE",
+  "rubrica": "por defecto (memoria de prácticas o informe técnico)",
+  "exigencia": "exigente",
+  "fecha": "2026-11-25",
+  "version": 1
+ },
+ "resumen": "El análisis, el diseño y la implementación están bien contados. Lo que más resta son las pruebas: se describen, pero sin resultados, y el objetivo de rendimiento (O3) no se mide en ningún momento.",
+ "valoracion": {
+  "criterios": [
+   {
+    "id": "C1",
+    "nombre": "Estructura y presentación",
+    "peso": 10,
+    "nota": 7.0,
+    "justificacion": "Están todas las secciones esperadas. La Figura 1 no se cita y la «Figura 2» es un párrafo de texto."
+   },
+   {
+    "id": "C2",
+    "nombre": "Objetivos y análisis",
+    "peso": 15,
+    "nota": 8.0,
+    "justificacion": "Los objetivos son medibles y los requisitos salen de entrevistas con usuarios reales."
+   },
+   {
+    "id": "C3",
+    "nombre": "Diseño",
+    "peso": 20,
+    "nota": 6.5,
+    "justificacion": "Flask y la arquitectura en capas están justificados, pero la elección de MongoDB no."
+   },
+   {
+    "id": "C4",
+    "nombre": "Implementación",
+    "peso": 15,
+    "nota": 7.5,
+    "justificacion": "Explica lo difícil (solapamientos con peticiones simultáneas y formato de errores). Falta aclarar en qué condiciones funciona la transacción."
+   },
+   {
+    "id": "C5",
+    "nombre": "Pruebas y resultados",
+    "peso": 20,
+    "nota": 3.5,
+    "justificacion": "Las pruebas se describen, pero no se da ningún resultado, y O3 no se evalúa."
+   },
+   {
+    "id": "C6",
+    "nombre": "Conclusiones",
+    "peso": 10,
+    "nota": 5.5,
+    "justificacion": "Dan O1, O2 y O4 por cumplidos sin remitir a ninguna prueba y no mencionan O3."
+   },
+   {
+    "id": "C7",
+    "nombre": "Redacción y fuentes",
+    "peso": 10,
+    "nota": 8.0,
+    "justificacion": "Redacción clara y fuentes citadas. A la referencia web le falta la fecha de consulta."
+   }
+  ],
+  "global": 6.4
+ },
+ "prioridades": [
+  {
+   "texto": "Dar los resultados de las pruebas (casos, superados, cobertura) y relacionarlos con cada objetivo.",
+   "comentarios": [
+    "m02"
+   ]
+  },
+  {
+   "texto": "Medir el tiempo de respuesta con 50 usuarios para evaluar O3, o explicar en las conclusiones por qué no se evaluó.",
+   "comentarios": [
+    "m01"
+   ]
+  },
+  {
+   "texto": "Justificar MongoDB y aclarar cómo se garantiza la transacción de las reservas en vuestro despliegue.",
+   "comentarios": [
+    "m03",
+    "m05"
+   ]
+  }
+ ],
+ "puntos_fuertes": [
+  {
+   "texto": "La elección de Flask se justifica con dos motivos concretos frente a una alternativa: el equipo ya lo conocía y la API no necesita lo que aporta Django.",
+   "ubicacion": "4. Diseño"
+  },
+  {
+   "texto": "La Tabla 1 resume los endpoints con método, ruta y descripción, y con ella se entiende la API de un vistazo.",
+   "ubicacion": "Tabla 1"
+  },
+  {
+   "texto": "Las conclusiones cuentan un fallo real que encontrasteis (dos reservas del mismo hueco con peticiones simultáneas) y cómo lo resolvisteis.",
+   "ubicacion": "7. Conclusiones"
+  }
+ ],
+ "comentarios": [
+  {
+   "id": "m01",
+   "cita": "O3. Conseguir un tiempo de respuesta medio inferior a 200 ms con 50 usuarios concurrentes.",
+   "ubicacion": {
+    "seccion": "2. Objetivos"
+   },
+   "gravedad": "critico",
+   "categoria": "coherencia",
+   "que_falla": "Nadie vuelve a hablar de O3: ni las pruebas ni las conclusiones dan un solo tiempo de respuesta, y las conclusiones lo saltan sin explicarlo.",
+   "por_que_importa": "Un objetivo con una cifra promete una medida. Si la medida no aparece, quien evalúa entiende que no se cumplió o que no se comprobó.",
+   "como_arreglarlo": "Haz una prueba de carga con 50 usuarios (Locust o JMeter sirven) y da el tiempo medio y el percentil 95. Si no hay tiempo, di en las conclusiones que O3 queda sin evaluar y por qué.",
+   "criterio": "C5"
+  },
+  {
+   "id": "m02",
+   "cita": "Para las pruebas unitarias se usó pytest.",
+   "ubicacion": {
+    "seccion": "6. Pruebas",
+    "parrafo": 1
+   },
+   "gravedad": "critico",
+   "categoria": "informatica",
+   "que_falla": "La sección cuenta qué se probó, pero no qué salió: no dice cuántas pruebas hay, cuántas pasan ni qué cobertura tienen.",
+   "por_que_importa": "Las conclusiones dan por cumplidos O1, O2 y O4, y sin resultados de pruebas esa afirmación no tiene en qué apoyarse.",
+   "como_arreglarlo": "Añade una tabla con cada grupo de pruebas, su número de casos, los superados y la cobertura (pytest-cov la calcula). Indica qué objetivo o requisito comprueba cada grupo.",
+   "criterio": "C5"
+  },
+  {
+   "id": "m03",
+   "cita": "Se eligió MongoDB como base de datos.",
+   "ubicacion": {
+    "seccion": "4. Diseño",
+    "parrafo": 2
+   },
+   "gravedad": "importante",
+   "categoria": "informatica",
+   "que_falla": "Es la única decisión de diseño importante sin justificar, y llega justo después de una buena justificación de Flask.",
+   "por_que_importa": "El modelo de la Figura 1 son cuatro entidades relacionadas entre sí, que es el caso en que una base relacional suele encajar mejor. Sin un motivo, la elección parece arbitraria.",
+   "como_arreglarlo": "Di qué ganabais con MongoDB frente a PostgreSQL o SQLite: esquema flexible, experiencia del equipo, un requisito de la asignatura… Si no hay un motivo, plantéate cambiarla.",
+   "criterio": "C3"
+  },
+  {
+   "id": "m04",
+   "cita": "Figura 1. Diagrama de clases del modelo de dominio.",
+   "ubicacion": {
+    "seccion": "4. Diseño"
+   },
+   "gravedad": "importante",
+   "categoria": "figuras_tablas",
+   "que_falla": "El texto no remite a la Figura 1 en ningún momento.",
+   "por_que_importa": "El párrafo anterior describe las mismas cuatro entidades. Sin la referencia no se ve que el diagrama las detalla con sus atributos y cardinalidades.",
+   "como_arreglarlo": "Cita la figura en ese párrafo y comenta algo que solo se ve en el diagrama, como la cardinalidad entre Puesto y Laboratorio.",
+   "criterio": "C1"
+  },
+  {
+   "id": "m05",
+   "cita": "El servicio hace esa consulta y la inserción dentro de una transacción",
+   "ubicacion": {
+    "seccion": "5. Implementación",
+    "parrafo": 1
+   },
+   "gravedad": "importante",
+   "categoria": "informatica",
+   "que_falla": "En MongoDB, las transacciones que abarcan varios documentos solo funcionan si la base está desplegada como conjunto de réplicas (replica set), y la memoria no dice cómo se desplegó.",
+   "por_que_importa": "Esta transacción es lo que garantiza O2. Si no se aplica, podría repetirse el problema de las dos reservas simultáneas que contáis en las conclusiones.",
+   "como_arreglarlo": "Comprueba la configuración que usasteis y menciónala en Implementación. Una prueba con peticiones concurrentes demostraría que funciona.",
+   "criterio": "C4",
+   "verificar": true
+  },
+  {
+   "id": "m06",
+   "cita": "Figura 2. Respuesta JSON de POST /reservas con código 201.",
+   "ubicacion": {
+    "seccion": "5. Implementación"
+   },
+   "gravedad": "menor",
+   "categoria": "formato",
+   "que_falla": "La «Figura 2» no es una imagen: es un fragmento de JSON en un párrafo corrido.",
+   "por_que_importa": "Un JSON sin sangría se lee mal, y los fragmentos de código suelen numerarse aparte de las figuras.",
+   "como_arreglarlo": "Pásalo a un bloque con fuente monoespaciada y sangría, y numéralo como «Listado 1», o como indique la guía de la asignatura.",
+   "criterio": "C1"
+  },
+  {
+   "id": "m07",
+   "cita": "Pallets Projects, \"Flask documentation,\" 2025.",
+   "ubicacion": {
+    "seccion": "8. Bibliografía"
+   },
+   "gravedad": "menor",
+   "categoria": "citas",
+   "que_falla": "La referencia web no lleva fecha de consulta.",
+   "por_que_importa": "La documentación en línea cambia con cada versión; sin la fecha no se sabe qué versión se consultó.",
+   "como_arreglarlo": "Añade la fecha de consulta al final, como pide IEEE para las fuentes en línea.",
+   "criterio": "C7"
+  }
+ ],
+ "comprobaciones": {
+  "estructura": {
+   "tipo": "tecnico",
+   "secciones": {
+    "titulos": [
+     {
+      "texto": "1. Introducción",
+      "nivel": 1,
+      "seccion": "introduccion"
+     },
+     {
+      "texto": "2. Objetivos",
+      "nivel": 1,
+      "seccion": "objetivos"
+     },
+     {
+      "texto": "3. Análisis de requisitos",
+      "nivel": 1,
+      "seccion": "analisis"
+     },
+     {
+      "texto": "4. Diseño",
+      "nivel": 1,
+      "seccion": "diseno"
+     },
+     {
+      "texto": "5. Implementación",
+      "nivel": 1,
+      "seccion": "implementacion"
+     },
+     {
+      "texto": "6. Pruebas",
+      "nivel": 1,
+      "seccion": "pruebas"
+     },
+     {
+      "texto": "7. Conclusiones",
+      "nivel": 1,
+      "seccion": "conclusiones"
+     },
+     {
+      "texto": "8. Bibliografía",
+      "nivel": 1,
+      "seccion": "bibliografia"
+     }
+    ],
+    "presentes": [
+     "Introducción",
+     "Objetivos",
+     "Análisis / requisitos",
+     "Diseño",
+     "Implementación",
+     "Pruebas",
+     "Conclusiones",
+     "Bibliografía"
+    ],
+    "faltan": [],
+    "recomendadas": [],
+    "orden": []
+   },
+   "figuras_tablas": {
+    "figura": {
+     "leyendas": [
+      "1",
+      "2"
+     ],
+     "citadas": [
+      "2"
+     ]
+    },
+    "tabla": {
+     "leyendas": [
+      "1"
+     ],
+     "citadas": [
+      "1"
+     ]
+    },
+    "imagenes": 1,
+    "tablas": 1
+   },
+   "avisos": [
+    {
+     "tipo": "sin_citar",
+     "gravedad": "importante",
+     "seccion": "4. Diseño",
+     "detalle": "Figura 1 no se cita en el texto",
+     "leyenda": "Figura 1. Diagrama de clases del modelo de dominio."
+    },
+    {
+     "tipo": "objetivo_no_evaluado",
+     "gravedad": "importante",
+     "seccion": "2. Objetivos",
+     "objetivo": "O3. Conseguir un tiempo de respuesta medio inferior a 200 ms con 50 usuarios concurrentes.",
+     "detalle": "objetivo que no parece evaluarse en resultados, pruebas o conclusiones: la cifra objetivo (200 ms, 50 usuarios) no vuelve a aparecer"
+    },
+    {
+     "tipo": "pruebas_sin_resultados",
+     "gravedad": "importante",
+     "seccion": "6. Pruebas",
+     "detalle": "la sección de pruebas describe qué se probó, pero no da resultados medibles (casos superados/fallidos, tiempos, cobertura o una tabla)"
+    }
+   ]
+  },
+  "referencias": {
+   "estilo": "IEEE",
+   "entradas": 2,
+   "estilos_bibliografia": {
+    "IEEE": 2
+   },
+   "citas": {
+    "autor_anio": 0,
+    "numericas": 2,
+    "latex": 0
+   },
+   "avisos": []
+  },
+  "numeros": {
+   "separador_decimal": ".",
+   "avisos": []
+  }
+ }
+}

@@ -24,6 +24,9 @@ jobs:
       - name: Instalar python-docx
         run: python -m pip install --upgrade pip python-docx
 
+      - name: Tests de corrector-trabajos
+        run: python -m unittest discover -s skills/corrector-trabajos/tests -v
+
       - name: Tests de creador-apuntes
         run: python -m unittest discover -s skills/creador-apuntes/tests -v
 

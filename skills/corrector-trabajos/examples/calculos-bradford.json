@@ -1,0 +1,20 @@
+{
+  "tolerancia": 0.02,
+  "comprobaciones": [
+    {"id": "c1", "tipo": "dilucion", "c1": 2, "v1": null, "c2": 0.5, "v2": 10, "unidad_v": "mL",
+     "declarado": "0,25", "ubicacion": "3.2. Recta de calibrado, párr. 1"},
+    {"id": "c2", "tipo": "dilucion", "c1": 0.5, "v1": 20, "c2": null, "v2": 100, "unidad_c": "mg/mL",
+     "declarado": "0,1", "ubicacion": "Tabla 1, patrón de 0,1 mg/mL"},
+    {"id": "c3", "tipo": "calibrado", "unidad_x": "mg/mL", "unidad_y": "A595",
+     "x": [0, 0.1, 0.2, 0.3, 0.4, 0.5], "y": [0.000, 0.071, 0.118, 0.196, 0.231, 0.305],
+     "declarado": {"pendiente": "0,5951", "ordenada": "0,0047", "r2": "0,9943"},
+     "ubicacion": "4. Resultados, párr. 2 (texto)",
+     "muestras": [
+       {"nombre": "A", "y": 0.162, "factor_dilucion": 100, "declarado": "26,4", "ubicacion": "Tabla 2"},
+       {"nombre": "B", "y": 0.214, "factor_dilucion": 20, "declarado": "7,03", "ubicacion": "Tabla 2"},
+       {"nombre": "C", "y": 0.093, "factor_dilucion": 10, "declarado": "1,48", "ubicacion": "Tabla 2"}]},
+    {"id": "c4", "tipo": "calibrado", "unidad_x": "mg/mL", "unidad_y": "A595",
+     "x": [0, 0.1, 0.2, 0.3, 0.4, 0.5], "y": [0.000, 0.071, 0.118, 0.196, 0.231, 0.305],
+     "declarado": {"r2": "0,9934"}, "ubicacion": "Figura 1 (leyenda)"}
+  ]
+}

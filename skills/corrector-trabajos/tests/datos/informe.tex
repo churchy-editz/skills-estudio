@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{siunitx}
+\title{Ensayo de prueba}
+\begin{document}
+\maketitle
+\section{Introducción}
+El método se describe en \cite{bradford1976} y en \cite{fantasma}. % comentario que no cuenta
+
+\section{Resultados}
+Se añadieron \SI{5}{\milli\litre} de reactivo. Como muestra la Figura~\ref{fig:recta}, el ajuste da $R^2 = 0.99$. Los datos están en la Tabla~\ref{tab:datos}.
+
+\begin{figure}
+\includegraphics{recta.png}
+\caption{Recta de calibrado.}
+\label{fig:recta}
+\end{figure}
+
+\begin{table}
+\caption{Absorbancias medidas.}
+\label{tab:datos}
+\begin{tabular}{ll}
+\hline
+Muestra & A595 \
+A & 0.162 \
+\hline
+\end{tabular}
+\end{table}
+
+\begin{thebibliography}{9}
+\bibitem{bradford1976} M. M. Bradford, ``A rapid and sensitive method,'' Anal. Biochem., 1976.
+\bibitem{otro2020} A. Otro, ``Otro trabajo,'' 2020.
+\end{thebibliography}
+\end{document}

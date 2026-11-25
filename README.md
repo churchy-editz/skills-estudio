@@ -2,7 +2,7 @@
 
 **Español** · [English](README.en.md)
 
-Tres skills para agentes de IA: convierten material de estudio en apuntes y en tests de práctica, y reescriben textos para que suenen escritos por una persona. Pensadas para estudiantes, opositores y profesores.
+Cuatro skills para agentes de IA: convierten material de estudio en apuntes y en tests de práctica, reescriben textos para que suenen escritos por una persona y corrigen trabajos universitarios como lo haría un profesor. Pensadas para estudiantes, opositores y profesores.
 
 [![Licencia MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
 [![Tests](https://github.com/churchy-editz/skills-estudio/actions/workflows/validar.yml/badge.svg)](https://github.com/churchy-editz/skills-estudio/actions/workflows/validar.yml)
@@ -37,6 +37,16 @@ Reescribe un texto para que suene natural y propio de su registro (académico, p
 ![Email original con las muletillas marcadas, junto a su reescritura](docs/img/reescritor-antes-despues.png)
 
 > «Reescribe este email para que suene más natural, sin cambiar los datos.»
+
+### corrector-trabajos
+
+Corrige informes de laboratorio, memorias de prácticas, TFG, ensayos y trabajos bibliográficos. Los comentarios citan la frase exacta, explican qué falla y por qué, y dicen cómo arreglarlo, pero el trabajo no se reescribe. Los cálculos de laboratorio se rehacen con un script antes de darlos por malos, y las citas se cruzan con la bibliografía. El resultado es un informe HTML con una nota orientativa por criterios y, si el trabajo es un DOCX, una copia con comentarios de Word.
+
+| Informe con la nota por criterios | Comentarios en Word |
+|---|---|
+| ![Informe de corrección con nota orientativa 6,7 y la tabla de criterios](docs/img/corrector-informe.png) | ![Informe de laboratorio abierto en Word con comentarios en el margen sobre una dilución y el R²](docs/img/corrector-word.png) |
+
+> «Revisa mi informe de laboratorio antes de entregarlo: ¿qué nota sacaría?»
 
 ## Instalación
 
@@ -99,7 +109,7 @@ Sin ejecución de código, los dos indican qué comprobaciones hacer a mano.
 ## Requisitos
 
 - Python 3.11 o posterior para los scripts, que solo usan la librería estándar.
-- [python-docx](https://pypi.org/project/python-docx/), solo para las salidas en Word: `python -m pip install python-docx`. El script que lo necesita da el comando exacto cuando falta.
+- [python-docx](https://pypi.org/project/python-docx/), solo para leer y escribir Word (también los comentarios del corrector): `python -m pip install python-docx`. El script que lo necesita da el comando exacto cuando falta.
 
 ## Cómo se evita que suene a IA
 
@@ -116,6 +126,7 @@ En contextos académicos, respeta las normas de tu centro sobre el uso de IA. El
 - **Tests:** desde la raíz del repo, con Python 3.11 o posterior y python-docx instalado:
 
 ```bash
+python -m unittest discover -s skills/corrector-trabajos/tests
 python -m unittest discover -s skills/creador-apuntes/tests
 python -m unittest discover -s skills/creador-tests/tests
 python -m unittest discover -s skills/reescritor-estilo/tests
